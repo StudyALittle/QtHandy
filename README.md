@@ -1,6 +1,8 @@
 ﻿# QtHandy
-QT widget组件库（可以自定义样式）以及常用的接口封装。
-QT widget component library (with customizable styles) and commonly used interface encapsulation。
+1. QT widget组件库（可以自定义样式）以及常用的接口封装。
+1. QT widget component library (with customizable styles) and commonly used interface encapsulation。
+1. 测试的QT版本：Q5.12、Q5.15
+1. 目前很多功能都处于开发中。
 
 ## 封装的常用类
 1. Widgets组件

@@ -5,6 +5,7 @@
 #include <QResizeEvent>
 #include <QWindowStateChangeEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <QTimer>
 #include <QDebug>
 #include <QLinearGradient>
