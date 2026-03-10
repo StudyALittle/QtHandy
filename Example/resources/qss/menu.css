@@ -1,0 +1,56 @@
+﻿#NavButtonL1,
+#NavButtonL1Popup,
+#NavButtonL1Navbar,
+#NavButtonL1Button,
+#NavButtonL1Label
+{
+    border: 1px solid gray;
+    border-radius: 6px;
+    background: white;
+    padding: 6px 12px 6px 12px;
+    color: black;
+    qproperty-pRightIconPath: ":/resources/imgs/menu/right_up.svg";
+}
+#NavButtonL1:hover,
+#NavButtonL1Popup:hover,
+#NavButtonL1Navbar:hover,
+#NavButtonL1Button:hover,
+#NavButtonL1Label:hover
+{
+    qproperty-pRightIconPath: ":/resources/imgs/menu/right_up.svg";
+}
+
+#NavButtonL1Popup
+{
+    qproperty-pLeftIconPath: ":/resources/imgs/menu/popup.svg";
+}
+#NavButtonL1Navbar
+{
+    qproperty-pLeftIconPath: ":/resources/imgs/menu/navbar.svg";
+}
+#NavButtonL1Button
+{
+    qproperty-pLeftIconPath: ":/resources/imgs/menu/button.svg";
+}
+#NavButtonL1Label
+{
+    qproperty-pLeftIconPath: ":/resources/imgs/menu/label.svg";
+}
+
+#NavButtonL1[state="checked"],
+#NavButtonL1Popup[state="checked"],
+#NavButtonL1Navbar[state="checked"],
+#NavButtonL1Button[state="checked"],
+#NavButtonL1Label[state="checked"]
+{
+    color: blue;
+}
+
+#NavButtonL1[state="expand"],
+#NavButtonL1Popup[state="expand"],
+#NavButtonL1Navbar[state="expand"],
+#NavButtonL1Button[state="expand"],
+#NavButtonL1Label[state="expand"]
+{
+    qproperty-pRightIconPath: ":/resources/imgs/menu/right_down.svg";
+}

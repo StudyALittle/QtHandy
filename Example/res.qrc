@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/imgs/icon1.svg</file>
+        <file>resources/imgs/icon2.svg</file>
+        <file>resources/imgs/icon3.svg</file>
+        <file>resources/qss/menu.css</file>
+        <file>resources/qss/button.css</file>
+        <file>resources/imgs/menu/button.svg</file>
+        <file>resources/imgs/menu/label.svg</file>
+        <file>resources/imgs/menu/navbar.svg</file>
+        <file>resources/imgs/menu/popup.svg</file>
+        <file>resources/qss/lineedit.css</file>
+        <file>resources/imgs/passwd.svg</file>
+        <file>resources/imgs/passwd_invisible.svg</file>
+        <file>resources/imgs/passwd_invisible_hover.svg</file>
+        <file>resources/imgs/passwd_visible.svg</file>
+        <file>resources/imgs/passwd_visible_hover.svg</file>
+        <file>resources/imgs/passwd.png</file>
+        <file>resources/qss/textedit.css</file>
+        <file>resources/qss/datetime.css</file>
+        <file>resources/qss/imagebutton.css</file>
+        <file>resources/imgs/menu/right_down.svg</file>
+        <file>resources/imgs/menu/right_up.svg</file>
+        <file>resources/imgs/datetime.svg</file>
+        <file>resources/imgs/close.svg</file>
+    </qresource>
+</RCC>

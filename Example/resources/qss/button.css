@@ -1,0 +1,48 @@
+﻿QhPushButton {
+    border: 1px solid gray;
+    background: white;
+    padding: 6px 12px 6px 12px;
+    color: black;
+}
+QhPushButton:hover {
+    color: blue;
+}
+QhPushButton:pressed {
+    color: red;
+}
+QhPushButton:disabled {
+    color: gray;
+}
+QhPushButton::left {
+    image-color: black;
+    image-path: ":/resources/imgs/icon2.svg";
+    image-size: 16px 16px;
+}
+QhPushButton::left:hover {
+    image-color: blue;
+}
+QhPushButton::left:pressed {
+    image-color: red;
+}
+QhPushButton::left:disabled {
+    image-color: gray;
+}
+QhPushButton::right {
+    image-color: red;
+    image-path: ":/resources/imgs/icon3.svg";
+    image-size: 16px 16px;
+}
+QhPushButton::right:hover {
+    image-color: blue;
+}
+QhPushButton::right:pressed {
+    image-color: red;
+}
+QhPushButton::right:disabled {
+    image-color: gray;
+}
+
+#HandyPushButton::left
+{
+    image-path: ":/resources/imgs/icon1.svg";
+}

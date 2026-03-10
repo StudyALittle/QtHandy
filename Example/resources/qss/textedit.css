@@ -1,0 +1,8 @@
+﻿QhTextEdit
+{
+    qproperty-pLabelMargins: "6px";
+}
+QhTextEdit QLabel
+{
+    font-size: 12px; color: gray;
+}

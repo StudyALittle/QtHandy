@@ -1,0 +1,26 @@
+﻿QhImageButton
+{
+    color: rgb(96, 98, 102);
+    font-weight: 500;
+    font-size: 16px;
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(220, 223, 230);
+    padding: 6px 12px;
+    border-radius: 4px;
+
+    qproperty-pLeftIconPath: ":/resources/imgs/icon1.svg";
+    qproperty-pRightIconPath: ":/resources/imgs/icon2.svg";
+}
+QhImageButton:hover
+{
+    color: blue;
+    qproperty-pRightIconPath: ":/resources/imgs/icon3.svg";
+}
+QhImageButton:pressed
+{
+    color: blue;
+}
+QhImageButton[type="offset"]
+{
+    qproperty-pTextOffset: 24;
+}
