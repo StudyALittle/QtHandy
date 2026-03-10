@@ -1,5 +1,15 @@
 ﻿# QtHandy
-QT widget组件库(Qt Widgets: A Convenient Component Library)
+QT widget组件库（可以自定义样式）以及常用的接口封装。
+QT widget component library (with customizable styles) and commonly used interface encapsulation。
+
+## 封装的常用类
+1. Widgets组件
+1. QhSingletonProcess 唯一进程类，程序只能有一个实例
+1. QhDTWrapper 数据类型包装器
+1. QhLogger 日志类
+1. QhDataBase 数据库类
+1. semvertool 版本号判断工具类
+1. util 工具类
 
 ## 工具类
 1. 窗口工具类
