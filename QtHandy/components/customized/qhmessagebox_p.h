@@ -21,6 +21,9 @@ public:
     QWidget *widgetContent = nullptr;
     QLabel *labelContent = nullptr;
 
+    static int s_nBorderRadius;
+    static int s_nShadowWidth;
+
 private:
     QhMessageBox *const q_ptr;
 };

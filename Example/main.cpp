@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
         ":/resources/qss/textedit.css",
         ":/resources/qss/datetime.css",
         ":/resources/qss/menu.css",
+        ":/resources/qss/paging.css",
     });
 
     DemoWidget w;

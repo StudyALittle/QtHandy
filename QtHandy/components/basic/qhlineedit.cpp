@@ -208,6 +208,9 @@ void QhLineEditPrivate::init(QhLineEditSub *lWidget, QhLineEditSub *rWidget)
         checkTextFormat();
     });
     checkTextFormat();
+
+    widgetLeft->setVisible(false);
+    widgetRight->setVisible(false);
 }
 
 void QhLineEditPrivate::checkTextFormat()

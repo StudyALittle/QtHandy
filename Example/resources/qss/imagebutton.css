@@ -1,4 +1,9 @@
-﻿QhImageButton
+﻿DemoWidget
+{
+    background: white;
+}
+
+QhImageButton
 {
     color: rgb(96, 98, 102);
     font-weight: 500;

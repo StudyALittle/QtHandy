@@ -50,6 +50,7 @@ SOURCES += \
     components/complex/qhnavbar.cpp \
     components/complex/qhnavbaritem.cpp \
     components/complex/qhnavbarproxy.cpp \
+    components/complex/qhpaging.cpp \
     components/complex/qhtimepicker.cpp \
     components/customized/qhbasepopup.cpp \
     components/customized/qhbasepopupcontent.cpp \
@@ -108,6 +109,8 @@ HEADERS += \
     components/complex/qhnavbar_p.h \
     components/complex/qhnavbaritem.h \
     components/complex/qhnavbarproxy.h \
+    components/complex/qhpaging.h \
+    components/complex/qhpaging_p.h \
     components/complex/qhtimepicker.h \
     components/complex/qhtimepicker_p.h \
     components/customized/qhbasepopup.h \

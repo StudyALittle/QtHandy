@@ -3,6 +3,9 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
+int QhMessageBoxPrivate::s_nBorderRadius = 0;
+int QhMessageBoxPrivate::s_nShadowWidth = 0;
+
 QhMessageBox::QhMessageBox(QWidget *parent):
     QhBasePopup(parent), d(new QhMessageBoxPrivate(this))
 {
@@ -12,6 +15,12 @@ QhMessageBox::QhMessageBox(QWidget *parent):
 QhMessageBox::~QhMessageBox()
 {
     delete d;
+}
+
+void QhMessageBox::setRoundedBorder(int borderRadius, int shadowWidth)
+{
+    QhMessageBoxPrivate::s_nBorderRadius = borderRadius;
+    QhMessageBoxPrivate::s_nShadowWidth = shadowWidth;
 }
 
 void QhMessageBox::setMessage(const QString &text)
@@ -66,7 +75,9 @@ void QhMessageBox::init(Icon icon)
         this->iconLabel()->setVisible(false);
     }
     this->setMaxNormalAtTitleBar(false);
-    this->initFramelessWindow();
+    this->initFramelessWindow(QhMessageBoxPrivate::s_nBorderRadius);
+    if (QhMessageBoxPrivate::s_nBorderRadius > 0)
+        this->setShadowWidth(QhMessageBoxPrivate::s_nShadowWidth);
 }
 
 void QhMessageBoxPrivate::init()

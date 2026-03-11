@@ -31,6 +31,8 @@ public:
         Page_DateTime,
 
         Page_Label,
+
+        Page_Paging,
     };
 
     DemoNavbarProxy();

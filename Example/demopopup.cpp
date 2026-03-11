@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <qhlabel.h>
 #include <qhfloating.h>
+#include "qhmessagebox.h"
 #include "popupway1.h"
 #include "popupway2.h"
 
@@ -101,6 +102,16 @@ DemoPopup::DemoPopup(QWidget *parent):
     });
 
     auto *ly = new QVBoxLayout(this);
+    {
+        QhMessageBox::setRoundedBorder(12);
+
+        auto *btn = new QPushButton("QhMessageBox information");
+        connect(btn, &QPushButton::clicked, this, []() {
+            QhMessageBox::information(nullptr, tr("test"), "This is a prompt message");
+        });
+        ly->addWidget(btn);
+    }
+
     ly->addWidget(btn1);
     ly->addWidget(btn2);
     ly->addWidget(btn3);

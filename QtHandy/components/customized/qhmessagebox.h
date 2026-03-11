@@ -31,6 +31,8 @@ public:
     QhMessageBox(QWidget *parent = nullptr);
     ~QhMessageBox();
 
+    static void setRoundedBorder(int borderRadius, int shadowWidth = 8);
+
     void setMessage(const QString &text);
 
     static Button question(QWidget *widget,

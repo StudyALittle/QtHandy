@@ -23,5 +23,11 @@
         <file>resources/imgs/menu/right_up.svg</file>
         <file>resources/imgs/datetime.svg</file>
         <file>resources/imgs/close.svg</file>
+        <file>resources/qss/paging.css</file>
+        <file>resources/imgs/arrow_left2.svg</file>
+        <file>resources/imgs/arrow_right2.svg</file>
+        <file>resources/imgs/more.svg</file>
+        <file>resources/imgs/arrow_left.svg</file>
+        <file>resources/imgs/arrow_right.svg</file>
     </qresource>
 </RCC>

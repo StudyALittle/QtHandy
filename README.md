@@ -1,11 +1,11 @@
 ﻿# QtHandy
 1. QT widget组件库（可以自定义样式）以及常用的接口封装。
 1. QT widget component library (with customizable styles) and commonly used interface encapsulation。
-1. 测试的QT版本：Q5.12、Q5.15
+1. 测试的QT版本：Q5.12(Windows)、Q5.15(Windows)
 1. 目前很多功能都处于开发中。
 
 ## 封装的常用类
-1. Widgets组件
+1. Widgets组件（时间选择器控件、弹窗、无边框等）
 1. QhSingletonProcess 唯一进程类，程序只能有一个实例
 1. QhDTWrapper 数据类型包装器
 1. QhLogger 日志类
@@ -20,44 +20,44 @@
 1. 版本号工具类
 
 ## 控件
-1. [无边框/FramelessWindow](#UI_FRAMELESSWINDOW)
-1. [按钮/PushButton](#UI_BUTTON)
-1. [复选框/CheckBox](#UI_CHECKBOX)
-1. [单选按钮/RadioButton](#UI_RADIOBOX)
-1. [行编辑器/LineEdit](#UI_LINEEDIT)
-1. [文本编辑器/TextEdit](#UI_TEXTEDIT)
-1. [下拉框/ComboBox](#UI_COMBOBOX)
-1. [进度条/Progress](#UI_PROGRESS)
-1. [滑块/Slider](#UI_SLIDER)
-1. [滚动条/ScrollBar](#UI_SCROLL_BAR)
+### 基础控件
+[无边框/FramelessWindow]
+, [按钮/PushButton]
+, [复选框/CheckBox]
+, [单选按钮/RadioButton]
+, [行编辑器/LineEdit]
+, [文本编辑器/TextEdit]
+, [下拉框/ComboBox]
+, [进度条/Progress]
+, [滑块/Slider]
+, [滚动条/ScrollBar]
 
-1. [时间控件/Time](#UI_EDITTIME)
-1. [日期控件/Date](#UI_EDITDATE)
-1. [日期时间控件/DateTime](#UI_EDITDATETIME)
+### 复合控件
+[日期时间 QhDateTimePicker](#UI_DATETIME)
+, [分页控件 QhPaging](#UI_PAGING)
+, [悬浮窗口 QhFloating]
+, [导航栏 QhNavbar]
 
-1. [弹窗基类/BasePopup](#UI_BASEPOPUP)
-1. [消息弹窗/MessageBox](#UI_MESSAGEBOX)
-1. [弹出框/Pop](#UI_POPBOX)
-1. [加载框/Load](#UI_LOADING)
+### 自定义控件
+[弹窗基类 QhBasePopup](#UI_BASEPOPUP)
+, [消息弹窗 QhMessageBox]
+, [加载框 QhLoading]
 
-1. [分页按钮控件/Page](#UI_PAGEBUTTON)
-1. [导航栏/Navbar](#UI_NAVBAR)
-1. [抽提/Drawer](#UI_DRAWER)
 
-1. [表格](#UI_TABLE)
-1. [树](#UI_TREE)
+<span id="UI_DATETIME"></span>
+### 日期时间
+示例图(样式可以通过qss修改) <br>
+![logo](Images/datetimepicker.png)
 
-<span id="UI_BUTTON"></span>
-### 按钮
+<span id="UI_PAGING"></span>
+### 分页控件
+示例图(样式可以通过qss修改) <br>
+![logo](Images/paging.png)
 
-<span id="UI_CHECKBOX"></span>
-### 复选框
-
-<span id="UI_RADIOBOX"></span>
-### 单选按钮
-
-<span id="UI_LINEEDIT"></span>
-### 行编辑器
-
-<span id="UI_TEXTEDIT"></span>
-### 文本编辑器
+<span id="UI_BASEPOPUP"></span>
+### 弹窗基类
+使用场景：在项目中，弹窗的基本样式都是一样的，只是内容不一样，使用弹窗基类就可以保证弹窗样式保持一致。<br>
+使用弹窗的几种方式，在Windows、Mac下支持圆角，示例图 <br>
+![logo](Images/basepopup1.png)
+![logo](Images/basepopup2.png)
+![logo](Images/basepopup3.png)

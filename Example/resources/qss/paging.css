@@ -1,0 +1,73 @@
+﻿QhPaging
+{
+    qproperty-pButtonPageMinWidth: 32;
+}
+QhPaging QhLabel
+{
+
+}
+QhPaging #LabelTotalNumber
+{
+    color: red;
+}
+QhPaging QhLineEdit
+{
+    padding: 2px;
+}
+QhPaging QhComboBox
+{
+}
+QhPaging QPushButton
+{
+    padding: 4px;
+}
+QhPaging #ButtonPrePage,
+QhPaging #ButtonNextPage
+{
+    border: none; border-radius: 2px;
+    max-width: 20px;
+}
+QhPaging #ButtonPrePage
+{
+    image: url(:/resources/imgs/arrow_left.svg);
+}
+QhPaging #ButtonNextPage
+{
+    image: url(:/resources/imgs/arrow_right.svg);
+}
+QhPaging #ButtonPrePage:hover,
+QhPaging #ButtonNextPage:hover
+{
+    background: #F0F0F0;
+}
+QhPaging #ButtonMoreBegin,
+QhPaging #ButtonMoreEnd
+{
+    border: none; min-width: 28px;
+    image: url(:/resources/imgs/more.svg);
+}
+QhPaging #ButtonMoreBegin:hover
+{
+    image: url(:/resources/imgs/arrow_left2.svg);
+}
+QhPaging #ButtonMoreEnd:hover
+{
+    image: url(:/resources/imgs/arrow_right2.svg);
+}
+QhPaging #ButtonIndex
+{
+    border: none;
+}
+QhPaging #ButtonIndex:hover
+{
+    background: #F0F0F0;
+    border-radius: 2px;
+}
+QhPaging #ButtonIndex:checked
+{
+    border: 1px solid blue; color: blue;
+    border-radius: 2px;
+}
+QhPaging #ButtonToPage
+{
+}

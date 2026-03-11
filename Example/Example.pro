@@ -16,6 +16,7 @@ SOURCES += \
     demolineedit.cpp \
     demolineeditdatetime.cpp \
     demonavbarproxy.cpp \
+    demopaging.cpp \
     demopopup.cpp \
     demotextedit.cpp \
     demowidget.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     demolineedit.h \
     demolineeditdatetime.h \
     demonavbarproxy.h \
+    demopaging.h \
     demopopup.h \
     demotextedit.h \
     demowidget.h \

@@ -10,11 +10,14 @@
 #include "demotextedit.h"
 #include "demodatetime.h"
 #include "demoimagebutton.h"
+#include "demopaging.h"
 
 #pragma execution_character_set("utf-8")
 
 DemoWidget::DemoWidget()
 {
+    this->setAttribute(Qt::WA_StyledBackground);
+
     auto *ly = new QHBoxLayout(this);
 
     auto *navbar = new QhNavbar(QhNavbar::Vertical, QhNavbar::Top, new DemoNavbarProxy);
@@ -37,7 +40,8 @@ DemoWidget::DemoWidget()
             new QhNavbarItem(DemoNavbarProxy::Page_TextEdit, "TextEdit")
         }),
         new QhNavbarItem(DemoNavbarProxy::Page_DateTime, "DateTime"),
-        new QhNavbarItem(DemoNavbarProxy::Page_Label, "Label")
+        new QhNavbarItem(DemoNavbarProxy::Page_Label, "Label"),
+        new QhNavbarItem(DemoNavbarProxy::Page_Paging, "Paging")
     });
     navbar->setMinimumWidth(166);
     navbar->setItemSpace(2, QhNavbarItem::INVALIDID, 1);
@@ -65,6 +69,7 @@ QWidget *DemoWidget::createPage(qint64 id)
     case DemoNavbarProxy::Page_LineEditDateTime: { return new DemoLineEditDateTime; }
     case DemoNavbarProxy::Page_TextEdit:    { return new DemoTextEdit; }
     case DemoNavbarProxy::Page_DateTime:    { return new DemoDateTime; }
+    case DemoNavbarProxy::Page_Paging:      { return new DemoPaging; }
     default: break;
     }
     return nullptr;
