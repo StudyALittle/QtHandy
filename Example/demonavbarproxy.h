@@ -5,6 +5,7 @@
 #include <qhnavbaritem.h>
 #include <qhnavbarproxy.h>
 #include <qhwidgetutil.h>
+#include <qhpage.h>
 
 class DemoNavbarProxy: public QhNavbarProxy
 {

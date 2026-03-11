@@ -2,8 +2,9 @@
 #define DEMOPOPUP_H
 
 #include <QWidget>
+#include <qhpage.h>
 
-class DemoPopup: public QWidget
+class DemoPopup: public QWidget, public QhPage
 {
     Q_OBJECT
 

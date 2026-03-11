@@ -4,8 +4,9 @@
 #include <qhtimepicker.h>
 #include <qhdatepicker.h>
 #include <qhdatetimepicker.h>
+#include <qhpage.h>
 
-class DemoDateTime: public QWidget
+class DemoDateTime: public QWidget, public QhPage
 {
     Q_OBJECT
 

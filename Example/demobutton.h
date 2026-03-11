@@ -2,8 +2,9 @@
 #define DEMOBUTTON_H
 
 #include <qhpushbutton.h>
+#include <qhpage.h>
 
-class DemoButton: public QWidget
+class DemoButton: public QWidget, public QhPage
 {
     Q_OBJECT
 

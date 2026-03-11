@@ -2,8 +2,9 @@
 #define DEMOLINEEDITDATETIME_H
 
 #include <qhlineeditdatetime.h>
+#include <qhpage.h>
 
-class DemoLineEditDateTime: public QWidget
+class DemoLineEditDateTime: public QWidget, public QhPage
 {
     Q_OBJECT
 

@@ -46,15 +46,18 @@ DemoWidget::DemoWidget()
     navbar->setMinimumWidth(166);
     navbar->setItemSpace(2, QhNavbarItem::INVALIDID, 1);
     navbar->setChecked(DemoNavbarProxy::Page_Popup);
-    connect(navbar, &QhNavbar::itemChecked, this, &DemoWidget::toPage);
+    connect(navbar, &QhNavbar::itemChecked, this, [this](qint64 id) {
+        enterPage(id);
+    });
 
     ly->addWidget(navbar);
 
     m_stackedWidget = new QStackedWidget;
     ly->addWidget(m_stackedWidget, 1);
 
+    this->setStackedWidget(m_stackedWidget);
     // default page
-    toPage(DemoNavbarProxy::Page_Popup);
+    enterPage(DemoNavbarProxy::Page_Popup);
 }
 
 QWidget *DemoWidget::createPage(qint64 id)
@@ -73,16 +76,4 @@ QWidget *DemoWidget::createPage(qint64 id)
     default: break;
     }
     return nullptr;
-}
-
-void DemoWidget::toPage(qint64 id)
-{
-    if (!m_pages.contains(id)) {
-        auto *page = createPage(id);
-        if (!page)
-            return;
-        m_pages.insert(id, page);
-        m_stackedWidget->addWidget(page);
-    }
-    m_stackedWidget->setCurrentWidget(m_pages.value(id));
 }

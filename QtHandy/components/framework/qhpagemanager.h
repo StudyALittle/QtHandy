@@ -27,17 +27,17 @@ public:
     QStackedWidget *stackedWidget() const;
     void setStackedWidget(QStackedWidget *sw);
 
-    virtual QWidget *enterPage(int id);
-    virtual void leavePage(int id);
+    virtual QWidget *enterPage(qint64 id);
+    virtual void leavePage(qint64 id);
 
     /// @brief Create page window
     /// Warring: Must inherit QhPage
-    virtual QWidget *createPage(int id) = 0;
+    virtual QWidget *createPage(qint64 id) = 0;
 
-    QWidget *getPage(int id);
-    int pageID(QWidget *w);
-    void insertPage(int id, QWidget *page);
-    QWidget *takePage(int id);
+    QWidget *getPage(qint64 id);
+    qint64 pageID(QWidget *w);
+    void insertPage(qint64 id, QWidget *page);
+    QWidget *takePage(qint64 id);
 };
 
 #endif // QHPAGEMANAGER_H

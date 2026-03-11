@@ -107,7 +107,7 @@ DemoPopup::DemoPopup(QWidget *parent):
 
         auto *btn = new QPushButton("QhMessageBox information");
         connect(btn, &QPushButton::clicked, this, []() {
-            QhMessageBox::information(nullptr, tr("test"), "This is a prompt message");
+            QhMessageBox::information(nullptr, tr("test"), "This is a information message");
         });
         ly->addWidget(btn);
     }

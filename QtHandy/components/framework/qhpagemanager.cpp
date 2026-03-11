@@ -23,7 +23,7 @@ void QhPageManager::setStackedWidget(QStackedWidget *sw)
     d->stackedWidget = sw;
 }
 
-QWidget *QhPageManager::enterPage(int id)
+QWidget *QhPageManager::enterPage(qint64 id)
 {
     auto *page = getPage(id);
     if (!page) {
@@ -48,7 +48,7 @@ QWidget *QhPageManager::enterPage(int id)
     return page;
 }
 
-void QhPageManager::leavePage(int id)
+void QhPageManager::leavePage(qint64 id)
 {
     auto *page = getPage(id);
     if (!page)
@@ -57,14 +57,14 @@ void QhPageManager::leavePage(int id)
     dynamic_cast<QhPage*>(page)->leavePage();
 }
 
-QWidget *QhPageManager::getPage(int id)
+QWidget *QhPageManager::getPage(qint64 id)
 {
     if (d->pages.contains(id))
         return d->pages.value(id);
     return nullptr;
 }
 
-int QhPageManager::pageID(QWidget *w)
+qint64 QhPageManager::pageID(QWidget *w)
 {
     for (auto it = d->pages.begin(); it != d->pages.end(); ++it) {
         if (it.value() == w)
@@ -73,14 +73,14 @@ int QhPageManager::pageID(QWidget *w)
     return -1;
 }
 
-void QhPageManager::insertPage(int id, QWidget *page)
+void QhPageManager::insertPage(qint64 id, QWidget *page)
 {
     if (d->stackedWidget)
         d->stackedWidget->addWidget(page);
     d->pages.insert(id, page);
 }
 
-QWidget *QhPageManager::takePage(int id)
+QWidget *QhPageManager::takePage(qint64 id)
 {
     if (d->pages.contains(id)) {
         auto *page = d->pages.take(id);

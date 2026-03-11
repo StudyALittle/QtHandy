@@ -4,9 +4,10 @@
 #include <QStackedWidget>
 #include <QWidget>
 #include <QMap>
+#include <qhpagemanager.h>
 #include "demonavbarproxy.h"
 
-class DemoWidget: public QWidget
+class DemoWidget: public QWidget, public QhPageManager
 {
     Q_OBJECT
 
@@ -14,14 +15,10 @@ public:
     DemoWidget();
 
 protected:
-    QWidget *createPage(qint64 id);
-
-protected slots:
-    void toPage(qint64 id);
+    QWidget *createPage(qint64 id) override;
 
 private:
     QStackedWidget *m_stackedWidget = nullptr;
-    QMap<qint64, QWidget*> m_pages;
 };
 
 #endif // DEMOWIDGET_H

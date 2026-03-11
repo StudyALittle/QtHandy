@@ -83,7 +83,7 @@ void QhMessageBox::init(Icon icon)
 void QhMessageBoxPrivate::init()
 {
     widgetContent = new QWidget;
-    widgetContent->setMinimumSize(200, 200);
+    widgetContent->setMinimumSize(200, 100);
 
     labelContent = new QLabel;
     labelContent->setAlignment(Qt::AlignCenter);

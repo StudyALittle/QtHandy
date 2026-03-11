@@ -2,8 +2,9 @@
 #define DEMOLABEL_H
 
 #include <qhlabel.h>
+#include <qhpage.h>
 
-class DemoLabel: public QWidget
+class DemoLabel: public QWidget, public QhPage
 {
     Q_OBJECT
 

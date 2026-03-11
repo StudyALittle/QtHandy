@@ -15,7 +15,7 @@ public:
 
     QStackedWidget *stackedWidget = nullptr;
     QWidget *lastWidget = nullptr;
-    QMap<int, QWidget*> pages;
+    QMap<qint64, QWidget*> pages;
 };
 
 #endif // QHPAGEMANAGER_P_H

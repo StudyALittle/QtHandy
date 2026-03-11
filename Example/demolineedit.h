@@ -2,8 +2,9 @@
 #define DEMOLINEEDIT_H
 
 #include <qhlineedit.h>
+#include <qhpage.h>
 
-class DemoLineEdit: public QWidget
+class DemoLineEdit: public QWidget, public QhPage
 {
     Q_OBJECT
 

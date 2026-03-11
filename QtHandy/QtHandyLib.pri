@@ -9,6 +9,7 @@ INCLUDEPATH += $$PWD/components/framelesswindow
 INCLUDEPATH += $$PWD/components/basic
 INCLUDEPATH += $$PWD/components/complex
 INCLUDEPATH += $$PWD/components/customized
+INCLUDEPATH += $$PWD/components/framework
 INCLUDEPATH += $$PWD/util
 
 CONFIG(debug, debug|release) {
