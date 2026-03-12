@@ -21,11 +21,12 @@ class QhBasePopupContent;
 class QTHANDY_EXPORT QhBasePopup: public QhFramelessDialog
 {
     Q_OBJECT
+    Q_PRIVATE_VARIABLE(QhBasePopup)
 
-    Q_PROPERTY(int widgetTitleSpace READ getWidgetTitleSpace WRITE setWidgetTitleSpace NOTIFY widgetTitleSpaceChanged)
-    Q_PROPERTY(int widgetButtonsSpace READ getWidgetButtonsSpace WRITE setWidgetButtonsSpace NOTIFY widgetButtonsSpaceChanged)
-    Q_PROPERTY(QString widgetTitleMargins READ getWidgetTitleMargins WRITE setWidgetTitleMargins NOTIFY widgetTitleMarginsChanged)
-    Q_PROPERTY(QString widgetButtonsMargins READ getWidgetButtonsMargins WRITE setWidgetButtonsMargins NOTIFY widgetButtonsMarginsChanged)
+    Q_PROPERTY_EX(int, WidgetTitleSpace)
+    Q_PROPERTY_EX(int, WidgetButtonsSpace)
+    Q_PROPERTY_EX(QString, WidgetTitleMargins)
+    Q_PROPERTY_EX(QString, WidgetButtonsMargins)
 
 public:
     enum Button
@@ -76,12 +77,6 @@ public:
     QString getWidgetButtonsMargins() const;
     void setWidgetButtonsMargins(const QString &mgs);
 
-signals:
-    void widgetTitleSpaceChanged();
-    void widgetButtonsSpaceChanged();
-    void widgetTitleMarginsChanged();
-    void widgetButtonsMarginsChanged();
-
 protected:
     /// @brief 点击确定按钮后（返回true：关闭界面（默认）；false：不关闭界面）
     virtual bool afterButtonOk();
@@ -89,11 +84,6 @@ protected:
     virtual bool afterButtonCancel();
     /// @brief 点击关闭按钮后（返回true：关闭界面（默认）；false：不关闭界面）
     virtual bool afterButtonClose();
-
-private:
-    QScopedPointer<QhBasePopupPrivate> d;
-    Q_DISABLE_COPY(QhBasePopup)
-    friend class QhBasePopupPrivate;
 };
 
 #endif // QHBASEPOPUP_H

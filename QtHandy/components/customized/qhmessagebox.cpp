@@ -2,6 +2,8 @@
 #include "qhmessagebox_p.h"
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QVariant>
+#include "qhwidgetutil.h"
 
 int QhMessageBoxPrivate::s_nBorderRadius = 0;
 int QhMessageBoxPrivate::s_nShadowWidth = 0;
@@ -40,19 +42,19 @@ QhBasePopup::Button QhMessageBox::question(
 QhBasePopup::Button QhMessageBox::information(
     QWidget *widget, const QString &title, const QString &text, Buttons buttons)
 {
-    return message(Question, widget, title, text, buttons);
+    return message(Information, widget, title, text, buttons);
 }
 
 QhBasePopup::Button QhMessageBox::warning(
     QWidget *widget, const QString &title, const QString &text, Buttons buttons)
 {
-    return message(Question, widget, title, text, buttons);
+    return message(Warning, widget, title, text, buttons);
 }
 
 QhBasePopup::Button QhMessageBox::critical(
     QWidget *widget, const QString &title, const QString &text, Buttons buttons)
 {
-    return message(Question, widget, title, text, buttons);
+    return message(Critical, widget, title, text, buttons);
 }
 
 QhBasePopup::Button QhMessageBox::message(
@@ -73,6 +75,15 @@ void QhMessageBox::init(Icon icon)
     d->icon = icon;
     if (d->icon == NoIcon) {
         this->iconLabel()->setVisible(false);
+    } else {
+        switch (d->icon) {
+        case Question: { this->iconLabel()->setProperty("qtype", "Question"); break; }
+        case Information: { this->iconLabel()->setProperty("qtype", "Information"); break; }
+        case Warning: { this->iconLabel()->setProperty("qtype", "Warning"); break; }
+        case Critical: { this->iconLabel()->setProperty("qtype", "Critical"); break; }
+        default: break;
+        }
+        QhWidgetUtil::updateQssStyle(this->iconLabel());
     }
     this->setMaxNormalAtTitleBar(false);
     this->initFramelessWindow(QhMessageBoxPrivate::s_nBorderRadius);

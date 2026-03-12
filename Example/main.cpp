@@ -49,6 +49,7 @@ int main(int argc, char *argv[])
         ":/resources/qss/datetime.css",
         ":/resources/qss/menu.css",
         ":/resources/qss/paging.css",
+        ":/resources/qss/messagebox.css",
     });
 
     DemoWidget w;

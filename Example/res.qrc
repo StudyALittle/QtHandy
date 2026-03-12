@@ -29,5 +29,10 @@
         <file>resources/imgs/more.svg</file>
         <file>resources/imgs/arrow_left.svg</file>
         <file>resources/imgs/arrow_right.svg</file>
+        <file>resources/imgs/msg_error.svg</file>
+        <file>resources/imgs/msg_info.svg</file>
+        <file>resources/imgs/msg_warn.svg</file>
+        <file>resources/qss/messagebox.css</file>
+        <file>resources/imgs/btn_close.svg</file>
     </qresource>
 </RCC>
