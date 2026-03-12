@@ -31,6 +31,13 @@ void QhComboBox::setModifyByWheel(bool b)
     d->bModifyByWheel = b;
 }
 
+void QhComboBox::clearItems()
+{
+    while (this->count()) {
+        this->removeItem(0);
+    }
+}
+
 void QhComboBox::wheelEvent(QWheelEvent *e)
 {
     if (d->bModifyByWheel)
