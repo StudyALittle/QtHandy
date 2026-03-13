@@ -9,7 +9,6 @@
 #include "demolineeditdatetime.h"
 #include "demotextedit.h"
 #include "demodatetime.h"
-#include "demoimagebutton.h"
 #include "demopaging.h"
 
 #pragma execution_character_set("utf-8")
@@ -32,7 +31,6 @@ DemoWidget::DemoWidget()
             new QhNavbarItem(DemoNavbarProxy::Page_CheckBox, "CheckBox"),
             new QhNavbarItem(DemoNavbarProxy::Page_ComboBox, "ComboBox"),
             new QhNavbarItem(DemoNavbarProxy::Page_PushButton, "PushButton"),
-            new QhNavbarItem(DemoNavbarProxy::Page_ImageButton, "ImageButton"),
         }),
         new QhNavbarItem(DemoNavbarProxy::Page_Edit, "Edit", {
             new QhNavbarItem(DemoNavbarProxy::Page_LineEdit, "LineEdit"),
@@ -67,7 +65,6 @@ QWidget *DemoWidget::createPage(qint64 id)
     case DemoNavbarProxy::Page_CheckBox:    { return new DemoCheckBox; }
     case DemoNavbarProxy::Page_Label:       { return new DemoLabel; }
     case DemoNavbarProxy::Page_PushButton:  { return new DemoButton; }
-    case DemoNavbarProxy::Page_ImageButton: { return new DemoImageButton; }
     case DemoNavbarProxy::Page_LineEdit:    { return new DemoLineEdit; }
     case DemoNavbarProxy::Page_LineEditDateTime: { return new DemoLineEditDateTime; }
     case DemoNavbarProxy::Page_TextEdit:    { return new DemoTextEdit; }

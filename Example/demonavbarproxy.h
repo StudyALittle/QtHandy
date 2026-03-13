@@ -22,7 +22,6 @@ public:
         Page_CheckBox,
         Page_ComboBox,
         Page_PushButton,
-        Page_ImageButton,
 
         Page_Edit,
         Page_LineEdit,

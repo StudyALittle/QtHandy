@@ -35,7 +35,6 @@ INCLUDEPATH += $$PWD/util
 SOURCES += \
     components/basic/qhcheckbox.cpp \
     components/basic/qhcombobox.cpp \
-    components/basic/qhimagebutton.cpp \
     components/basic/qhlabel.cpp \
     components/basic/qhlineedit.cpp \
     components/basic/qhlineeditdatetime.cpp \
@@ -84,8 +83,6 @@ HEADERS += \
     components/basic/qhcheckbox_p.h \
     components/basic/qhcombobox.h \
     components/basic/qhcombobox_p.h \
-    components/basic/qhimagebutton.h \
-    components/basic/qhimagebutton_p.h \
     components/basic/qhlabel.h \
     components/basic/qhlabel_p.h \
     components/basic/qhlineedit.h \

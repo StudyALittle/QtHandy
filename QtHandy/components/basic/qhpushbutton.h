@@ -2,6 +2,7 @@
 #define QHPUSHBUTTON_H
 
 #include <QPushButton>
+#include <qhlabel.h>
 #include "qhqss.h"
 #include "QH_global.h"
 
@@ -12,25 +13,37 @@ class QTHANDY_EXPORT QhPushButton: public QPushButton
     Q_OBJECT
     Q_PRIVATE_VARIABLE(QhPushButton)
 
+//    Q_PROPERTY_EX(int, TextOffset)
+
 public:
     QhPushButton(QWidget *parent = nullptr);
     QhPushButton(const QString &text, QWidget *parent = nullptr);
     QhPushButton(const QIcon &icon, const QString &text, QWidget *parent = nullptr);
     ~QhPushButton();
 
-    /// @brief: Is it icon mode.
-    /// When it is false, all the following parameters are invalid
     bool isImageMode() const;
 
-    /// @brief text
+    /// @brief
     QString text() const;
 
+    /// @brief
+    QhLabel *textLabel() const;
+
+    /// @brief
+    QhLabel *iconLeft() const;
+
+    /// @brief
+    QhLabel *iconRight() const;
+
+    /// @brief
     void setImageMode(bool b);
+
+    /// @brief
     void setText(const QString &text);
 
-    void resizeUpdate();
-
-    QhQss *handyQss();
+    /// @brief
+    // bool setProperty(const char *name, const QVariant &value);
+    void attachPropertyState(const QString &value);
 
 protected:
     void paintEvent(QPaintEvent *e) override;

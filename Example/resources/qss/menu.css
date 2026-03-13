@@ -1,56 +1,107 @@
 ﻿#NavButtonL1,
-#NavButtonL1Popup,
-#NavButtonL1Navbar,
-#NavButtonL1Button,
-#NavButtonL1Label
+#NavButtonL2
 {
     border: 1px solid gray;
     border-radius: 6px;
     background: white;
     padding: 6px 12px 6px 12px;
     color: black;
-    qproperty-pRightIconPath: ":/resources/imgs/menu/right_up.svg";
-}
-#NavButtonL1:hover,
-#NavButtonL1Popup:hover,
-#NavButtonL1Navbar:hover,
-#NavButtonL1Button:hover,
-#NavButtonL1Label:hover
-{
-    qproperty-pRightIconPath: ":/resources/imgs/menu/right_up.svg";
 }
 
-#NavButtonL1Popup
+#NavButtonL1 #IconPopup,
+#NavButtonL1 #IconNavbar,
+#NavButtonL1 #IconButton,
+#NavButtonL1 #IconLabel,
+#NavButtonL1 #Icon,
+#NavButtonL1 #IconRight
 {
-    qproperty-pLeftIconPath: ":/resources/imgs/menu/popup.svg";
+    min-width: 18px; max-width: 18px;
+    min-height: 18px; max-height: 18px;
 }
-#NavButtonL1Navbar
+#NavButtonL1 #IconPopup
 {
-    qproperty-pLeftIconPath: ":/resources/imgs/menu/navbar.svg";
+    image: url(:/resources/imgs/menu/popup.svg);
 }
-#NavButtonL1Button
+#NavButtonL1 #IconNavbar
 {
-    qproperty-pLeftIconPath: ":/resources/imgs/menu/button.svg";
+    image: url(:/resources/imgs/menu/navbar.svg);
 }
-#NavButtonL1Label
+/*[左侧图标]图标正常颜色*/
+#NavButtonL1 #IconButton
 {
-    qproperty-pLeftIconPath: ":/resources/imgs/menu/label.svg";
+    image: url(:/resources/imgs/menu/button.svg);
+}
+/*[左侧图标]鼠标移入图标颜色*/
+#NavButtonL1 #IconButton[qstate="hover"],
+#NavButtonL1 #IconButton[qstate="hover-expand"]
+{
+    image: url(:/resources/imgs/menu/button_hover.svg);
+}
+/*[左侧图标]选中时图标颜色*/
+#NavButtonL1 #IconButton[qstate="hover-checked"],
+#NavButtonL1 #IconButton[qstate="pressed-checked"],
+#NavButtonL1 #IconButton[qstate="disable-checked"],
+#NavButtonL1 #IconButton[qstate="checked"]
+{
+    image: url(:/resources/imgs/menu/button_checked.svg);
+}
+/*[左侧图标]图标正常颜色*/
+#NavButtonL1 #IconLabel
+{
+    image: url(:/resources/imgs/menu/label.svg);
+}
+/*[左侧图标]鼠标移入图标颜色*/
+#NavButtonL1 #IconLabel[qstate="hover"],
+#NavButtonL1 #IconLabel[qstate="hover-expand"]
+{
+    image: url(:/resources/imgs/menu/label_hover.svg);
+}
+/*[左侧图标]选中时图标颜色*/
+#NavButtonL1 #IconLabel[qstate="hover-checked"],
+#NavButtonL1 #IconLabel[qstate="pressed-checked"],
+#NavButtonL1 #IconLabel[qstate="disable-checked"],
+#NavButtonL1 #IconLabel[qstate="checked"]
+{
+    image: url(:/resources/imgs/menu/label_checked.svg);
+}
+#NavButtonL1 #Icon
+{
+    image: url(:/resources/imgs/menu/label.svg);
 }
 
-#NavButtonL1[state="checked"],
-#NavButtonL1Popup[state="checked"],
-#NavButtonL1Navbar[state="checked"],
-#NavButtonL1Button[state="checked"],
-#NavButtonL1Label[state="checked"]
+/*按钮选中时文本颜色*/
+#NavButtonL1 #LabelText[qstate="hover-checked"],
+#NavButtonL1 #LabelText[qstate="pressed-checked"],
+#NavButtonL1 #LabelText[qstate="disable-checked"],
+#NavButtonL1 #LabelText[qstate="checked"],
+#NavButtonL2[qstate="checked"]
 {
     color: blue;
 }
-
-#NavButtonL1[state="expand"],
-#NavButtonL1Popup[state="expand"],
-#NavButtonL1Navbar[state="expand"],
-#NavButtonL1Button[state="expand"],
-#NavButtonL1Label[state="expand"]
+/*鼠标移入时文本颜色*/
+#NavButtonL1 #LabelText[qstate="hover"],
+#NavButtonL1 #LabelText[qstate="hover-expand"],
+#NavButtonL2[qstate="hover"]
 {
-    qproperty-pRightIconPath: ":/resources/imgs/menu/right_down.svg";
+    color: green;
+}
+
+/*[右侧图标]*/
+#NavButtonL1 #IconRight
+{
+    image: url(:/resources/imgs/menu/right_up.svg);
+}
+#NavButtonL1 #IconRight[qstate="pressed-checked"],
+#NavButtonL1 #IconRight[qstate="hover-checked"],
+#NavButtonL1 #IconRight[qstate="disable-checked"],
+#NavButtonL1 #IconRight[qstate="checked"]
+{
+    image: url(:/resources/imgs/menu/right_down.svg);
+}
+#NavButtonL1 #IconRight[qstate="pressed-expand"],
+#NavButtonL1 #IconRight[qstate="hover-expand"],
+#NavButtonL1 #IconRight[qstate="disable-expand"],
+#NavButtonL1 #IconRight[qstate="expand"]
+{
+    image: url(:/resources/imgs/menu/right_down.svg);
 }
