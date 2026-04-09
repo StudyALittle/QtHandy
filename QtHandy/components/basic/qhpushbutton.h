@@ -3,22 +3,21 @@
 
 #include <QPushButton>
 #include <qhlabel.h>
-#include "qhqss.h"
 #include "QH_global.h"
 
 class QhPushButtonPrivate;
 
-class QTHANDY_EXPORT QhPushButton: public QPushButton
+class QTHANDY_EXPORT QhPushButton : public QPushButton
 {
     Q_OBJECT
     Q_PRIVATE_VARIABLE(QhPushButton)
 
-//    Q_PROPERTY_EX(int, TextOffset)
+    //    Q_PROPERTY_EX(int, TextOffset)
 
 public:
     QhPushButton(QWidget *parent = nullptr);
     QhPushButton(const QString &text, QWidget *parent = nullptr);
-    QhPushButton(const QIcon &icon, const QString &text, QWidget *parent = nullptr);
+    QhPushButton(QWidget *iconLeft, QWidget *iconRight, const QString &text, QWidget *parent = nullptr);
     ~QhPushButton();
 
     bool isImageMode() const;
@@ -30,10 +29,10 @@ public:
     QhLabel *textLabel() const;
 
     /// @brief
-    QhLabel *iconLeft() const;
+    QWidget *iconLeft() const;
 
     /// @brief
-    QhLabel *iconRight() const;
+    QWidget *iconRight() const;
 
     /// @brief
     void setImageMode(bool b);
@@ -47,6 +46,8 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *e) override;
+
+    virtual void setLabelIconProperty(int index, const QString &strState);
 };
 
 #endif // QHPUSHBUTTON_H

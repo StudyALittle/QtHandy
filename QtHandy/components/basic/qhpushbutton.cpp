@@ -4,35 +4,29 @@
 #include <QPainter>
 #include <QDebug>
 #include <QHBoxLayout>
-#include "qhimageutil.h"
 #include "qhwidgetutil.h"
 
-QhPushButton::QhPushButton(QWidget *parent):
-    QPushButton(parent),
-    d(new QhPushButtonPrivate(this))
+QhPushButton::QhPushButton(QWidget *parent) : QPushButton(parent), d(new QhPushButtonPrivate(this))
 {
-    d->init();
+    d->init(new QhLabel, new QhLabel);
 }
 
-QhPushButton::QhPushButton(const QString &text, QWidget *parent):
-    QPushButton(QString(), parent),
-    d(new QhPushButtonPrivate(this))
+QhPushButton::QhPushButton(const QString &text, QWidget *parent) :
+    QPushButton(QString(), parent), d(new QhPushButtonPrivate(this))
 {
-    d->init();
+    d->init(new QhLabel, new QhLabel);
     setText(text);
 }
 
-QhPushButton::QhPushButton(const QIcon &icon, const QString &text, QWidget *parent):
-    QPushButton(icon, QString(), parent),
-    d(new QhPushButtonPrivate(this))
+QhPushButton::QhPushButton(QWidget *iconLeft, QWidget *iconRight, const QString &text, QWidget *parent) :
+    QPushButton(QString(), parent), d(new QhPushButtonPrivate(this))
 {
-    d->init();
+    d->init(iconLeft, iconRight);
     setText(text);
 }
 
 QhPushButton::~QhPushButton()
 {
-
 }
 
 bool QhPushButton::isImageMode() const
@@ -50,12 +44,12 @@ QhLabel *QhPushButton::textLabel() const
     return d->labelText;
 }
 
-QhLabel *QhPushButton::iconLeft() const
+QWidget *QhPushButton::iconLeft() const
 {
     return d->labelIconLeft;
 }
 
-QhLabel *QhPushButton::iconRight() const
+QWidget *QhPushButton::iconRight() const
 {
     return d->labelIconRight;
 }
@@ -85,7 +79,7 @@ void QhPushButton::setText(const QString &text)
     }
 }
 
-//bool QhPushButton::setProperty(const char *name, const QVariant &value)
+// bool QhPushButton::setProperty(const char *name, const QVariant &value)
 //{
 //    auto ret = QPushButton::setProperty(name, value);
 //    if (d->labelText) {
@@ -132,6 +126,7 @@ void QhPushButton::paintEvent(QPaintEvent *e)
 
     if (d->labelIconLeft) {
         d->labelIconLeft->setProperty("qstate", strState);
+        setLabelIconProperty(0, strState);
         QhWidgetUtil::updateQssStyle(d->labelIconLeft);
     }
 
@@ -142,20 +137,26 @@ void QhPushButton::paintEvent(QPaintEvent *e)
 
     if (d->labelIconRight) {
         d->labelIconRight->setProperty("qstate", strState);
+        setLabelIconProperty(1, strState);
         QhWidgetUtil::updateQssStyle(d->labelIconRight);
     }
 }
 
-QhPushButtonPrivate::QhPushButtonPrivate(QhPushButton *p): p(p)
+void QhPushButton::setLabelIconProperty(int index, const QString &strState)
 {
-
+    Q_UNUSED(index)
+    Q_UNUSED(strState)
 }
 
-void QhPushButtonPrivate::init()
+QhPushButtonPrivate::QhPushButtonPrivate(QhPushButton *p) : p(p)
 {
-    labelIconLeft = new QhLabel;
+}
+
+void QhPushButtonPrivate::init(QWidget *labelIconLeft, QWidget *labelIconRight)
+{
+    this->labelIconLeft = labelIconLeft;
     labelText = new QhLabel;
-    labelIconRight = new QhLabel;
+    this->labelIconRight = labelIconRight;
 
     labelIconLeft->setObjectName("IconLeft");
     labelText->setObjectName("LabelText");
@@ -185,18 +186,3 @@ QhQss::PseudoState QhPushButtonPrivate::currentState(QStyleOptionButton &option)
     }
     return state;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

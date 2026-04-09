@@ -6,7 +6,7 @@
 #include "qhpushbutton.h"
 #include "qhqss.h"
 
-class QhPushButtonPrivate: public QObject
+class QhPushButtonPrivate : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QhPushButtonPrivate)
@@ -18,11 +18,11 @@ public:
     QString attachState;
 
     bool bImageMode = false;
-    QhLabel *labelIconLeft = nullptr;
+    QWidget *labelIconLeft = nullptr;
     QhLabel *labelText = nullptr;
-    QhLabel *labelIconRight = nullptr;
+    QWidget *labelIconRight = nullptr;
 
-    void init();
+    void init(QWidget *labelIconLeft, QWidget *labelIconRight);
     QhQss::PseudoState currentState(QStyleOptionButton &option);
 
 private:

@@ -10,12 +10,10 @@ QtMessageHandler g_defaultHandler = nullptr;
 
 QhLoggerConfig::QhLoggerConfig()
 {
-
 }
 
 QhLoggerConfig::~QhLoggerConfig()
 {
-
 }
 
 QString QhLoggerConfig::toAbsoluteDirectory(const QString &strPath) const
@@ -26,11 +24,10 @@ QString QhLoggerConfig::toAbsoluteDirectory(const QString &strPath) const
     if (path.startsWith(".")) {
         path.replace(0, 1, QCoreApplication::applicationDirPath());
     } else if (path.startsWith(strCacheLocation)) {
-        path.replace(0, strCacheLocation.size(),
-            QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+        path.replace(0, strCacheLocation.size(), QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
     } else if (path.startsWith(strAppLocalDataLocation)) {
-        path.replace(0, strAppLocalDataLocation.size(),
-            QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+        path.replace(
+            0, strAppLocalDataLocation.size(), QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     }
 
     path = path.replace("\\", "/");
@@ -51,10 +48,10 @@ QhLoggerConfig QhLoggerConfig::readFromFile(const QString &fileName, bool bWrite
     return readFromXmlFile(fileName, bWriteDefValAtNoKey);
 }
 
-#define INI_GETSET(Key, ToFunc) \
-    if (setting.contains(#Key)) \
+#define INI_GETSET(Key, ToFunc)                    \
+    if (setting.contains(#Key))                    \
         params.Key = setting.value(#Key).ToFunc(); \
-    else if (bWriteDefValAtNoKey) \
+    else if (bWriteDefValAtNoKey)                  \
         setting.setValue(#Key, params.Key);
 
 QhLoggerConfig QhLoggerConfig::readFromIniFile(const QString &fileName, bool bWriteDefValAtNoKey)
@@ -82,8 +79,7 @@ QhLoggerConfig QhLoggerConfig::readFromIniFile(const QString &fileName, bool bWr
 
     if (setting.contains("outputlogLevels")) {
         QVector<QhLoggerLevel> outputlogLevels;
-        QStringList strlists = setting.value("outputlogLevels").toString()
-                .split(",", QString::SkipEmptyParts);
+        QStringList strlists = setting.value("outputlogLevels").toString().split(",", QString::SkipEmptyParts);
         foreach (auto str, strlists) {
             if (str.trimmed().toUpper() == "TRACE") {
                 outputlogLevels.append(LoggerLTrace);
@@ -104,13 +100,32 @@ QhLoggerConfig QhLoggerConfig::readFromIniFile(const QString &fileName, bool bWr
         QStringList types;
         foreach (auto type, params.outputlogLevels) {
             switch (type) {
-            case LoggerLTrace: { types.append("Trace"); break; }
-            case LoggerLDebug: { types.append("Debug"); break; }
-            case LoggerLInfo: { types.append("Info"); break; }
-            case LoggerLWarring: { types.append("Warning"); break; }
-            case LoggerLCritical: { types.append("Critical"); break; }
-            case LoggerLFail: { types.append("Fail"); break; }
-            default: break;
+            case LoggerLTrace: {
+                types.append("Trace");
+                break;
+            }
+            case LoggerLDebug: {
+                types.append("Debug");
+                break;
+            }
+            case LoggerLInfo: {
+                types.append("Info");
+                break;
+            }
+            case LoggerLWarring: {
+                types.append("Warning");
+                break;
+            }
+            case LoggerLCritical: {
+                types.append("Critical");
+                break;
+            }
+            case LoggerLFail: {
+                types.append("Fail");
+                break;
+            }
+            default:
+                break;
             }
         }
         setting.setValue("outputlogLevels", types.join(","));
@@ -131,8 +146,7 @@ QhLoggerMessage::QhLoggerMessage()
 }
 
 QhLoggerMessage::QhLoggerMessage(
-        QhLoggerLevel level, const QString &file,
-        const QString &funcname, int line, const QString &content):
+    QhLoggerLevel level, const QString &file, const QString &funcname, int line, const QString &content) :
     level(level), file(file), funcname(funcname), line(line), content(content)
 {
     dateTime = QDateTime::currentDateTime();
@@ -140,7 +154,6 @@ QhLoggerMessage::QhLoggerMessage(
 
 QhLoggerMessage::~QhLoggerMessage()
 {
-
 }
 
 bool QhLoggerMessage::isForceNewFile() const
@@ -148,15 +161,12 @@ bool QhLoggerMessage::isForceNewFile() const
     return bForceNewFile;
 }
 
-QhLoggerAppender::QhLoggerAppender(QObject *parent):
-    QObject(parent)
+QhLoggerAppender::QhLoggerAppender(QObject *parent) : QObject(parent)
 {
-
 }
 
 QhLoggerAppender::~QhLoggerAppender()
 {
-
 }
 
 bool QhLoggerAppender::msgFilter(QhLoggerConfig *logParams, QhLoggerMessage::Ptr msg)
@@ -182,23 +192,32 @@ QString QhLoggerAppender::msgItemFormat(QhLoggerMessage::Ptr msg)
 {
     QString format = hlogger->loggerConfig().contentFormat;
     return format
-       .arg(loggerLevelToString(msg->level))
-       .arg(msg->dateTime.toString("yyyy-MM-dd HH:mm:ss.zzz "))
-       .arg(msg->content)
-       .arg(msg->file)
-       .arg(msg->funcname)
-            .arg(msg->line);
+        .arg(loggerLevelToString(msg->level), msg->dateTime.toString("yyyy-MM-dd HH:mm:ss.zzz "), msg->content,
+            msg->file, msg->funcname)
+        .arg(msg->line);
 }
 
 QString QhLoggerAppender::loggerLevelToString(QhLoggerLevel level)
 {
     switch (level) {
-    case LoggerLTrace:    { return QStringLiteral("TRACE"); }
-    case LoggerLDebug:    { return QStringLiteral("DEBUG"); }
-    case LoggerLInfo:     {return QStringLiteral("INFO"); }
-    case LoggerLWarring:  { return QStringLiteral("WARRING"); }
-    case LoggerLCritical: { return QStringLiteral("CRITICAL"); }
-    case LoggerLFail:     { return QStringLiteral("ERROR"); }
+    case LoggerLTrace: {
+        return QStringLiteral("TRACE");
+    }
+    case LoggerLDebug: {
+        return QStringLiteral("DEBUG");
+    }
+    case LoggerLInfo: {
+        return QStringLiteral("INFO");
+    }
+    case LoggerLWarring: {
+        return QStringLiteral("WARRING");
+    }
+    case LoggerLCritical: {
+        return QStringLiteral("CRITICAL");
+    }
+    case LoggerLFail: {
+        return QStringLiteral("ERROR");
+    }
     }
     return QString();
 }
@@ -238,28 +257,44 @@ void QhLoggerConfig::writeToFile(const QString &fileName, const QhLoggerConfig &
     QStringList levels;
     foreach (auto type, params.outputlogLevels) {
         switch (type) {
-        case LoggerLTrace: { levels.append("ETrace"); break; }
-        case LoggerLDebug: { levels.append("EDebug"); break; }
-        case LoggerLInfo: { levels.append("EInfo"); break; }
-        case LoggerLWarring: { levels.append("EWarring"); break; }
-        case LoggerLCritical: { levels.append("ECritical"); break; }
-        case LoggerLFail: { levels.append("EFail"); break; }
-        default: break;
+        case LoggerLTrace: {
+            levels.append("ETrace");
+            break;
+        }
+        case LoggerLDebug: {
+            levels.append("EDebug");
+            break;
+        }
+        case LoggerLInfo: {
+            levels.append("EInfo");
+            break;
+        }
+        case LoggerLWarring: {
+            levels.append("EWarring");
+            break;
+        }
+        case LoggerLCritical: {
+            levels.append("ECritical");
+            break;
+        }
+        case LoggerLFail: {
+            levels.append("EFail");
+            break;
+        }
+        default:
+            break;
         }
     }
     setting.setValue("outputlogLevels", levels.join(","));
     setting.endGroup();
 }
 
-QhLogger::QhLogger(int moduleId):
-    d(new QhLoggerPrivate(this, moduleId))
+QhLogger::QhLogger(int moduleId) : d(new QhLoggerPrivate(this, moduleId))
 {
-
 }
 
 QhLogger::~QhLogger()
 {
-
 }
 
 int QhLogger::moduleId()
@@ -304,8 +339,7 @@ void QhLogger::stop(bool bWaitAllWrite)
 
 void QhLogger::write(QhLoggerLevel type, const QString &file, const QString &funcname, int line, const QString &content)
 {
-    write(QSharedPointer<QhLoggerMessage>::create(
-        type, file, funcname, line, content));
+    write(QSharedPointer<QhLoggerMessage>::create(type, file, funcname, line, content));
 }
 
 void QhLogger::write(QhLoggerMessage::Ptr msg)
@@ -320,15 +354,12 @@ void QhLogger::forceCreateNewFile()
     write(msg);
 }
 
-QhLoggerPrivate::QhLoggerPrivate(QhLogger *q, int moduleId):
-    ptr(q), moduleId(moduleId)
+QhLoggerPrivate::QhLoggerPrivate(QhLogger *q, int moduleId) : ptr(q), moduleId(moduleId)
 {
-
 }
 
 QhLoggerPrivate::~QhLoggerPrivate()
 {
-
 }
 
 void QhLoggerPrivate::startLogger()
@@ -340,8 +371,7 @@ void QhLoggerPrivate::startLogger()
     bWaitAllWriteAtStop = false;
 
     if (bAcceptQtDebug) {
-        QLoggingCategory::setFilterRules(
-                    QStringLiteral("*.debug=true\nqt.*.debug=false"));
+        QLoggingCategory::setFilterRules(QStringLiteral("*.debug=true\nqt.*.debug=false"));
         g_defaultHandler = qInstallMessageHandler(QhLoggerPrivate::qMessageHandler);
     } else {
         g_defaultHandler = nullptr;
@@ -370,17 +400,13 @@ void QhLoggerPrivate::stopLogger(bool bWaitAllWrite)
 
 void QhLoggerPrivate::appendMessage(QhLoggerMessage::Ptr msg)
 {
-    auto writeConsole = [this](QhLoggerMessage::Ptr msgItem)
-    {
-        QString msg = appender ?
-            appender->msgItemFormat(msgItem) :
-                QString("[%1 %2] %3 [%4 : %5 : %6]")
-                  .arg(msgItem->level)
-                  .arg(msgItem->dateTime.toString("yyyy-MM-dd HH:mm:ss.zzz "))
-                  .arg(msgItem->content)
-                  .arg(msgItem->file)
-                  .arg(msgItem->funcname)
-                  .arg(msgItem->line);
+    auto writeConsole = [this](QhLoggerMessage::Ptr msgItem) {
+        QString msg = appender ? appender->msgItemFormat(msgItem)
+                               : QString("[%1 %2] %3 [%4 : %5 : %6]")
+                                     .arg(msgItem->level)
+                                     .arg(msgItem->dateTime.toString("yyyy-MM-dd HH:mm:ss.zzz "), msgItem->content,
+                                         msgItem->file, msgItem->funcname)
+                                     .arg(msgItem->line);
         if (!bAcceptQtDebug) {
             qDebug() << msg;
         } else if (g_defaultHandler) {
@@ -427,7 +453,7 @@ void QhLoggerPrivate::writeData(QhLoggerMessage::Ptr msg)
 
 void QhLoggerPrivate::run()
 {
-    while(bRun) {
+    while (bRun) {
         QList<QhLoggerMessage::Ptr> loggers;
 
         mutex.lock();
@@ -474,16 +500,31 @@ void QhLoggerPrivate::qMessageHandler(QtMsgType msgType, const QMessageLogContex
 
     QhLoggerLevel logType;
     switch (msgType) {
-    case QtDebugMsg:    { logType = LoggerLDebug; break; }
-    case QtWarningMsg:  { logType = LoggerLWarring; break; }
-    case QtCriticalMsg: { logType = LoggerLCritical; break; }
-    case QtFatalMsg:    { logType = LoggerLFail; break; }
-    case QtInfoMsg:     { logType = LoggerLInfo; break; }
+    case QtDebugMsg: {
+        logType = LoggerLDebug;
+        break;
+    }
+    case QtWarningMsg: {
+        logType = LoggerLWarring;
+        break;
+    }
+    case QtCriticalMsg: {
+        logType = LoggerLCritical;
+        break;
+    }
+    case QtFatalMsg: {
+        logType = LoggerLFail;
+        break;
+    }
+    case QtInfoMsg: {
+        logType = LoggerLInfo;
+        break;
+    }
     }
 
     auto *md = QhLoggers::instance()->module();
     if (md)
-        md->write(logType, file, function, context.line, msg.toLocal8Bit());
+        md->write(logType, file, function, context.line, msg);
 }
 
 QhLoggers *QhLoggers::instance()
@@ -532,5 +573,4 @@ QhLogger *QhLoggers::module(int module)
 
 QhLoggers::QhLoggers()
 {
-
 }

@@ -38,6 +38,7 @@ SOURCES += \
     components/basic/qhlabel.cpp \
     components/basic/qhlineedit.cpp \
     components/basic/qhlineeditdatetime.cpp \
+    components/basic/qhloadingbutton.cpp \
     components/basic/qhprogressbar.cpp \
     components/basic/qhpushbutton.cpp \
     components/basic/qhradiobutton.cpp \
@@ -56,6 +57,7 @@ SOURCES += \
     components/customized/qhbasepopupcontent.cpp \
     components/customized/qhloading.cpp \
     components/customized/qhmessagebox.cpp \
+    components/customized/qhspin.cpp \
     components/framelesswindow/qhframelesswindow.cpp \
     components/framelesswindow/qhframelesswindow_unix.cpp \
     components/framelesswindow/qhframelesswindow_windows.cpp \
@@ -89,6 +91,8 @@ HEADERS += \
     components/basic/qhlineedit_p.h \
     components/basic/qhlineeditdatetime.h \
     components/basic/qhlineeditdatetime_p.h \
+    components/basic/qhloadingbutton.h \
+    components/basic/qhloadingbutton_p.h \
     components/basic/qhprogressbar.h \
     components/basic/qhpushbutton.h \
     components/basic/qhpushbutton_p.h \
@@ -118,6 +122,8 @@ HEADERS += \
     components/customized/qhloading_p.h \
     components/customized/qhmessagebox.h \
     components/customized/qhmessagebox_p.h \
+    components/customized/qhspin.h \
+    components/customized/qhspin_p.h \
     components/framelesswindow/qhframelesswindow.h \
     components/framelesswindow/qhframelesswindow_p.h \
     components/framelesswindow/qhwidgetmoveresize.h \
