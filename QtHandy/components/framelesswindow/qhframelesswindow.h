@@ -93,6 +93,7 @@ public:
     QWidget *widget();
 
 protected:
+    friend class X11MoveResizePrivate;
     QScopedPointer<QhFramelessWindowPrivate> d;
     Q_DISABLE_COPY(QhFramelessWindow)
     friend class QhFramelessWindowPrivate;

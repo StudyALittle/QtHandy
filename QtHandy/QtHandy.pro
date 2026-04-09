@@ -5,6 +5,17 @@ DEFINES += QTHANDY_LIBRARY
 
 CONFIG += c++11
 
+# 无边框依赖
+unix: !macx {
+    QT += x11extras
+    LIBS += -lX11 -lXext
+    # -lXi
+    #-lxcb-xinput (只需要头文件的结构体)
+}
+macx {
+    LIBS += -framework AppKit
+}
+
 include($$PWD/../Global.pri)
 
 # mode QCustomplot

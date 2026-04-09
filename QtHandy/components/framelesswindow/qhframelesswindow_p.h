@@ -6,6 +6,7 @@
 #include "QH_global.h"
 
 class QhWidgetMoveResize;
+class X11MoveResizePrivate;
 
 class QhFramelessWindowPrivate: public QObject
 {
@@ -15,9 +16,8 @@ class QhFramelessWindowPrivate: public QObject
     Q_DECLARE_PUBLIC(QhFramelessWindow)
 
 public:
-    QhFramelessWindowPrivate(QhFramelessWindow *q, QWidget *widget):
-        q_ptr(q), widget(widget), moveResizeHelpre(new QhWidgetMoveResize(q))
-    { }
+    QhFramelessWindowPrivate(QhFramelessWindow *q, QWidget *widget);
+    ~QhFramelessWindowPrivate();
 
     /// @brief 是否无边框
     bool bFramelessWindow = false;
@@ -96,10 +96,15 @@ public:
     /// @brief 绘制背景
     void paintBackgroundHelper(QPainter *p);
 
-private:
+protected:
+    friend class X11MoveResizePrivate;
     QhFramelessWindow *const q_ptr;
     QScopedPointer<QhWidgetMoveResize> moveResizeHelpre;
     QWidget *widget;
+
+#ifdef Q_OS_LINUX
+    X11MoveResizePrivate *m_pX11 = nullptr;
+#endif
 };
 
 #endif // QHFRAMELESSWINDOW_P_H

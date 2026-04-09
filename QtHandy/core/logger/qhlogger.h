@@ -27,32 +27,32 @@
     QhLoggers::instance()->module(Md)->write(Level, __FILE__, __PRETTY_FUNCTION__, __LINE__, Msg);
 #endif
 
-#define HLOG_TRACE(Msg)     HLOG_WRITE(LoggerMMain, LoggerLTrace, Msg)
-#define HLOG_DEBUG(Msg)     HLOG_WRITE(LoggerMMain, LoggerLDebug, Msg)
-#define HLOG_INFO(Msg)      HLOG_WRITE(LoggerMMain, LoggerLInfo, Msg)
-#define HLOG_WARRING(Msg)   HLOG_WRITE(LoggerMMain, LoggerLWarring, Msg)
-#define HLOG_CRITICAL(Msg)  HLOG_WRITE(LoggerMMain, LoggerLCritical, Msg)
-#define HLOG_FATAL(Msg)     HLOG_WRITE(LoggerMMain, LoggerLFail, Msg)
+#define HLOG_TRACE(Msg) HLOG_WRITE(LoggerMMain, LoggerLTrace, Msg)
+#define HLOG_DEBUG(Msg) HLOG_WRITE(LoggerMMain, LoggerLDebug, Msg)
+#define HLOG_INFO(Msg) HLOG_WRITE(LoggerMMain, LoggerLInfo, Msg)
+#define HLOG_WARRING(Msg) HLOG_WRITE(LoggerMMain, LoggerLWarring, Msg)
+#define HLOG_CRITICAL(Msg) HLOG_WRITE(LoggerMMain, LoggerLCritical, Msg)
+#define HLOG_FATAL(Msg) HLOG_WRITE(LoggerMMain, LoggerLFail, Msg)
 
-#define HLOGMD_TRACE(Md, Msg)     HLOG_WRITE(Md, LoggerLTrace, Msg)
-#define HLOGMD_DEBUG(Md, Msg)     HLOG_WRITE(Md, LoggerLDebug, Msg)
-#define HLOGMD_INFO(Md, Msg)      HLOG_WRITE(Md, LoggerLInfo, Msg)
-#define HLOGMD_WARRING(Md, Msg)   HLOG_WRITE(Md, LoggerLWarring, Msg)
-#define HLOGMD_CRITICAL(Md, Msg)  HLOG_WRITE(Md, LoggerLCritical, Msg)
-#define HLOGMD_FATAL(Md, Msg)     HLOG_WRITE(Md, LoggerLFail, Msg)
+#define HLOGMD_TRACE(Md, Msg) HLOG_WRITE(Md, LoggerLTrace, Msg)
+#define HLOGMD_DEBUG(Md, Msg) HLOG_WRITE(Md, LoggerLDebug, Msg)
+#define HLOGMD_INFO(Md, Msg) HLOG_WRITE(Md, LoggerLInfo, Msg)
+#define HLOGMD_WARRING(Md, Msg) HLOG_WRITE(Md, LoggerLWarring, Msg)
+#define HLOGMD_CRITICAL(Md, Msg) HLOG_WRITE(Md, LoggerLCritical, Msg)
+#define HLOGMD_FATAL(Md, Msg) HLOG_WRITE(Md, LoggerLFail, Msg)
 
+class QhLogger;
 class QhLoggerAppender;
 class QhLoggerPrivate;
 
 /// Logging module (multiple modules can write logs to different files)
 enum QhLoggerModule {
-    LoggerMMain = 0,    // 默认模块
-    LoggerMCustom = 10  // 自定义模块
+    LoggerMMain = 0,   // 默认模块
+    LoggerMCustom = 10 // 自定义模块
 };
 
 /// @brief logger level（追踪，调试、信息、警告、严重、错误）
-enum QhLoggerLevel
-{
+enum QhLoggerLevel {
     LoggerLTrace = 0,
     LoggerLDebug = 1,
     LoggerLInfo = 2,
@@ -101,7 +101,7 @@ public:
     /// @brief 单个日志文件最大存储数据条数（小于等于0，表示不限制）
     int nSingleFileDataMaxCount = 0;
     /// @brief 单个日志文件最大存储数据大小（字节）（小于等于0，表示不限制）
-    int nSingleFileDataMaxSize = 5*1024*1024;
+    int nSingleFileDataMaxSize = 5 * 1024 * 1024;
     /// @brief 超过时间新建日志文件（小于等于0表示不做时间判断 s）
     int nNewFileCreateTimeSpace = 0;
 
@@ -116,9 +116,8 @@ public:
     bool bOutConsole;
 
     /// @brief 输出日志类型
-    QVector<QhLoggerLevel> outputlogLevels =
-        { LoggerLTrace, LoggerLDebug, LoggerLInfo,
-          LoggerLWarring, LoggerLCritical, LoggerLFail};
+    QVector<QhLoggerLevel> outputlogLevels = {
+        LoggerLTrace, LoggerLDebug, LoggerLInfo, LoggerLWarring, LoggerLCritical, LoggerLFail};
 
     /// @brief 输出日志内容格式（可调整顺序）
     /// 示例：[%1 %2] %3 [%4 : %5 : %6]
@@ -129,7 +128,8 @@ public:
     void writeToFile(const QString &fileName);
 
     /// @brief Read configuration from file
-    static QhLoggerConfig readFromFile(const QString &fileName, bool bWriteDefValAtNoKey = true, CFileType type = CFileIni);
+    static QhLoggerConfig readFromFile(
+        const QString &fileName, bool bWriteDefValAtNoKey = true, CFileType type = CFileIni);
     static QhLoggerConfig readFromIniFile(const QString &fileName, bool bWriteDefValAtNoKey = true);
     static QhLoggerConfig readFromXmlFile(const QString &fileName, bool bWriteDefValAtNoKey = true);
 
@@ -146,8 +146,8 @@ public:
     using Ptr = QSharedPointer<QhLoggerMessage>;
 
     QhLoggerMessage();
-    QhLoggerMessage(QhLoggerLevel level, const QString &file,
-        const QString &funcname, int line, const QString &content);
+    QhLoggerMessage(
+        QhLoggerLevel level, const QString &file, const QString &funcname, int line, const QString &content);
     ~QhLoggerMessage();
 
     QDateTime dateTime;
@@ -163,7 +163,7 @@ protected:
     bool bForceNewFile = false;
 };
 
-class QTHANDY_EXPORT QhLoggerAppender: public QObject
+class QTHANDY_EXPORT QhLoggerAppender : public QObject
 {
     Q_OBJECT
     friend class QhLogger;
@@ -201,7 +201,7 @@ protected:
     QhLogger *hlogger = nullptr;
 };
 
-class QTHANDY_EXPORT QhLogger: public QObject
+class QTHANDY_EXPORT QhLogger : public QObject
 {
     Q_OBJECT
     Q_PRIVATE_VARIABLE(QhLogger)
@@ -221,14 +221,13 @@ public:
 
     void stop(bool bWaitAllWrite = false);
 
-    void write(QhLoggerLevel type, const QString &file,
-               const QString &funcname, int line, const QString &content);
+    void write(QhLoggerLevel type, const QString &file, const QString &funcname, int line, const QString &content);
     void write(QhLoggerMessage::Ptr msg);
 
     void forceCreateNewFile();
 };
 
-class QTHANDY_EXPORT QhLoggers: public QObject
+class QTHANDY_EXPORT QhLoggers : public QObject
 {
     Q_OBJECT
 
@@ -245,7 +244,7 @@ public:
 protected:
     QhLoggers();
 
-    QMap<int, QhLogger*> modules;
+    QMap<int, QhLogger *> modules;
 };
 
 #define gHLOGgers QhLoggers::instance()
