@@ -3,16 +3,12 @@
 #include <QSharedPointer>
 #include <QDebug>
 
-QhDataBase::QhDataBase(QObject *parent):
-    QObject(parent),
-    d(new QhDataBasePrivate(this))
+QhDataBase::QhDataBase(QObject *parent) : QObject(parent), d(new QhDataBasePrivate(this))
 {
-
 }
 
 QhDataBase::~QhDataBase()
 {
-
 }
 
 QSqlDatabase &QhDataBase::db() const
@@ -20,7 +16,8 @@ QSqlDatabase &QhDataBase::db() const
     return d->db;
 }
 
-bool QhDataBase::open(const QString &ip, const int &port, const QString databaseName, const QString &userName, const QString &password, const QString &dbType, const QString &conName)
+bool QhDataBase::open(const QString &ip, const int &port, const QString databaseName, const QString &userName,
+    const QString &password, const QString &dbType, const QString &conName)
 {
     bool bConName = QSqlDatabase::contains(conName);
     if (!bConName) {
@@ -29,7 +26,7 @@ bool QhDataBase::open(const QString &ip, const int &port, const QString database
         d->db = QSqlDatabase::database(conName);
     }
 
-    if(dbType == "QSQLITE") {
+    if (dbType == "QSQLITE") {
         d->db.setDatabaseName(databaseName);
         d->db.setUserName(userName);
         d->db.setPassword(password);
@@ -45,8 +42,7 @@ bool QhDataBase::open(const QString &ip, const int &port, const QString database
 
 bool QhDataBase::isError() const
 {
-    return d->db.lastError().type() != QSqlError::NoError
-        || d->sqlLastError.type() != QSqlError::NoError;
+    return d->db.lastError().type() != QSqlError::NoError || d->sqlLastError.type() != QSqlError::NoError;
 }
 
 QStringList QhDataBase::tables(QSql::TableType type) const
@@ -60,13 +56,12 @@ QhDataBase::Data QhDataBase::query(const QString &sql, const QList<QVariant> &da
     auto sqlQuery = d->queryModel(sql, datas);
 
     int count = sqlQuery->rowCount();
-    for (int i = 0; i < count; i++)
-    {
+    for (int i = 0; i < count; i++) {
         auto rec = sqlQuery->record(i);
         QMap<QString, QVariant> row;
 
         int countRec = rec.count();
-        for(int j = 0; j < countRec; j ++){
+        for (int j = 0; j < countRec; j++) {
             row.insert(rec.field(j).name().toLower(), rec.value(j));
         }
         data.append(row);
@@ -77,7 +72,8 @@ QhDataBase::Data QhDataBase::query(const QString &sql, const QList<QVariant> &da
 QSharedPointer<QSqlQuery> QhDataBase::queryExec(const QString &sql, const QList<QVariant> &datas)
 {
     auto sqlQuery = QSharedPointer<QSqlQuery>::create(db());
-    if (!d->queryExec(*sqlQuery, datas, sql)){ /*error*/ }
+    if (!d->queryExec(*sqlQuery, datas, sql)) { /*error*/
+    }
     return sqlQuery;
 }
 
@@ -101,7 +97,8 @@ bool QhDataBase::exec(const QString &sql, const QList<QVariant> &datas)
     return d->queryExec(query, datas, sql);
 }
 
-int QhDataBase::execAffectedRows(const QString &sql, qint64 *lastInsertId, qint64 *insertId, const QList<QVariant> &datas)
+int QhDataBase::execAffectedRows(
+    const QString &sql, qint64 *lastInsertId, qint64 *insertId, const QList<QVariant> &datas)
 {
     QSqlQuery query(db());
     if (!d->queryExec(query, datas, sql)) {
@@ -109,8 +106,7 @@ int QhDataBase::execAffectedRows(const QString &sql, qint64 *lastInsertId, qint6
     }
 
     if (insertId) {
-        *insertId = query.next() ?
-            query.value(0).toInt() : -1;
+        *insertId = query.next() ? query.value(0).toInt() : -1;
     }
     if (lastInsertId) {
         *lastInsertId = query.lastInsertId().toInt();
@@ -139,18 +135,20 @@ bool QhDataBase::rollback()
     return ret;
 }
 
+QSharedPointer<QSqlQueryModel> QhDataBase::queryModel(const QString &sql, const QList<QVariant> &datas)
+{
+    return d->queryModel(sql, datas);
+}
+
 QhDataBasePrivate::QhDataBasePrivate(QhDataBase *q)
 {
-
 }
 
 QhDataBasePrivate::~QhDataBasePrivate()
 {
-
 }
 
-QSharedPointer<QSqlQueryModel> QhDataBasePrivate::queryModel(
-    const QString &sql, const QList<QVariant> &datas)
+QSharedPointer<QSqlQueryModel> QhDataBasePrivate::queryModel(const QString &sql, const QList<QVariant> &datas)
 {
     auto model = QSharedPointer<QSqlQueryModel>::create();
 
@@ -166,24 +164,19 @@ QSharedPointer<QSqlQueryModel> QhDataBasePrivate::queryModel(
     return model;
 }
 
-bool QhDataBasePrivate::queryExec(
-    QSqlQuery &sqlQuery, const QList<QVariant> &datas, const QString &sql)
+bool QhDataBasePrivate::queryExec(QSqlQuery &sqlQuery, const QList<QVariant> &datas, const QString &sql)
 {
     sqlLastError = QSqlError();
 
-    auto doExec = [this](QSqlQuery& sqlQuery,
-            const QList<QVariant> &datas,
-            const QString& sql) -> bool
-    {
+    auto doExec = [this](QSqlQuery &sqlQuery, const QList<QVariant> &datas, const QString &sql) -> bool {
         bool result = false;
         if (datas.isEmpty()) {
             result = sqlQuery.exec(sql);
         } else {
             if (!sqlQuery.prepare(sql)) {
-                 sqlLastError = sqlQuery.lastError();
-                 qWarning() << "sqlQuery prepare error: " << sqlLastError
-                            << "; db is open: " << db.isOpen();
-                 return result;
+                sqlLastError = sqlQuery.lastError();
+                qWarning() << "sqlQuery prepare error: " << sqlLastError << "; db is open: " << db.isOpen();
+                return result;
             }
             foreach (const QVariant &data, datas) {
                 sqlQuery.addBindValue(data);
@@ -196,8 +189,8 @@ bool QhDataBasePrivate::queryExec(
     bool result = doExec(sqlQuery, datas, sql);
 
     /// 连接错误,执行一次重连(连接可能被数据主动断开，目前只在mysql发现过)
-    if (!result && ("2006" == sqlQuery.lastError().nativeErrorCode()
-            || "2013" == sqlQuery.lastError().nativeErrorCode())) {
+    if (!result &&
+        ("2006" == sqlQuery.lastError().nativeErrorCode() || "2013" == sqlQuery.lastError().nativeErrorCode())) {
         if (db.open()) {
             sqlQuery = QSqlQuery(db);
             result = doExec(sqlQuery, datas, sql);
