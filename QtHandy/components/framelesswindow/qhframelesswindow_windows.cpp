@@ -10,10 +10,17 @@
 #include <objidl.h>
 #include <gdiplus.h>
 #include "qhwidgetmoveresize.h"
-#include "qhwidgetutil.h"
 
-#pragma comment (lib,"Dwmapi.lib")
-#pragma comment (lib,"user32.lib")
+#pragma comment(lib, "Dwmapi.lib")
+#pragma comment(lib, "user32.lib")
+
+QhFramelessWindowPrivate::QhFramelessWindowPrivate(QhFramelessWindow *q, QWidget *widget) :
+    q_ptr(q), widget(widget), moveResizeHelpre(new QhWidgetMoveResize(q))
+{
+}
+QhFramelessWindowPrivate::~QhFramelessWindowPrivate()
+{
+}
 
 bool QhFramelessWindowPrivate::nativeEventEx(
     const QByteArray &eventType, void *message, NATIVATEEVENTFUNC_3PARAM_TYPE *result)
@@ -31,10 +38,10 @@ bool QhFramelessWindowPrivate::nativeEventEx(
         return composition_enabled && success;
     };
 
-    MSG* msg = reinterpret_cast<MSG*>(message);
+    MSG *msg = reinterpret_cast<MSG *>(message);
     switch (msg->message) {
     case WM_NCACTIVATE: {
-        if(!composition_enabled()) {
+        if (!composition_enabled()) {
             *result = TRUE;
             return true;
         }
@@ -42,14 +49,14 @@ bool QhFramelessWindowPrivate::nativeEventEx(
     }
     case WM_NCCALCSIZE: {
         if (this->shadowWidth <= 0) {
-            NCCALCSIZE_PARAMS& params = *reinterpret_cast<NCCALCSIZE_PARAMS*>(msg->lParam);
+            NCCALCSIZE_PARAMS &params = *reinterpret_cast<NCCALCSIZE_PARAMS *>(msg->lParam);
             bool bMax = ::IsZoomed(msg->hwnd);
-            if(bMax) {
+            if (bMax) {
                 // 修正最大化时内容超出屏幕问题
                 auto monitor = MonitorFromWindow(msg->hwnd, MONITOR_DEFAULTTONEAREST);
                 MONITORINFO info;
                 info.cbSize = sizeof(MONITORINFO);
-                if(GetMonitorInfo(monitor, &info)) {
+                if (GetMonitorInfo(monitor, &info)) {
                     const auto workRect = info.rcWork;
                     params.rgrc[0].left = qMax(params.rgrc[0].left, long(workRect.left));
                     params.rgrc[0].top = qMax(params.rgrc[0].top, long(workRect.top));
@@ -68,16 +75,12 @@ bool QhFramelessWindowPrivate::nativeEventEx(
         return true;
     }
     case WM_NCLBUTTONDBLCLK:
-    case WM_LBUTTONDBLCLK: {    // 双击事件
-        POINT cursor {
-            GET_X_LPARAM(msg->lParam),
-            GET_Y_LPARAM(msg->lParam)
-        };
+    case WM_LBUTTONDBLCLK: { // 双击事件
+        POINT cursor{GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam)};
 
         // support highdpi
         double dpr = widget->devicePixelRatioF();
-        if (moveResizeHelpre->isInTitleBar(
-                QPoint(cursor.x/dpr, cursor.y/dpr))) {
+        if (moveResizeHelpre->isInTitleBar(QPoint(cursor.x / dpr, cursor.y / dpr))) {
             if (this->bMaxNormalAtTitleBar) {
                 if (widget->isMaximized())
                     widget->showNormal();
@@ -89,7 +92,7 @@ bool QhFramelessWindowPrivate::nativeEventEx(
         }
         break;
     }
-    case WM_NCHITTEST: {        // 拖动缩放事件
+    case WM_NCHITTEST: { // 拖动缩放事件
         *result = 0;
 
         if (this->bResizeable) {
@@ -102,8 +105,7 @@ bool QhFramelessWindowPrivate::nativeEventEx(
 
             *result = moveResizeHelpre->calcMousePos(
                 QRect(winrect.left + shadowWidth, winrect.top + shadowWidth,
-                      winrect.right - winrect.left - shadowWidth*2,
-                      winrect.bottom - winrect.top - shadowWidth*2),
+                    winrect.right - winrect.left - shadowWidth * 2, winrect.bottom - winrect.top - shadowWidth * 2),
                 QPoint(x, y));
         }
 
@@ -114,29 +116,25 @@ bool QhFramelessWindowPrivate::nativeEventEx(
 
         // 拖动窗口
         if (!bMoveable || (!titleBar && titleHeight <= 0))
-           break;
+            break;
 
-        POINT cursor {
-            GET_X_LPARAM(msg->lParam),
-            GET_Y_LPARAM(msg->lParam)
-        };
+        POINT cursor{GET_X_LPARAM(msg->lParam), GET_Y_LPARAM(msg->lParam)};
 
-        //support highdpi
+        // support highdpi
         double dpr = widget->devicePixelRatioF();
-        if (moveResizeHelpre->isInTitleBar(
-                QPoint(cursor.x/dpr, cursor.y/dpr))) {
+        if (moveResizeHelpre->isInTitleBar(QPoint(cursor.x / dpr, cursor.y / dpr))) {
             *result = HTCAPTION;
             return true;
         }
         break;
     }
-    case WM_GETMINMAXINFO: {    // 最大化事件
+    case WM_GETMINMAXINFO: { // 最大化事件
         // bool bMin = ::IsIconic(msg->hwnd);
         // bool bMax = ::IsZoomed(msg->hwnd);
         break;
     }
     case WM_PAINT: {
-#if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
         /// Qt6.5.3无边框最大化存在问题,
         /// 界面会超出屏幕大小，通过布局器修正最大化时的问题
         /// Qt5.12版本目前不存在此问题，不清楚其它Qt6版本是否会存在此问题

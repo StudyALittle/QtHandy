@@ -11,7 +11,6 @@ SOURCES += \
     demobutton.cpp \
     democheckbox.cpp \
     demodatetime.cpp \
-    demoimagebutton.cpp \
     demolabel.cpp \
     demolineedit.cpp \
     demolineeditdatetime.cpp \
@@ -28,7 +27,6 @@ HEADERS += \
     demobutton.h \
     democheckbox.h \
     demodatetime.h \
-    demoimagebutton.h \
     demolabel.h \
     demolineedit.h \
     demolineeditdatetime.h \

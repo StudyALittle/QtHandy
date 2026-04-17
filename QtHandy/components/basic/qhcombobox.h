@@ -21,6 +21,8 @@ public:
 
     void setModifyByWheel(bool b);
 
+    void clearItems();
+
 protected:
     void wheelEvent(QWheelEvent *e) override;
 };

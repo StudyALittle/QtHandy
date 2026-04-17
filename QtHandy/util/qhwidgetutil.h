@@ -10,99 +10,56 @@
 class QTHANDY_EXPORT QhWidgetUtil
 {
 public:
-    /**
-     * @brief moveToScreenCenter：移动窗口到屏幕中间
-     * @param w
-     * @param screen
-     */
+    /// @brief 移动窗口到屏幕中间
     static void moveToScreenCenter(QWidget *w, QScreen *screen = nullptr);
 
-    /**
-     * @brief topParentWidget：顶层窗口（没有父类的窗口）
-     * @param w
-     * @return
-     */
+    /// @brief 返回顶层窗口（没有父类的窗口）
     static QWidget *topParentWidget(QWidget *w);
 
-    /**
-     * @brief isParentWidget：是不是父窗口
-     * @param parent：父窗口
-     * @param w：判断是不是parent的子窗口
-     * @return （parent == w,返回true）
-     */
+    /// @brief 判断parent是不是w的父窗口 (w == parent 时返回true)
     static bool isParentWidget(QWidget *parent, QWidget *w);
 
-    /**
-     * @brief screenUnderWidget：窗口下面的屏幕
-     * @param w
-     * @return
-     */
+    /// @brief 在窗口下面的屏幕
     static QScreen *screenUnderWidget(QWidget *w);
 
-    /**
-     * @brief activateWindow：激活窗口
-     * @param w
-     */
+    /// @brief 激活窗口
     static void activateWindow(QWidget *w);
 
-    /**
-     * @brief updateQssStyle：刷新qss样式
-     * @param w
-     */
+    /// @brief 刷新qss样式
     static void updateQssStyle(QWidget *w);
 
-    /**
-     * @brief updateQssStyles：刷新qss样式
-     * @param ws
-     */
+    /// @brief 刷新qss样式
     static void updateQssStyles(const QList<QWidget*> &ws);
 
-    /**
-     * @brief clearLayout：清除layout下的所有布局和窗口
-     * @param layout：要清除的布局器
-     * @param bDelWidget：是否删除窗口
-     * @param ignoreDelLys：不删除的布局器
-     * @return 返回布局器中的widget
-     */
+    /// @brief 清除layout下的所有布局和窗口
+    /// @param layout：要清除的布局器
+    /// @param bDelWidget：是否删除窗口
+    /// @param ignoreDelLys：不删除的布局器
+    /// @return 返回布局器中的widget
     static QList<QWidget*> clearLayout(
             QLayout *layout, bool bDelWidget = true,
             const QList<QLayout*> &ignoreDelLys = {});
 
-    /**
-     * @brief layoutWidgets：返回布局器全部窗口
-     * @param layout
-     * @return
-     */
+    /// 返回布局器全部窗口
     static QList<QWidget*> layoutWidgets(QLayout *layout);
 
-    /**
-     * @brief paintEventQssStyleEx：如果qss样式不生效，需要在paintEvent事件中调用此函数
-     * @param widget：窗口句柄
-     */
+    /// 如果qss样式不生效，需要在paintEvent事件中调用此函数
     static void paintEventQssStyleReset(QWidget *w);
 
-    /**
-     * @brief posAtTopWidget：w相对于最顶层父类topw的位置
-     * @param w
-     * @param topw
-     * @return
-     */
+    /// @brief w相对于最顶层父类topw的位置
     static QPoint posAtTopWidget(QWidget *w, QWidget **topw = nullptr);
 
-    /**
-     * @brief hideRetainSize：隐藏窗口时保留大小
-     * @param w
-     */
+    /// @brief 隐藏窗口时保留大小
     static void hideRetainSize(QWidget *w);
 
-    /**
-     * @brief setButtonFocus：设置按钮焦点
-     * @param btn
-     */
+    /// @brief 设置按钮焦点
     static void setButtonFocus(QAbstractButton *btn,
         const QList<QKeySequence> &keySequences = {
             QKeySequence::InsertParagraphSeparator,
             Qt::Key_Enter, Qt::Key_Return});
+
+    /// @brief 删除layout的item
+    static void layoutDestroyItemAt(QLayout *ly, int index);
 };
 
 #endif // QHWIDGETUTIL_H

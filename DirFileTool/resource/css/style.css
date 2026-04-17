@@ -1,0 +1,36 @@
+﻿QhBasePopup { qproperty-pTitleIconSize: 16px 16px; }
+QhBasePopup #LabelIcon { image: url(:/resource/app.svg); }
+
+HomeUi { background: #FFFFFF; }
+
+DirToolUi QScrollArea,
+DirToolUi QScrollArea .QWidget { border: none; background: transparent; }
+
+DirToolGroupUi { background: #F0F0F0; }
+
+#TreeDirGroupItemUi { background: #D1E4EC; }
+#TreeDirGroupDirItemUi { background: #FBFBFB; border-top: 1px solid #F0F0F0; }
+
+#TreeDirGroupItemUi QPushButton,
+#TreeDirGroupDirItemUi QPushButton {
+    border-radius: 2px; padding: 4px;
+    border: none; background: transparent;
+}
+
+#TreeDirGroupDirItemUi #pushButtonEdit,
+#TreeDirGroupItemUi #pushButtonEdit { border: 1px solid #169BD5; color: #169BD5; }
+#TreeDirGroupDirItemUi #pushButtonDel,
+#TreeDirGroupItemUi #pushButtonDel { border: 1px solid #D83434; color: #D83434; }
+#TreeDirGroupDirItemUi #pushButtonOpen,
+#TreeDirGroupItemUi #pushButtonOpen { border: 1px solid #FA9100; color: #FA9100; }
+#TreeDirGroupItemUi #pushButtonAdd { border: 1px solid #47812C; color: #47812C; }
+
+#TreeDirGroupItemUi QPushButton:hover,
+#TreeDirGroupDirItemUi QPushButton:hover { border-radius: 2px; background: #F0F0F0; }
+
+/*
+#TreeDirGroupItemUi #pushButtonAdd #IconLeft { image: url(:/resource/img/mkdir.svg); }
+#TreeDirGroupItemUi #pushButtonDel #IconLeft { image: url(:/resource/img/delete.svg); }
+#TreeDirGroupItemUi #pushButtonEdit #IconLeft { image: url(:/resource/img/edit.svg); }
+#TreeDirGroupItemUi #pushButtonOpen #IconLeft { image: url(:/resource/img/open_dir.svg); }
+*/

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dir_group>
+    <!-- 插入语句 -->
+    <insert>
+        <add des="插入目录组">INSERT INTO dir_group (parent_id, name, sort, description) 
+            VALUES (:parent_id, :name, :sort, :description)</add>
+    </insert>
+
+    <!-- 查询sql语句 -->
+    <select>
+        <query des="查询所有目录组">SELECT * FROM dir_group</query>
+    </select>
+
+    <!-- 更新语句 -->
+    <update>
+        <modify des="更新目录组">UPDATE dir_group SET parent_id = :parent_id, name = :name, sort = :sort, description = :description WHERE id = :id</modify>    
+    </update>
+
+    <!-- 删除语句 -->
+    <delete>
+        <remove des="删除目录组">DELETE FROM dir_group WHERE id = :id</remove>
+    </delete> 
+</dir_group>

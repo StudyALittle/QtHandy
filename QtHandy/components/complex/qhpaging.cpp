@@ -53,9 +53,7 @@ void QhPaging::setPageSizeList(const QList<QPair<int, QString> > &lists)
                 d->pageSizeList.at(oldIndex).first : -1;
 
     d->pageSizeList = lists;
-    while (d->comboxPageSize->count()) {
-        d->comboxPageSize->removeItem(0);
-    }
+    d->comboxPageSize->clearItems();
 
     int newIndex = 0;
     QStringList labels;

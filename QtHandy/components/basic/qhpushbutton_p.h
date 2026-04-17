@@ -2,36 +2,31 @@
 #define QHPUSHBUTTON_P_H
 
 #include <QMap>
+#include <QLabel>
 #include "qhpushbutton.h"
 #include "qhqss.h"
 
-class QhPushButtonPrivate: public QObject
+class QhPushButtonPrivate : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QhPushButtonPrivate)
 
 public:
-    explicit QhPushButtonPrivate(QhPushButton *p);
+    QhPushButtonPrivate(QhPushButton *p);
 
-    /// Is it image mode.
-    /// When it is false, all the following parameters are invalid
-    bool bImageMode = false;
-
-    /// Qss style parse
-    QhQss *handyQss = nullptr;
-
-    /// text
     QString text;
+    QString attachState;
 
-    void init();
-    void qssReloaded();
+    bool bImageMode = false;
+    QWidget *labelIconLeft = nullptr;
+    QhLabel *labelText = nullptr;
+    QWidget *labelIconRight = nullptr;
 
+    void init(QWidget *labelIconLeft, QWidget *labelIconRight);
     QhQss::PseudoState currentState(QStyleOptionButton &option);
-    void resize(QStyleOptionButton &option);
-    void draw(QPainter *p, QStyleOptionButton &option);
 
 private:
-    QhPushButton *ptr;
+    QhPushButton *p = nullptr;
 };
 
 #endif // QHPUSHBUTTON_P_H

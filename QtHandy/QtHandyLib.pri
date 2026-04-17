@@ -3,6 +3,7 @@ QT += gui widgets network svg
 INCLUDEPATH += $$PWD
 INCLUDEPATH += $$PWD/core
 INCLUDEPATH += $$PWD/core/logger
+INCLUDEPATH += $$PWD/core/database
 INCLUDEPATH += $$PWD/components
 INCLUDEPATH += $$PWD/components/style
 INCLUDEPATH += $$PWD/components/framelesswindow

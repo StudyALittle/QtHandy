@@ -196,3 +196,12 @@ void QhWidgetUtil::setButtonFocus(QAbstractButton *btn, const QList<QKeySequence
     foreach (auto key, keySequences)
         btn->setShortcut(key);
 }
+
+void QhWidgetUtil::layoutDestroyItemAt(QLayout *ly, int index)
+{
+    auto *item = ly->itemAt(index);
+    if (item) {
+        ly->removeItem(item);
+        delete item;
+    }
+}

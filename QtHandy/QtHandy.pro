@@ -5,6 +5,17 @@ DEFINES += QTHANDY_LIBRARY
 
 CONFIG += c++11
 
+# 无边框依赖
+unix: !macx {
+    QT += x11extras
+    LIBS += -lX11 -lXext
+    # -lXi
+    #-lxcb-xinput (只需要头文件的结构体)
+}
+macx {
+    LIBS += -framework AppKit
+}
+
 include($$PWD/../Global.pri)
 
 # mode QCustomplot
@@ -35,10 +46,10 @@ INCLUDEPATH += $$PWD/util
 SOURCES += \
     components/basic/qhcheckbox.cpp \
     components/basic/qhcombobox.cpp \
-    components/basic/qhimagebutton.cpp \
     components/basic/qhlabel.cpp \
     components/basic/qhlineedit.cpp \
     components/basic/qhlineeditdatetime.cpp \
+    components/basic/qhloadingbutton.cpp \
     components/basic/qhprogressbar.cpp \
     components/basic/qhpushbutton.cpp \
     components/basic/qhradiobutton.cpp \
@@ -57,6 +68,7 @@ SOURCES += \
     components/customized/qhbasepopupcontent.cpp \
     components/customized/qhloading.cpp \
     components/customized/qhmessagebox.cpp \
+    components/customized/qhspin.cpp \
     components/framelesswindow/qhframelesswindow.cpp \
     components/framelesswindow/qhframelesswindow_unix.cpp \
     components/framelesswindow/qhframelesswindow_windows.cpp \
@@ -67,8 +79,8 @@ SOURCES += \
     components/style/qhqss.cpp \
     components/style/qhqssmanager.cpp \
     components/style/qhqssparser.cpp \
-    core/datebase/qhdatabase.cpp \
-    core/datebase/qhsqltemplate.cpp \
+    core/database/qhdatabase.cpp \
+    core/database/qhsqltemplate.cpp \
     core/logger/qhlogger.cpp \
     core/logger/qhloggerfileappender.cpp \
     core/qhsingletonprocess.cpp \
@@ -84,14 +96,14 @@ HEADERS += \
     components/basic/qhcheckbox_p.h \
     components/basic/qhcombobox.h \
     components/basic/qhcombobox_p.h \
-    components/basic/qhimagebutton.h \
-    components/basic/qhimagebutton_p.h \
     components/basic/qhlabel.h \
     components/basic/qhlabel_p.h \
     components/basic/qhlineedit.h \
     components/basic/qhlineedit_p.h \
     components/basic/qhlineeditdatetime.h \
     components/basic/qhlineeditdatetime_p.h \
+    components/basic/qhloadingbutton.h \
+    components/basic/qhloadingbutton_p.h \
     components/basic/qhprogressbar.h \
     components/basic/qhpushbutton.h \
     components/basic/qhpushbutton_p.h \
@@ -121,6 +133,8 @@ HEADERS += \
     components/customized/qhloading_p.h \
     components/customized/qhmessagebox.h \
     components/customized/qhmessagebox_p.h \
+    components/customized/qhspin.h \
+    components/customized/qhspin_p.h \
     components/framelesswindow/qhframelesswindow.h \
     components/framelesswindow/qhframelesswindow_p.h \
     components/framelesswindow/qhwidgetmoveresize.h \
@@ -135,10 +149,10 @@ HEADERS += \
     components/style/qhqss_p.h \
     components/style/qhqssmanager.h \
     components/style/qhqssparser.h \
-    core/datebase/qhdatabase.h \
-    core/datebase/qhdatabase_p.h \
-    core/datebase/qhsqltemplate.h \
-    core/datebase/qhsqltemplate_p.h \
+    core/database/qhdatabase.h \
+    core/database/qhdatabase_p.h \
+    core/database/qhsqltemplate.h \
+    core/database/qhsqltemplate_p.h \
     core/logger/qhlogger.h \
     core/logger/qhlogger_p.h \
     core/logger/qhloggerfileappender.h \

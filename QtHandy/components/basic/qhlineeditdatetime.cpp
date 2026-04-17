@@ -1,6 +1,7 @@
 ﻿#include "qhlineeditdatetime.h"
 #include "qhlineeditdatetime_p.h"
 #include <QLayout>
+#include "qhwidgetutil.h"
 
 QhLineEditDateTime::QhLineEditDateTime(Type type, QWidget *parent):
     QhLineEdit(parent), d(new QhLineEditDateTimePrivate(this))
@@ -142,7 +143,7 @@ void QhLineEditDateTimePrivate::init()
         cly->setSpacing(0);
 
         auto *mly = static_cast<QHBoxLayout*>(ptr->layout());
-        mly->removeItem(mly->itemAt(1));
+        QhWidgetUtil::layoutDestroyItemAt(mly, 1);
         mly->insertLayout(1, cly, 1);
         break;
     }

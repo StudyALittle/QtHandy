@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/sql/table.sql</file>
+        <file>resource/sql/dir_group.xml</file>
+        <file>resource/sql/dir_group_dir.xml</file>
+        <file>resource/sql/dir_group.sql</file>
+        <file>resource/sql/dir_group_dir.sql</file>
+        <file>resource/css/style.css</file>
+        <file>resource/img/mkdir.svg</file>
+        <file>resource/img/open_dir.svg</file>
+        <file>resource/img/delete.svg</file>
+        <file>resource/img/edit.svg</file>
+        <file>resource/app.png</file>
+        <file>resource/app.svg</file>
+        <file>resource/app.ico</file>
+    </qresource>
+</RCC>

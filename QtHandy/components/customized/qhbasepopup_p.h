@@ -12,7 +12,7 @@
 
 #pragma execution_character_set("utf-8")
 
-class QhBasePopupPrivate: public QObject
+class QhBasePopupPrivate : public QObject
 {
     Q_OBJECT
 
@@ -20,8 +20,9 @@ class QhBasePopupPrivate: public QObject
     Q_DECLARE_PUBLIC(QhBasePopup)
 
 public:
-    QhBasePopupPrivate(QhBasePopup *q):
-        q_ptr(q) {}
+    QhBasePopupPrivate(QhBasePopup *q) : q_ptr(q)
+    {
+    }
 
     bool bBasePopupContent = false;
     QWidget *widgetTitle = nullptr;
@@ -92,12 +93,22 @@ public:
     void setWidgetContent(QWidget *w)
     {
         widgetContent = w;
-        static_cast<QVBoxLayout*>(q_ptr->layout())->insertWidget(1, w, 1);
+        static_cast<QVBoxLayout *>(q_ptr->layout())->insertWidget(1, w, 1);
+
+        connect(w, &QWidget::destroyed, this, [this](QObject *obj) {
+            if (obj != widgetContent)
+                return;
+
+            if (widgetContent) {
+                widgetContent->setParent(nullptr);
+                widgetContent = nullptr;
+            }
+        });
     }
     void setWidgetContent(QhBasePopupContent *w)
     {
         bBasePopupContent = true;
-        setWidgetContent((QWidget*)w);
+        setWidgetContent((QWidget *)w);
     }
 
     void setWidgetTitleSpace(int space)
@@ -122,24 +133,19 @@ public:
 
     QhBasePopup *const q_ptr;
     QhBasePopup::Buttons buttons =
-        static_cast<QhBasePopup::Buttons>(
-            QhBasePopup::ButtonOk |
-            QhBasePopup::ButtonCancel |
-            QhBasePopup::ButtonClose);
+        static_cast<QhBasePopup::Buttons>(QhBasePopup::ButtonOk | QhBasePopup::ButtonCancel | QhBasePopup::ButtonClose);
 
     QhBasePopup::Button closedButton;
 
     QhBasePopupContent *widgetBaseContent()
     {
-        return (bBasePopupContent && widgetContent) ?
-            static_cast<QhBasePopupContent*>(widgetContent) : nullptr;
+        return (bBasePopupContent && widgetContent) ? static_cast<QhBasePopupContent *>(widgetContent) : nullptr;
     }
 
 protected slots:
     void onOkButtonClicked()
     {
-        if (q_ptr->afterButtonOk() &&
-                (!widgetBaseContent() || widgetBaseContent()->afterButtonOk())) {
+        if (q_ptr->afterButtonOk() && (!widgetBaseContent() || widgetBaseContent()->afterButtonOk())) {
             closedButton = QhBasePopup::ButtonOk;
             q_ptr->accept();
         }
@@ -147,8 +153,7 @@ protected slots:
 
     void onCancelButtonClicked()
     {
-        if (q_ptr->afterButtonCancel() &&
-                (!widgetBaseContent() || widgetBaseContent()->afterButtonCancel())) {
+        if (q_ptr->afterButtonCancel() && (!widgetBaseContent() || widgetBaseContent()->afterButtonCancel())) {
             closedButton = QhBasePopup::ButtonCancel;
             q_ptr->reject();
         }
@@ -156,8 +161,7 @@ protected slots:
 
     void onCloseButtonClicked()
     {
-        if (q_ptr->afterButtonClose() &&
-                (!widgetBaseContent() || widgetBaseContent()->afterButtonClose())) {
+        if (q_ptr->afterButtonClose() && (!widgetBaseContent() || widgetBaseContent()->afterButtonClose())) {
             closedButton = QhBasePopup::ButtonClose;
             q_ptr->reject();
         }

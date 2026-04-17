@@ -2,16 +2,13 @@
 #include "qhbasepopup_p.h"
 #include "qhqss.h"
 
-QhBasePopup::QhBasePopup(QWidget *parent):
-    QhFramelessDialog(parent),
-    d(new QhBasePopupPrivate(this))
+QhBasePopup::QhBasePopup(QWidget *parent) : QhFramelessDialog(parent), d(new QhBasePopupPrivate(this))
 {
     d->init();
 }
 
-QhBasePopup::QhBasePopup(const QString &title, QWidget *parent):
-    QhFramelessDialog(parent),
-    d(new QhBasePopupPrivate(this))
+QhBasePopup::QhBasePopup(const QString &title, QWidget *parent) :
+    QhFramelessDialog(parent), d(new QhBasePopupPrivate(this))
 {
     d->init();
     setTitle(title);
@@ -19,16 +16,20 @@ QhBasePopup::QhBasePopup(const QString &title, QWidget *parent):
 
 QhBasePopup::~QhBasePopup()
 {
-
+    takeContentWidget();
 }
 
 QPushButton *QhBasePopup::button(Button btn) const
 {
     switch (btn) {
-    case ButtonOk:      return d->buttonOk;
-    case ButtonCancel:  return d->buttonCancel;
-    case ButtonClose:   return d->buttonClose;
-    default: return nullptr;
+    case ButtonOk:
+        return d->buttonOk;
+    case ButtonCancel:
+        return d->buttonCancel;
+    case ButtonClose:
+        return d->buttonClose;
+    default:
+        return nullptr;
     }
 }
 
@@ -106,7 +107,7 @@ void QhBasePopup::setButtonsEnable(Buttons btns, bool enable)
 }
 
 void QhBasePopup::setButtonEnable(Button btn, bool enable)
-{    
+{
     auto *pbtn = button(btn);
     if (pbtn)
         pbtn->setEnabled(enable);
@@ -166,6 +167,16 @@ QString QhBasePopup::getWidgetButtonsMargins() const
 void QhBasePopup::setWidgetButtonsMargins(const QString &mgs)
 {
     d->setWidgetButtonsMargins(QhQss::stringToMargins(mgs));
+}
+
+void QhBasePopup::setTitleIconSize(const QSize &size)
+{
+    d->labelIcon->setFixedSize(size);
+}
+
+QSize QhBasePopup::getTitleIconSize() const
+{
+    return d->labelIcon->size();
 }
 
 bool QhBasePopup::afterButtonOk()
