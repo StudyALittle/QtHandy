@@ -1,10 +1,13 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class Widget; }
+namespace Ui
+{
+class Widget;
+}
 QT_END_NAMESPACE
 
 class Widget : public QWidget
@@ -14,6 +17,9 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
+
+private slots:
+    void on_pushButtonProgressBar_clicked();
 
 private:
     Ui::Widget *ui;

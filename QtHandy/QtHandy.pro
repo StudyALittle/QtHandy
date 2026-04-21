@@ -105,6 +105,7 @@ HEADERS += \
     components/basic/qhloadingbutton.h \
     components/basic/qhloadingbutton_p.h \
     components/basic/qhprogressbar.h \
+	components/basic/qhprogressbar_p.h \
     components/basic/qhpushbutton.h \
     components/basic/qhpushbutton_p.h \
     components/basic/qhradiobutton.h \
