@@ -1,0 +1,42 @@
+﻿/*QhTimePicker*/
+QhTimePicker { background: white; }
+QhTimePicker #WidgetTime { border-bottom: 1px solid #F0F0F0; }
+QhTimePicker #LabelCenterLine { background: #F0F0F0; }
+QhTimePicker #ButtonCancel,
+QhTimePicker #ButtonOk,
+QhTimePicker #ButtonCurrentTime,
+QhTimePicker #ButtonTime { border: none; }
+QhTimePicker #ButtonTime:checked { color: blue; }
+
+QhTimePicker #ButtonOk,
+QhTimePicker #ButtonCurrentTime { color: blue; }
+
+/*QhDatePicker*/
+QhDatePicker { background: white; }
+
+QhDatePicker #WidgetTopYearMonth { border-bottom: 1px solid #F0F0F0; }
+
+QhDatePicker #ButtonPreYear,
+QhDatePicker #ButtonPreMonth,
+QhDatePicker #ButtonNextYear,
+QhDatePicker #ButtonNextMonth,
+QhDatePicker #LButtonYear,
+QhDatePicker #LButtonMonth,
+QhDatePicker #ButtonYear,
+QhDatePicker #ButtonMonth,
+QhDatePicker #ButtonWeek,
+QhDatePicker #ButtonDay { border: none; color: black; }
+QhDatePicker #ButtonDay:checked {background: blue; color: white; }
+QhDatePicker #ButtonDay[qstate="daterange"] {background: #F0F0F0; color: black;}
+
+QhDatePicker #LButtonYear,
+QhDatePicker #LButtonMonth { font-weight: 700; }
+
+QhDatePicker #LButtonYear:hover,
+QhDatePicker #LButtonMonth:hover,
+QhDatePicker #ButtonPreYear:hover,
+QhDatePicker #ButtonPreMonth:hover,
+QhDatePicker #ButtonNextYear:hover,
+QhDatePicker #ButtonNextMonth:hover { color: blue; }
+
+QhDatePicker #ButtonDay:disabled { color: gray; }

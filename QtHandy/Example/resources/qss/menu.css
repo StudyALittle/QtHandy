@@ -1,0 +1,107 @@
+﻿#NavButtonL1,
+#NavButtonL2
+{
+    border: 1px solid gray;
+    border-radius: 6px;
+    background: white;
+    padding: 6px 12px 6px 12px;
+    color: black;
+}
+
+#NavButtonL1 #IconPopup,
+#NavButtonL1 #IconNavbar,
+#NavButtonL1 #IconButton,
+#NavButtonL1 #IconLabel,
+#NavButtonL1 #Icon,
+#NavButtonL1 #IconRight
+{
+    min-width: 18px; max-width: 18px;
+    min-height: 18px; max-height: 18px;
+}
+#NavButtonL1 #IconPopup
+{
+    image: url(:/resources/imgs/menu/popup.svg);
+}
+#NavButtonL1 #IconNavbar
+{
+    image: url(:/resources/imgs/menu/navbar.svg);
+}
+/*[左侧图标]图标正常颜色*/
+#NavButtonL1 #IconButton
+{
+    image: url(:/resources/imgs/menu/button.svg);
+}
+/*[左侧图标]鼠标移入图标颜色*/
+#NavButtonL1 #IconButton[qstate="hover"],
+#NavButtonL1 #IconButton[qstate="hover-expand"]
+{
+    image: url(:/resources/imgs/menu/button_hover.svg);
+}
+/*[左侧图标]选中时图标颜色*/
+#NavButtonL1 #IconButton[qstate="hover-checked"],
+#NavButtonL1 #IconButton[qstate="pressed-checked"],
+#NavButtonL1 #IconButton[qstate="disable-checked"],
+#NavButtonL1 #IconButton[qstate="checked"]
+{
+    image: url(:/resources/imgs/menu/button_checked.svg);
+}
+/*[左侧图标]图标正常颜色*/
+#NavButtonL1 #IconLabel
+{
+    image: url(:/resources/imgs/menu/label.svg);
+}
+/*[左侧图标]鼠标移入图标颜色*/
+#NavButtonL1 #IconLabel[qstate="hover"],
+#NavButtonL1 #IconLabel[qstate="hover-expand"]
+{
+    image: url(:/resources/imgs/menu/label_hover.svg);
+}
+/*[左侧图标]选中时图标颜色*/
+#NavButtonL1 #IconLabel[qstate="hover-checked"],
+#NavButtonL1 #IconLabel[qstate="pressed-checked"],
+#NavButtonL1 #IconLabel[qstate="disable-checked"],
+#NavButtonL1 #IconLabel[qstate="checked"]
+{
+    image: url(:/resources/imgs/menu/label_checked.svg);
+}
+#NavButtonL1 #Icon
+{
+    image: url(:/resources/imgs/menu/label.svg);
+}
+
+/*按钮选中时文本颜色*/
+#NavButtonL1 #LabelText[qstate="hover-checked"],
+#NavButtonL1 #LabelText[qstate="pressed-checked"],
+#NavButtonL1 #LabelText[qstate="disable-checked"],
+#NavButtonL1 #LabelText[qstate="checked"],
+#NavButtonL2[qstate="checked"]
+{
+    color: blue;
+}
+/*鼠标移入时文本颜色*/
+#NavButtonL1 #LabelText[qstate="hover"],
+#NavButtonL1 #LabelText[qstate="hover-expand"],
+#NavButtonL2[qstate="hover"]
+{
+    color: green;
+}
+
+/*[右侧图标]*/
+#NavButtonL1 #IconRight
+{
+    image: url(:/resources/imgs/menu/right_up.svg);
+}
+#NavButtonL1 #IconRight[qstate="pressed-checked"],
+#NavButtonL1 #IconRight[qstate="hover-checked"],
+#NavButtonL1 #IconRight[qstate="disable-checked"],
+#NavButtonL1 #IconRight[qstate="checked"]
+{
+    image: url(:/resources/imgs/menu/right_down.svg);
+}
+#NavButtonL1 #IconRight[qstate="pressed-expand"],
+#NavButtonL1 #IconRight[qstate="hover-expand"],
+#NavButtonL1 #IconRight[qstate="disable-expand"],
+#NavButtonL1 #IconRight[qstate="expand"]
+{
+    image: url(:/resources/imgs/menu/right_down.svg);
+}

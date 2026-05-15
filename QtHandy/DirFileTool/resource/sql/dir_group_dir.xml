@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dir_group_dir>
+    <!-- 插入语句 -->
+    <insert>
+        <add des="插入目录组与目录关系">INSERT INTO dir_group_dir (group_id, dir_path, sort, name, description) 
+            VALUES (:group_id, :dir_path, :sort, :name, :description)</add>
+    </insert>
+
+    <!-- 查询sql语句 -->
+    <select>
+        <query des="查询目录组与目录关系">SELECT * FROM dir_group_dir</query>
+    </select>
+
+    <!-- 更新语句 -->
+    <update>
+        <modify des="更新目录组与目录关系">UPDATE dir_group_dir 
+            SET group_id = :group_id, dir_path = :dir_path, 
+            sort = :sort, name = :name, description = :description WHERE id = :id</modify>
+    </update>
+
+    <!-- 删除语句 -->
+    <delete>
+        <removeById des="删除目录组与目录关系">DELETE FROM dir_group_dir WHERE id = :id</removeById>
+        <removeByGroupId des="根据目录组ID删除与目录关系">DELETE FROM dir_group_dir WHERE group_id = :group_id</removeByGroupId>
+    </delete>
+</dir_group_dir>
