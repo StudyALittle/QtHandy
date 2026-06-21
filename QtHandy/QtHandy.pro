@@ -62,10 +62,14 @@ SOURCES += \
     components/complex/qhdatepicker.cpp \
     components/complex/qhdatetimepicker.cpp \
     components/complex/qhfloating.cpp \
+    components/complex/qhheaderview.cpp \
+    components/complex/qhheaderviewitem.cpp \
     components/complex/qhnavbar.cpp \
     components/complex/qhnavbaritem.cpp \
     components/complex/qhnavbarproxy.cpp \
     components/complex/qhpaging.cpp \
+    components/complex/qhtablewidget.cpp \
+    components/complex/qhtablewidgetitem.cpp \
     components/complex/qhtimepicker.cpp \
     components/customized/qhbasepopup.cpp \
     components/customized/qhbasepopupcontent.cpp \
@@ -129,12 +133,18 @@ HEADERS += \
     components/complex/qhdatetimepicker_p.h \
     components/complex/qhfloating.h \
     components/complex/qhfloating_p.h \
+    components/complex/qhheaderview.h \
+    components/complex/qhheaderview_p.h \
+    components/complex/qhheaderviewitem.h \
     components/complex/qhnavbar.h \
     components/complex/qhnavbar_p.h \
     components/complex/qhnavbaritem.h \
     components/complex/qhnavbarproxy.h \
     components/complex/qhpaging.h \
     components/complex/qhpaging_p.h \
+    components/complex/qhtablewidget.h \
+    components/complex/qhtablewidget_p.h \
+    components/complex/qhtablewidgetitem.h \
     components/complex/qhtimepicker.h \
     components/complex/qhtimepicker_p.h \
     components/customized/qhbasepopup.h \

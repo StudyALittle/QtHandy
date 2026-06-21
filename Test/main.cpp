@@ -4,6 +4,7 @@
 #include <qhdtwrapper.h>
 #include "widget.h"
 #include "qsstest.h"
+#include "testwidgettable.h"
 
 int main(int argc, char *argv[])
 {
@@ -38,8 +39,11 @@ int main(int argc, char *argv[])
         qDebug() << "PData 5 value: " << *(pd5.value());
     }
 
-#if 1
+#if 0
     Widget w;
+    w.show();
+#elif 1
+    TestWidgetTable w;
     w.show();
 #else
     QhRadarChart cw;

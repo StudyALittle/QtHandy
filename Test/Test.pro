@@ -10,10 +10,12 @@ include($$PWD/../QtHandy/QtHandyLib.pri)
 SOURCES += \
     main.cpp \
     qsstest.cpp \
+    testwidgettable.cpp \
     widget.cpp
 
 HEADERS += \
     qsstest.h \
+    testwidgettable.h \
     widget.h
 
 FORMS += \
