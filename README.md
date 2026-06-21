@@ -25,6 +25,7 @@
 | 窗口组件 | QhLineEdit [示例图](#UI_LINEEDIT)                                  | **行编辑器**（支持图标、输入校验、输入长度限制等）                                                                              | 完成               |
 | 窗口组件 | QhLineEditDateTime [示例图](#UI_DATETIME)                          | **日期时间行编辑器**                                                                                             | 完成               |
 | 窗口组件 | QhProgressBar [示例图](#UI_PROGRESSBAR)                            | **进度条**（支持水平线性、圆形、仪表盘进度条）                                                                                | 完成               |
+| 窗口组件 | QhTableWidget                                                     | **表格**（支持复选框、表头控件定制等）                                                                                | <mark>进行中</mark>               |
 | 窗口组件 | QhDateTimePicker [示例图](#UI_DATETIME)                            | **日志时间选择器控件**                                                                                            | 完成               |
 | 窗口组件 | QhTimePicker [示例图](#UI_PAGING)                                  | **时间选择器控件**                                                                                              | 完成               |
 | 窗口组件 | QhRadarChart [示例图](#UI_RADARCHART)                              | **雷达图**（目前主要支持数据分布样式）                                                                                    | 完成               |
