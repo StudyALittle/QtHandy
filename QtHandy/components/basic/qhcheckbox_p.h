@@ -12,6 +12,7 @@ public:
     explicit QhCheckBoxPrivate() {}
 
     bool bLockState = false;
+    bool bSelectOutsideText = false; // 在文本外是否能选中
 };
 
 #endif // QHCHECKBOX_P_H

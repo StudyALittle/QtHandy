@@ -1,4 +1,4 @@
-#ifndef QHMACRO_H
+﻿#ifndef QHMACRO_H
 #define QHMACRO_H
 
 #include <QObject>
@@ -13,6 +13,10 @@ private:                              \
     Q_PROPERTY(TYPE p##M READ get##M WRITE set##M NOTIFY p##M##Changed) \
 public:                                                                 \
     Q_SIGNAL void p##M##Changed();
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 // delete object
 #define DELETE_OBJECT(Obj) \

@@ -1,6 +1,7 @@
 ﻿#ifndef QHPROGRESSBAR_P_H
 #define QHPROGRESSBAR_P_H
 
+#include <QPen>
 #include "qhprogressbar.h"
 
 class QhProgressBarPrivate : public QObject
@@ -12,12 +13,34 @@ public:
     QhProgressBarPrivate(QhProgressBar *p);
     ~QhProgressBarPrivate();
 
-    bool bRoundedCorner = false;
-    QColor background = QColor(0x12, 0x57, 0x60);
-    QColor chunkBackground = QColor(0x32, 0xE7, 0xFF);
+    QhProgressBar::Type type = QhProgressBar::Default;
+    QhProgressBar::TextAlign textAlign = QhProgressBar::AlignFollowText;
+
+    QColor background = QColor(0x12, 0x57, 0x60);         // 进度条背景颜色
+    QColor chunkBackground = QColor(0x32, 0xE7, 0xFF);    // 进度条进度颜色
+    QVector<QhProgressBar::GradientItem> gradients;       // 渐变色
+    Qt::Orientation gradientOrientation = Qt::Horizontal; // 渐变色方向（线性有效）
+
+    qreal circleMinWidth = 6;       // 圆环最小宽度
+    qreal circleMaxWidth = 48;      // 圆环最大宽度
+    qreal circleWidthRatio = 0.15f; // 圆环宽度与圆半径的比例
+
+    QString secondaryText;      // 次要文本（圆环、仪表盘有效）
+    QFont secondaryTextFont;    // 次要文本字体
+    QPen secondaryTextPen;      // 次要文本Pen
+
+    QString fixedText;          // 固定文本
+
+    void drawLine(QPainter &p);
+
+    qreal calculateCircularRingWidth(qreal min);
+    void setPen(QPainter &p, const QBrush &brush);
+    void drawCircle(QPainter &p);
+    void drawDashboard(QPainter &p);
+    void drawText(QPainter &p);
 
 private:
-    QhProgressBar *p = nullptr;
+    QhProgressBar *pBar = nullptr;
 };
 
 #endif // QHPROGRESSBAR_P_H

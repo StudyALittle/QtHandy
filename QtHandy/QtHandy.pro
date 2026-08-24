@@ -46,6 +46,7 @@ INCLUDEPATH += $$PWD/util
 SOURCES += \
     components/basic/qhcheckbox.cpp \
     components/basic/qhcombobox.cpp \
+    components/basic/qhflowlayout.cpp \
     components/basic/qhlabel.cpp \
     components/basic/qhlineedit.cpp \
     components/basic/qhlineeditdatetime.cpp \
@@ -56,13 +57,20 @@ SOURCES += \
     components/basic/qhscrollbar.cpp \
     components/basic/qhslider.cpp \
     components/basic/qhtextedit.cpp \
+    components/basic/qhtooltip.cpp \
+    components/chart/qhradarchart.cpp \
     components/complex/qhdatepicker.cpp \
     components/complex/qhdatetimepicker.cpp \
     components/complex/qhfloating.cpp \
+    components/complex/qhheaderview.cpp \
+    components/complex/qhheaderviewitem.cpp \
+    components/complex/qhmcombobox.cpp \
     components/complex/qhnavbar.cpp \
     components/complex/qhnavbaritem.cpp \
     components/complex/qhnavbarproxy.cpp \
     components/complex/qhpaging.cpp \
+    components/complex/qhtablewidget.cpp \
+    components/complex/qhtablewidgetitem.cpp \
     components/complex/qhtimepicker.cpp \
     components/customized/qhbasepopup.cpp \
     components/customized/qhbasepopupcontent.cpp \
@@ -86,6 +94,7 @@ SOURCES += \
     core/qhsingletonprocess.cpp \
     util/qhfileutil.cpp \
     util/qhimageutil.cpp \
+    util/qhmathutil.cpp \
     util/qhutil.cpp \
     util/qhwidgetutil.cpp \
     util/semvertool.cpp
@@ -96,6 +105,8 @@ HEADERS += \
     components/basic/qhcheckbox_p.h \
     components/basic/qhcombobox.h \
     components/basic/qhcombobox_p.h \
+    components/basic/qhflowlayout.h \
+    components/basic/qhflowlayout_p.h \
     components/basic/qhlabel.h \
     components/basic/qhlabel_p.h \
     components/basic/qhlineedit.h \
@@ -113,18 +124,30 @@ HEADERS += \
     components/basic/qhslider.h \
     components/basic/qhtextedit.h \
     components/basic/qhtextedit_p.h \
+    components/basic/qhtooltip.h \
+    components/basic/qhtooltip_p.h \
+    components/chart/qhradarchart.h \
+    components/chart/qhradarchart_p.h \
     components/complex/qhdatepicker.h \
     components/complex/qhdatepicker_p.h \
     components/complex/qhdatetimepicker.h \
     components/complex/qhdatetimepicker_p.h \
     components/complex/qhfloating.h \
     components/complex/qhfloating_p.h \
+    components/complex/qhheaderview.h \
+    components/complex/qhheaderview_p.h \
+    components/complex/qhheaderviewitem.h \
+    components/complex/qhmcombobox.h \
+    components/complex/qhmcombobox_p.h \
     components/complex/qhnavbar.h \
     components/complex/qhnavbar_p.h \
     components/complex/qhnavbaritem.h \
     components/complex/qhnavbarproxy.h \
     components/complex/qhpaging.h \
     components/complex/qhpaging_p.h \
+    components/complex/qhtablewidget.h \
+    components/complex/qhtablewidget_p.h \
+    components/complex/qhtablewidgetitem.h \
     components/complex/qhtimepicker.h \
     components/complex/qhtimepicker_p.h \
     components/customized/qhbasepopup.h \
@@ -165,6 +188,7 @@ HEADERS += \
     qhmacro.h \
     util/qhfileutil.h \
     util/qhimageutil.h \
+    util/qhmathutil.h \
     util/qhutil.h \
     util/qhwidgetutil.h \
     util/semvertool.h

@@ -20,12 +20,19 @@ public:
     /// @brief Set whether to lock the current state
     void setLockState(bool b);
 
+    void setSelectOutsideText(int b);
+
     /// @brief Is the current state locked(default false),
     /// Warning: Only lock the state switching triggered by clicking on the interface
     bool isLockState() const;
 
+    bool isSelectOutsideText() const;
+
 protected:
+    bool hitButton(const QPoint &pos) const override;
+
     void nextCheckState() override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 };
 
 #endif // QHCHECKBOX_H

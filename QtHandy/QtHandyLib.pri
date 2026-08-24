@@ -11,6 +11,7 @@ INCLUDEPATH += $$PWD/components/basic
 INCLUDEPATH += $$PWD/components/complex
 INCLUDEPATH += $$PWD/components/customized
 INCLUDEPATH += $$PWD/components/framework
+INCLUDEPATH += $$PWD/components/chart
 INCLUDEPATH += $$PWD/util
 
 CONFIG(debug, debug|release) {

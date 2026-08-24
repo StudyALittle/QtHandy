@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/qss/QhMComboBox.css</file>
+        <file>resource/image/combobox_up.svg</file>
+    </qresource>
+</RCC>

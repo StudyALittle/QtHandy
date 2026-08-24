@@ -32,9 +32,25 @@ void QhCheckBox::setLockState(bool b)
     d->bLockState = b;
 }
 
+void QhCheckBox::setSelectOutsideText(int b)
+{
+    d->bSelectOutsideText = b;
+}
+
 bool QhCheckBox::isLockState() const
 {
     return d->bLockState;
+}
+
+bool QhCheckBox::isSelectOutsideText() const
+{
+    return d->bSelectOutsideText;
+}
+
+bool QhCheckBox::hitButton(const QPoint &pos) const
+{
+    return d->bSelectOutsideText ?
+        QAbstractButton::hitButton(pos) : QCheckBox::hitButton(pos);
 }
 
 void QhCheckBox::nextCheckState()
@@ -44,3 +60,9 @@ void QhCheckBox::nextCheckState()
 
     QCheckBox::nextCheckState();
 }
+
+void QhCheckBox::mouseReleaseEvent(QMouseEvent *event)
+{
+    QCheckBox::mouseReleaseEvent(event);
+}
+
