@@ -3,8 +3,18 @@
 
 /**
  * @file       Qhpage.h
- * @brief      {文件说明}
- *
+ * @brief      page class
+ * @details    This class represents a page in an application, providing functionality to enter and leave the page,
+ *             whether it is the first time entering the page. 
+ * 
+ * @example    
+ *  class Widget: public QWidget, public QhPage 
+ * {
+ * public:
+ *     void enterPage() override { // do something, such as timer start }
+ *     void leavePage() override { // do something, such as timer stop }
+ * }
+ * 
  * @author     wmz
  * @date       2026/02/28
  * @history
@@ -25,17 +35,20 @@ public:
 
     /// @brief enter page
     virtual void enterPage();
+
     /// @brief leave page
     virtual void leavePage();
 
     /// @brief Time interval since leaving the page(ms)
     qint64 leavePageInterval() const;
+
     /// @brief Time interval for entering the page(ms)
     qint64 enterPageInterval() const;
 
     /// @brief Is this the first time you have entered the page
     bool isFirstEnterPage() const;
 
+    /// @brief Set whether it is the first time entering the page
     void setFirstEnterPage(bool b);
 };
 

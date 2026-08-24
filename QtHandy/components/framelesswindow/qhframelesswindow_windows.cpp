@@ -69,10 +69,11 @@ bool QhFramelessWindowPrivate::nativeEventEx(
                 // 窗口下边框失去1像素对视觉影响最小, 因此底部减少1像素
                 params.rgrc[0].bottom += 1;
             }
-        }
 
-        *result = WVR_REDRAW;
-        return true;
+            *result = WVR_REDRAW;
+            return true;
+        }
+        break;
     }
     case WM_NCLBUTTONDBLCLK:
     case WM_LBUTTONDBLCLK: { // 双击事件

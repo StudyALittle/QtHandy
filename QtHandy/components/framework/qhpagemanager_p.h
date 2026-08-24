@@ -16,6 +16,8 @@ public:
     QStackedWidget *stackedWidget = nullptr;
     QWidget *lastWidget = nullptr;
     QMap<qint64, QWidget*> pages;
+
+    bool bPageSwitchAnim = true;
 };
 
 #endif // QHPAGEMANAGER_P_H

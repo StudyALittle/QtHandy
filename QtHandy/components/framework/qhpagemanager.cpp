@@ -23,6 +23,11 @@ void QhPageManager::setStackedWidget(QStackedWidget *sw)
     d->stackedWidget = sw;
 }
 
+QMap<qint64,QWidget*> QhPageManager::pages() const
+{
+    return d->pages;
+}
+
 QWidget *QhPageManager::enterPage(qint64 id)
 {
     auto *page = getPage(id);
@@ -36,6 +41,7 @@ QWidget *QhPageManager::enterPage(qint64 id)
     if (!page)
         return nullptr;
 
+    auto *lw = d->lastWidget;
     if (d->lastWidget) {
         leavePage(pageID(d->lastWidget));
     }
@@ -43,6 +49,11 @@ QWidget *QhPageManager::enterPage(qint64 id)
     d->lastWidget = page;
     if (d->stackedWidget)
         d->stackedWidget->setCurrentWidget(page);
+
+    if (d->bPageSwitchAnim && lw) {
+        pageSwitchAnim(lw, page);
+    }
+
     dynamic_cast<QhPage*>(page)->enterPage();
 
     return page;
@@ -89,6 +100,20 @@ QWidget *QhPageManager::takePage(qint64 id)
         return page;
     }
     return nullptr;
+}
+
+bool QhPageManager::isPageSwitchAnim() const
+{
+    return d->bPageSwitchAnim;
+}
+
+void QhPageManager::setPageSwitchAnim(bool anim)
+{
+    d->bPageSwitchAnim = anim;
+}
+
+void QhPageManager::pageSwitchAnim(QWidget * leavePage, QWidget * enterPage)
+{
 }
 
 QhPageManagerPrivate::QhPageManagerPrivate()
