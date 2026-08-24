@@ -51,10 +51,10 @@ public:
     /// @brief Get all pages in the page manager
     QMap<qint64, QWidget*> pages() const;
 
-    /// @brief  enter page
+    /// @brief  enter page（click button or other event, call enterPage）
     virtual QWidget *enterPage(qint64 id);
 
-    /// @brief  leave page
+    /// @brief  leave page（can destroy page or other resource）
     virtual void leavePage(qint64 id);
 
     /// @brief Create page window
