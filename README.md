@@ -18,16 +18,17 @@
 
 | 类型   | 名称                                                              | 描述                                                                                                       | 状态               |
 | ---- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------- |
-| 窗口组件 | QhFramelessMainWindow<br>QhFramelessWidget<br>QhFramelessDialog | **无边框窗口**<br>1.拖动拉伸都是系统级别的；<br>2.目前存在部分瑕疵：<br> 1）windows可拉伸时底部会有一个像素的丢失;<br> 2）由于linux版本太多，可能需要更具实际情况调整； | 完成               |
+| 窗口组件 | QhFramelessMainWindow<br>QhFramelessWidget<br>QhFramelessDialog | **无边框窗口**<br>1.拖动拉伸都是系统级别的；<br>2.目前存在部分瑕疵：<br> 1）windows可拉伸时底部会有一个像素的丢失;<br> 2）由于linux版本太多，可能需要更具实际情况调整； | 完成               |
 | 窗口组件 | QhCheckBox                                                      | **复选框**（可以锁住状态，界面点击时不切换状态）                                                                               | 完成               |
 | 窗口组件 | QhComboBox                                                      | **下拉框**（可以限制鼠标滚轮切换值）                                                                                     | 完成               |
-| 窗口组件 | QhLabel [示例图](#UI_LABEL)                                        | **文本标签**（支持换行、省略号显示、必填项符号“*”）                                                                            | 完成               |
+| 窗口组件 | QhLabel [示例图](#UI_LABEL)                                        | **文本标签**（支持换行、省略号显示、必填项符号“*”）                                                                            | 完成               |
 | 窗口组件 | QhLineEdit [示例图](#UI_LINEEDIT)                                  | **行编辑器**（支持图标、输入校验、输入长度限制等）                                                                              | 完成               |
 | 窗口组件 | QhLineEditDateTime [示例图](#UI_DATETIME)                          | **日期时间行编辑器**                                                                                             | 完成               |
 | 窗口组件 | QhProgressBar [示例图](#UI_PROGRESSBAR)                            | **进度条**（支持水平线性、圆形、仪表盘进度条）                                                                                | 完成               |
-| 窗口组件 | QhDateTimePicker [示例图](#UI_DATETIME)                            | **日志时间选择器控件**                                                                                            | 完成               |
-| 窗口组件 | QhTimePicker [示例图](#UI_PAGING)                                  | **时间选择器控件**                                                                                              | 完成               |
-| 窗口组件 | QhRadarChart [示例图](#UI_RADARCHART)                              | **雷达图**（目前主要支持数据分布样式）                                                                                    | 完成               |
+| 窗口组件 | QhTableWidget                                                     | **表格**（支持复选框、表头控件定制等）                                                                                | <mark>进行中</mark>               |
+| 窗口组件 | QhDateTimePicker [示例图](#UI_DATETIME)                            | **日志时间选择器控件**                                                                                            | 完成               |
+| 窗口组件 | QhTimePicker [示例图](#UI_PAGING)                                  | **时间选择器控件**                                                                                              | 完成               |
+| 窗口组件 | QhRadarChart [示例图](#UI_RADARCHART)                              | **雷达图**（目前主要支持数据分布样式）                                                                                    | 完成               |
 | 窗口组件 | QhFloating                                                      | **悬浮窗口**                                                                                                 | 完成               |
 | 窗口组件 | QhNavbar                                                        | **导航栏**                                                                                                  | <mark>进行中</mark> |
 | 窗口组件 | QhBasePopup                                                     | **弹窗基类**（统一弹窗样式）                                                                                         | 完成               |

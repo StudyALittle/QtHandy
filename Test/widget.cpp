@@ -40,6 +40,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent), ui(new Ui::Widget)
         ui->progressBar2->setSecondaryTextPen(pen);
         ui->progressBar2->setSecondaryTextFont(font);
     }
+
     ui->progressBar2->setCircleWidthRatio(0.6f);
     ui->progressBar2->setBackground(QColor(0xF0, 0xF0, 0xF0));
     ui->progressBar2->setChunkBackground(QColor(82, 196, 26));

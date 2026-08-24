@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QtMath>
 #include <QMouseEvent>
+#include <QPainterPath>
 #include <QDebug>
 #include "qhmathutil.h"
 

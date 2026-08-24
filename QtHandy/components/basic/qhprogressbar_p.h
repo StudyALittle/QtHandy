@@ -28,7 +28,6 @@ public:
     QString secondaryText;      // 次要文本（圆环、仪表盘有效）
     QFont secondaryTextFont;    // 次要文本字体
     QPen secondaryTextPen;      // 次要文本Pen
-
     QString fixedText;          // 固定文本
 
     void drawLine(QPainter &p);

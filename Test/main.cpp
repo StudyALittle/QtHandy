@@ -49,6 +49,9 @@ int main(int argc, char *argv[])
 #elif 1
     QhMComboBoxTest w;
     w.show();
+#elif 1
+    TestWidgetTable w;
+    w.show();
 #else
     QhRadarChart cw;
     cw.setData({
