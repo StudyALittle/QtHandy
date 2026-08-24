@@ -51,14 +51,14 @@
 #### 日期时间
 
 示例图(样式可以通过qss修改) <br>
-<img src="Images/datetimepicker.png" title="" alt="logo" width="407">
+<img src="docs/Images/datetimepicker.png" title="" alt="logo" width="407">
 
 <span id="UI_PAGING"></span>
 
 #### 分页控件
 
 示例图(样式可以通过qss修改) <br>
-<img src="Images/paging.png" title="" alt="logo" width="827">
+<img src="docs/Images/paging.png" title="" alt="logo" width="827">
 
 <span id="UI_BASEPOPUP"></span>
 
@@ -66,33 +66,33 @@
 
 使用场景：在项目中，弹窗的基本样式都是一样的，只是内容不一样，使用弹窗基类就可以保证弹窗样式保持一致。<br>
 使用弹窗的几种方式，在Windows、Mac下支持圆角，示例图 <br>
-<img src="Images/basepopup1.png" title="" alt="logo" width="277">
-<img src="Images/basepopup2.png" title="" alt="logo" width="308">
-<img src="Images/basepopup3.png" title="" alt="logo" width="421">
+<img src="docs/Images/basepopup1.png" title="" alt="logo" width="277">
+<img src="docs/Images/basepopup2.png" title="" alt="logo" width="308">
+<img src="docs/Images/basepopup3.png" title="" alt="logo" width="421">
 
 <span id="UI_LABEL"></span>
 
 #### 标签
 
-<img src="Images/label.png" title="" alt="logo" width="447">
+<img src="docs/Images/label.png" title="" alt="logo" width="447">
 
 <span id="UI_LINEEDIT"></span>
 
 #### 行编辑器
 
-<img title="" src="Images/lineedit.png" alt="logo" width="437">
+<img title="" src="docs/Images/lineedit.png" alt="logo" width="437">
 
 <span id="UI_PROGRESSBAR"></span>
 
 #### 进度条
 
-<img src="Images/progressbar.png" title="" alt="logo" width="677">
+<img src="docs/Images/progressbar.png" title="" alt="logo" width="677">
 
 <span id="UI_RADARCHART"></span>
 
 #### 雷达图
 
-<img src="Images/radarchart.png" title="" alt="logo" width="447">
+<img src="docs/Images/radarchart.png" title="" alt="logo" width="447">
 
 ## 使用
 
