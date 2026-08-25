@@ -22,12 +22,14 @@ public:
     QhSingletonProcessPrivate(QhSingletonProcess *q);
     ~QhSingletonProcessPrivate();
 
-    bool start(bool bUserIsolation, const QString &name, int type, const QString &msg);
-    bool start(const QString &name, int type, const QString &msg);
-    void stop();
+    bool bind(bool bUserIsolation, const QString &name);
+    bool bind(const QString &name);
+    void unbind();
+
+    void sendMessage(int type, const QString &data);
 
 signals:
-    void recvMessage(int type, const QString &data);
+    void receivedMessage(int type, const QString &data);
 
 private:
     QhSingletonProcess *const q_ptr;
@@ -44,19 +46,28 @@ class QhSingletonProcessMessage: public QObject
     Q_OBJECT
 
 public:
-    struct MsgItem
+    using QObject::QObject;
+
+    /// @brief request message Item
+    struct RequestMsgItem
     {
         int type;
         QString data;
     };
 
-    using QObject::QObject;
+    /// @brief response message Item
+    struct ResponseMsgItem
+    {
+        int type;       // message type(RequestMsgItem type)
+        int code;       // message code, 0: success, other: failed
+        QString data;   // message data
+    };
 
-    static QByteArray packMsg(const QString &serveName, int type, const QString &data = QString());
-    static MsgItem unpackMsg(const QString &serveName, const QByteArray &msg);
+    static QByteArray packMsg(const QString &serverName, const RequestMsgItem &item);
+    static ResponseMsgItem unpackMsg(const QString &serverName, const QByteArray &msg);
 
 signals:
-    void recvMessage(int type, const QString &data);
+    void receivedMessage(int type, const QString &data);
 };
 
 class QhSingletonProcessServer: public QhSingletonProcessMessage
@@ -67,14 +78,18 @@ public:
     QhSingletonProcessServer(QObject *parent = nullptr);
     ~QhSingletonProcessServer();
 
+    void setServerName(const QString &serveName);
+
     /// @brief 开启服务
     bool startServer(QString serveName);
+
     /// @brief 停止服务
     void stopServer();
 
 private slots:
     /// @brief 新连接
     void onNewConnection();
+
     /// @brief 收到数据
     void onReadyRead();
 
@@ -91,8 +106,14 @@ public:
     QhSingletonProcessClient(QObject *parent = nullptr);
     ~QhSingletonProcessClient();
 
+    void setServerName(const QString &serveName);
+
     /// @brief 发送消息给服务
-    bool sendMessageToServer(QString serveName, int type, const QString &data);
+    ResponseMsgItem sendMessageToServer(const RequestMsgItem &item, int timeout = 2000);
+
+    /// @brief 异步发送消息给服务
+    void sendMessageToServerAsync(const RequestMsgItem &item);
+
     /// @brief 断开连接
     void disconnectFromServer();
 
@@ -108,8 +129,7 @@ private:
     QString m_serveName;
 
     QEventLoop m_eloop;
-    bool m_bRecvAckMsg = false;
-    MsgItem m_sendMsg;
+    ResponseMsgItem m_responseMsg;
     QLocalSocket *m_client = nullptr;
 };
 

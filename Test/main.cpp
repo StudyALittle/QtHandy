@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <qhradarchart.h>
 #include <qhdtwrapper.h>
+#include <qhsingletonprocess.h>
 #include "widget.h"
 #include "qsstest.h"
 #include "testwidgettable.h"
@@ -11,8 +12,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QssTest::testQssParser();
+//    QssTest::testQssParser();
 
+#if 0
     // qhpackdata
     {
         QhDTWrapper<int> pd1;
@@ -39,6 +41,16 @@ int main(int argc, char *argv[])
         qDebug() << "PData 5 isValid: " << pd5.isValid();
         qDebug() << "PData 5 value: " << *(pd5.value());
     }
+#endif
+
+#if 1
+    if (!QhSingletonProcess::instance().bind("test")) {
+        qWarning() << "Process is already running.";
+        QhSingletonProcess::instance().sendMessage(QhSingletonProcess::MT_Activated);
+        QhSingletonProcess::instance().unbind();
+        return 0;
+    }
+#endif
 
 #if 0
     Widget w;
@@ -49,6 +61,15 @@ int main(int argc, char *argv[])
 #elif 1
     QhMComboBoxTest w;
     w.show();
+
+    QObject::connect(&QhSingletonProcess::instance(), &QhSingletonProcess::receivedMessage,
+            [&w](int type, const QString &data) {
+        qDebug() << "Message received:" << type << data;
+        if (type == QhSingletonProcess::MT_Activated) {
+            w.show();
+            w.activateWindow();
+        }
+    });
 #elif 1
     TestWidgetTable w;
     w.show();
@@ -66,5 +87,9 @@ int main(int argc, char *argv[])
     });
     cw.show();
 #endif
-    return a.exec();
+    bool ret = a.exec();
+    QhSingletonProcess::instance().unbind();
+    return ret;
 }
+
+//#include "main.moc"

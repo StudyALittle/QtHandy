@@ -3,27 +3,17 @@
 #include <QTimer>
 #include "util/qhutil.h"
 
-static QhSingletonProcess *g_singletonProcess = nullptr;
-
-QhSingletonProcess *QhSingletonProcess::instance()
+QhSingletonProcess &QhSingletonProcess::instance()
 {
-    if (!g_singletonProcess)
-        g_singletonProcess = new QhSingletonProcess;
+    static QhSingletonProcess g_singletonProcess;
     return g_singletonProcess;
-}
-
-void QhSingletonProcess::delInstance()
-{
-    if (g_singletonProcess)
-        delete g_singletonProcess;
-    g_singletonProcess = nullptr;
 }
 
 QhSingletonProcess::QhSingletonProcess():
     d(new QhSingletonProcessPrivate(this))
 {
-    connect(d.get(), &QhSingletonProcessPrivate::recvMessage,
-            this, &QhSingletonProcess::recvMessage);
+    connect(d.get(), &QhSingletonProcessPrivate::receivedMessage,
+        this, &QhSingletonProcess::receivedMessage);
 }
 
 QhSingletonProcess::~QhSingletonProcess()
@@ -31,19 +21,24 @@ QhSingletonProcess::~QhSingletonProcess()
     unbind();
 }
 
-bool QhSingletonProcess::bind(bool bUserIsolation, const QString &name, EMsgType type, const QString &msg)
+bool QhSingletonProcess::bind(bool bUserIsolation, const QString &name)
 {
-    return d->start(bUserIsolation, name, type, msg);
+    return d->bind(bUserIsolation, name);
 }
 
-bool QhSingletonProcess::bind(const QString &name, EMsgType type, const QString &msg)
+bool QhSingletonProcess::bind(const QString &name)
 {
-    return d->start(name, type, msg);
+    return d->bind(name);
 }
 
 void QhSingletonProcess::unbind()
 {
-    d->stop();
+    d->unbind();
+}
+
+void QhSingletonProcess::sendMessage(MsgType type, const QString &data)
+{
+    d->sendMessage(type, data);
 }
 
 ////////////////////////////// QhSingletonProcessPrivate //////////////////////////////
@@ -53,56 +48,60 @@ QhSingletonProcessPrivate::QhSingletonProcessPrivate(QhSingletonProcess *q):
     m_server = new QhSingletonProcessServer(this);
     m_client = new QhSingletonProcessClient(this);
 
-    connect(m_server, &QhSingletonProcessServer::recvMessage,
-            this, &QhSingletonProcessPrivate::recvMessage);
+    connect(m_server, &QhSingletonProcessServer::receivedMessage,
+            this, &QhSingletonProcessPrivate::receivedMessage);
 }
 
 QhSingletonProcessPrivate::~QhSingletonProcessPrivate()
 {
-    stop();
+    unbind();
 }
 
-bool QhSingletonProcessPrivate::start(bool bUserIsolation, const QString &name, int type, const QString &msg)
+bool QhSingletonProcessPrivate::bind(bool bUserIsolation, const QString &name)
 {
     m_bUserIsolation = bUserIsolation;
-    return start(name, type, msg);
+    return bind(name);
 }
 
-bool QhSingletonProcessPrivate::start(const QString &name, int type, const QString &msg)
+bool QhSingletonProcessPrivate::bind(const QString &name)
 {
-    // 服务标志
+    // server name
     m_serveName = QString("SingletonProcess_%1").arg(name);
     if (m_bUserIsolation) {
         m_serveName.append("_");
         m_serveName.append(QhUtil::systemLoginUserName());
     }
-    // 共享内存
-    if (!m_shareMenory)
-        m_shareMenory = new QSharedMemory(m_serveName);
-    else
-        m_shareMenory->setKey(m_serveName);
 
-    // 共享内存被占用（进程在运行中）
-    if (!m_shareMenory->create(42)
-            && m_shareMenory->error() == QSharedMemory::AlreadyExists) {
-        // 判断进程是否正常
-        bool bCon = m_client->sendMessageToServer(m_serveName, type, msg);
-        if (!bCon) {
-            // 睡眠一会，保证同时启动两个应用时，上一个已经启动成功
+    m_client->setServerName(m_serveName);
+    m_server->setServerName(m_serveName);
+
+    // shared memory
+    if (m_shareMenory)
+        m_shareMenory->setKey(m_serveName);
+    else
+        m_shareMenory = new QSharedMemory(m_serveName, this);
+
+    // shared memory is occupied (process is running)
+    if (!m_shareMenory->create(32) && m_shareMenory->error() == QSharedMemory::AlreadyExists) {
+        // check if the process is normal
+        QhSingletonProcessMessage::RequestMsgItem item{QhSingletonProcess::MT_Confirm, QByteArray()};
+        auto res = m_client->sendMessageToServer(item);
+        if (res.code != 0) {
+            // sleep for a while, ensure that when two applications start at the same time, the previous one has already started successfully
             QEventLoop eloop;
-            QTimer::singleShot(300, [&eloop]() { eloop.exit(); });
+            QTimer::singleShot(300, this, [&eloop]() { eloop.exit(); });
             eloop.exec();
 
-            // 重新尝试连接
-            bCon = m_client->sendMessageToServer(m_serveName, type, msg);
+            // re-try connection
+            res = m_client->sendMessageToServer(item);
         }
 
-        if (!bCon) { // 连接失败 (已经启动的程序异常)
-            // 附加到共享内存
+        if (res.code != 0) { // connection failed (the previous process is abnormal)
+            // attach to shared memory
             m_shareMenory->attach();
-            // 移除之前的服务
+            // remove previous service
             if (QLocalServer::removeServer(m_serveName)) {
-                // 启动服务
+                // start server
                 return m_server->startServer(m_serveName);
             } else {
                 m_shareMenory->deleteLater();
@@ -110,14 +109,14 @@ bool QhSingletonProcessPrivate::start(const QString &name, int type, const QStri
                 return false;
             }
         } else {
-            // 同样的程序还在运行，不能启动当前实例
+            // the same program is still running, cannot start the current instance
             m_shareMenory->deleteLater();
             m_shareMenory = nullptr;
             return false;
         }
     } else {
-        // 未存在相同的进程
-        // 移除之前的服务
+        // no same process exists
+        // remove previous service
         QLocalServer::removeServer(m_serveName);
         return m_server->startServer(m_serveName);
     }
@@ -125,7 +124,7 @@ bool QhSingletonProcessPrivate::start(const QString &name, int type, const QStri
     return true;
 }
 
-void QhSingletonProcessPrivate::stop()
+void QhSingletonProcessPrivate::unbind()
 {
     if (m_shareMenory) {
         m_shareMenory->detach();
@@ -145,6 +144,14 @@ void QhSingletonProcessPrivate::stop()
     m_server = nullptr;
 }
 
+void QhSingletonProcessPrivate::sendMessage(int type, const QString &data)
+{
+    if (m_client) {
+        QhSingletonProcessMessage::RequestMsgItem item{type, data};
+        m_client->sendMessageToServer(item);
+    }
+}
+
 ////////////////////////////// QhSingletonProcessServer //////////////////////////////
 QhSingletonProcessServer::QhSingletonProcessServer(QObject *parent):
     QhSingletonProcessMessage(parent)
@@ -161,21 +168,23 @@ QhSingletonProcessServer::~QhSingletonProcessServer()
     }
 }
 
+void QhSingletonProcessServer::setServerName(const QString & serveName)
+{
+    m_serveName = serveName;
+}
+
 bool QhSingletonProcessServer::startServer(QString serveNam)
 {
     m_serveName = serveNam;
     if (!m_server) {
         m_server = new QLocalServer;
-        connect(m_server, &QLocalServer::newConnection,
-                this, &QhSingletonProcessServer::onNewConnection);
+        connect(m_server, &QLocalServer::newConnection, this, &QhSingletonProcessServer::onNewConnection);
     }
 
     if (m_server->listen(m_serveName)) {
-        // 监听成功
         return true;
     } else {
-        // 监听失败（或许服务已经存在）
-        qWarning() << "SingletonProcess server listen error!";
+        qWarning() << "SingletonProcess server listen error, may be the service is already exist!";
         return false;
     }
 }
@@ -192,29 +201,23 @@ void QhSingletonProcessServer::onNewConnection()
     if (!socket)
         return;
 
-    // 接收信息
-    connect(socket, &QLocalSocket::readyRead,
-            this, &QhSingletonProcessServer::onReadyRead);
-    // 断开链接释放资源
+    // ready read
+    connect(socket, &QLocalSocket::readyRead, this, &QhSingletonProcessServer::onReadyRead);
+    // destory 
     connect(socket, &QLocalSocket::disconnected, [=]() {
         socket->close();
         socket->deleteLater();
     });
-    // 链接错误释放资源
+    // error, destory 
 #if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
     connect(socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error),
-            [=](QLocalSocket::LocalSocketError socketError) {
+            [=](QLocalSocket::LocalSocketError) {
 #else
     connect(socket, &QLocalSocket::errorOccurred, [=](QLocalSocket::LocalSocketError socketError) {
 #endif
         socket->close();
         socket->deleteLater();
     });
-
-    // 回复消息给客户端
-    auto ackMsg = packMsg(m_serveName, QhSingletonProcess::EMsgAck);
-    socket->write(ackMsg);
-    socket->flush();
 }
 
 void QhSingletonProcessServer::onReadyRead()
@@ -226,14 +229,20 @@ void QhSingletonProcessServer::onReadyRead()
     QByteArray data = socket->readAll();
     auto msg = unpackMsg(m_serveName, data);
 
-    // 通信一次就关闭释放资源（短链接）
+    // Reply to the message
+    auto ackMsg = packMsg(m_serveName, 
+        QhSingletonProcessMessage::RequestMsgItem{msg.type, QByteArray()});
+    socket->write(ackMsg);
+    socket->flush();
+
+    // Communication once and close the resource (short connection)
     socket->close();
     socket->deleteLater();
 
-    if (msg.type == QhSingletonProcess::EMsgError)
+    if (msg.code != 0)
         return;
 
-    emit recvMessage(msg.type, msg.data);
+    emit receivedMessage(msg.type, msg.data);
 }
 
 ////////////////////////////// QhSingletonProcessClient //////////////////////////////
@@ -252,42 +261,59 @@ QhSingletonProcessClient::~QhSingletonProcessClient()
     }
 }
 
-bool QhSingletonProcessClient::sendMessageToServer(QString serveName, int type, const QString &data)
+void QhSingletonProcessClient::setServerName(const QString & serveName)
 {
     m_serveName = serveName;
-    m_bRecvAckMsg = false;
-    m_sendMsg.type = type;
-    m_sendMsg.data = data;
+}
 
-    // 连接服务端
-    if (!connectToServer())
-        return false;
+QhSingletonProcessMessage::ResponseMsgItem QhSingletonProcessClient::sendMessageToServer(
+    const QhSingletonProcessMessage::RequestMsgItem &item, int timeout)
+{
+    m_responseMsg.type = item.type;
+    m_responseMsg.code = 1;
+    m_responseMsg.data = "";
 
-    // 超时处理
-    QTimer::singleShot(2000, this, [=]() {
+    // connect to server
+    if (!connectToServer()) {
+        return m_responseMsg;
+    }
+
+    // send message
+    m_client->write(packMsg(m_serveName, item));
+    m_client->flush();
+
+    // timeout handling
+    QTimer::singleShot(timeout, this, [this]() {
         m_eloop.exit();
     });
     m_eloop.exec();
 
     disconnectFromServer();
-    return m_bRecvAckMsg;
+    return m_responseMsg;
+}
+
+void QhSingletonProcessClient::sendMessageToServerAsync(const RequestMsgItem & item)
+{
+    if (!connectToServer())
+        return;
+
+    m_client->write(packMsg(m_serveName, item));
+    m_client->flush();
 }
 
 bool QhSingletonProcessClient::connectToServer()
 {
-    // 开启客户端，通知已经打开的程序打开界面
     if (!m_client) {
         m_client = new QLocalSocket;
-        connect(m_client, &QLocalSocket::readyRead,
-                this, &QhSingletonProcessClient::onReadyRead);
+        connect(m_client, &QLocalSocket::readyRead, this, &QhSingletonProcessClient::onReadyRead);
     }
 
+    // connect to server
     m_client->connectToServer(m_serveName);
     if (m_client->waitForConnected(6000)) {
         qDebug() << "SingletonProcess connect server process success!";
         return true;
     } else {
-        // 连接失败
         qWarning() << "SingletonProcess connect server process error!";
         return false;
     }
@@ -304,62 +330,55 @@ void QhSingletonProcessClient::disconnectFromServer()
 void QhSingletonProcessClient::onReadyRead()
 {
     QByteArray data = m_client->readAll();
+    disconnectFromServer();
+
     auto msg = unpackMsg(m_serveName, data);
-    if (msg.type != QhSingletonProcess::EMsgAck)
+    if (msg.code != 0) {
         return;
+    }
 
-    // 收到确认信息，发送消息给服务端
-    auto sendMsg = packMsg(m_serveName, m_sendMsg.type, m_sendMsg.data);
-    auto ret = m_client->write(sendMsg);
-    m_client->flush();
-
-    m_bRecvAckMsg = (ret > 0);
+    m_responseMsg = msg;
     m_eloop.exit();
 }
 
 ////////////////////////////// QhSingletonProcessMessage //////////////////////////////
-QByteArray QhSingletonProcessMessage::packMsg(const QString &serveName, int type, const QString &data)
+QByteArray QhSingletonProcessMessage::packMsg(const QString &serverName, const QhSingletonProcessMessage::RequestMsgItem &item)
 {
     QString strFlag;
-    switch (type) {
-    case QhSingletonProcess::EMsgError:     { return QByteArray(); }
-    case QhSingletonProcess::EMsgAck:       { strFlag = "ACK"; break; };
-    case QhSingletonProcess::EMsgActivated: { strFlag = "ACTIVATED"; break; }
-    case QhSingletonProcess::EMsgCustom:    { strFlag = "CUSTOM"; break; }
+    switch (item.type) {
+    case QhSingletonProcess::MT_Confirm:       { strFlag = "CONFIRM"; break; };
+    case QhSingletonProcess::MT_Activated: { strFlag = "ACTIVATED"; break; }
+    case QhSingletonProcess::MT_Custom:    { strFlag = "CUSTOM"; break; }
     }
 
-    return QString("%1#MSG:%2#%3")
-            .arg(serveName).arg(strFlag).arg(data)
-            .toLocal8Bit();
+    return QString("%1#MSG:%2#%3").arg(serverName, strFlag, item.data).toLocal8Bit();
 }
 
-QhSingletonProcessMessage::MsgItem QhSingletonProcessMessage::unpackMsg(const QString &serveName, const QByteArray &_msg)
+QhSingletonProcessMessage::ResponseMsgItem QhSingletonProcessMessage::unpackMsg(const QString &serveName, const QByteArray &_msg)
 {
-    MsgItem msgItem;
-    msgItem.type = QhSingletonProcess::EMsgError;
-
+    ResponseMsgItem msgItem;
     QString msg = QString::fromLocal8Bit(_msg);
 
     auto strs = msg.split("#", QString::KeepEmptyParts);
-    if (strs.size() < 2
-            || strs.at(0) != serveName
-            || !strs.at(1).startsWith("MSG:"))
+    if (strs.size() < 2 || strs.at(0) != serveName || !strs.at(1).startsWith("MSG:"))
         return msgItem;
 
     QString strType = strs.at(1).mid(4);
-    if (strType == "ACK") {
-        msgItem.type = QhSingletonProcess::EMsgAck;
+    if (strType == "CONFIRM") {
+        msgItem.type = QhSingletonProcess::MT_Confirm;
     } else if (strType == "ACTIVATED") {
-        msgItem.type = QhSingletonProcess::EMsgActivated;
+        msgItem.type = QhSingletonProcess::MT_Activated;
     } else if (strType == "CUSTOM") {
-        msgItem.type = QhSingletonProcess::EMsgCustom;
+        msgItem.type = QhSingletonProcess::MT_Custom;
     } else {
-        msgItem.type = QhSingletonProcess::EMsgError;
+        msgItem.code = 1;
         return msgItem;
     }
 
+    msgItem.code = 0;
+
     strs.removeAt(0);
-    strs.removeAt(1);
+    strs.removeAt(0);
 
     if (strs.size() > 1) {
         msgItem.data = strs.join("#");
