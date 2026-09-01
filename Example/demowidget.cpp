@@ -1,6 +1,10 @@
 ﻿#include "demowidget.h"
+#include <QApplication>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QCloseEvent>
+#include <QDebug>
+#include <qhmessagebox.h>
 #include "demopopup.h"
 #include "democheckbox.h"
 #include "demolabel.h"
@@ -13,9 +17,67 @@
 
 #pragma execution_character_set("utf-8")
 
+enum SystemTrayID
+{
+    SYSTRAY_Test1 = QhSystemTrayIcon::ID::CustomID + 1,
+    SYSTRAY_Test2,
+    SYSTRAY_Test3
+};
+
 DemoWidget::DemoWidget()
 {
     this->setAttribute(Qt::WA_StyledBackground);
+
+    qApp->setQuitOnLastWindowClosed(false); // 禁止最后一个窗口关闭时退出程序
+    m_systemTrayIcon = new QhSystemTrayIcon(QIcon(":/resources/app.ico"), this);
+    m_systemTrayIcon->setToolTip("QtHandy DemoWidget");
+
+    QIcon ficon(":/resources/app2.ico");
+    m_systemTrayIcon->setFlickerIcon(ficon);
+
+    m_systemTrayIcon->setItems({
+            new QhSystemTrayIconItem(QhSystemTrayIcon::ExitProgram, tr("退出程序")),
+            new QhSystemTrayIconItem(QhSystemTrayIcon::OpenMainWindow, tr("打开主窗口")),
+            new QhSystemTrayIconItem(true),
+            new QhSystemTrayIconItem(SYSTRAY_Test1, tr("开启图标闪烁")),
+            new QhSystemTrayIconItem(SYSTRAY_Test2, tr("关闭图标闪烁")),
+            new QhSystemTrayIconItem(SYSTRAY_Test3, tr("测试"))
+        });
+
+    connect(m_systemTrayIcon, &QhSystemTrayIcon::activated,
+            this, [this](QSystemTrayIcon::ActivationReason reason) {
+        if (reason == QSystemTrayIcon::Trigger)
+            this->show();
+        // qDebug() << "QhSystemTrayIcon::activated " << reason;
+    });
+
+    connect(m_systemTrayIcon, &QhSystemTrayIcon::itemClicked, this, [this](int id) {
+        switch (id) {
+        case QhSystemTrayIcon::ExitProgram: {
+            qApp->exit();
+            break;
+        }
+        case QhSystemTrayIcon::OpenMainWindow: {
+            this->show();
+            break;
+        }
+        case SYSTRAY_Test1: {
+            m_systemTrayIcon->startFlickerIcon(500);
+            break;
+        }
+        case SYSTRAY_Test2: {
+            m_systemTrayIcon->stopFlickerIcon();
+            break;
+        }
+        case SYSTRAY_Test3: {
+            QhMessageBox::information(nullptr, tr("info"), tr("QhSystemTrayIcon item 'Test' clicked"));
+            break;
+        }
+        default:
+            break;
+        }
+    });
+    m_systemTrayIcon->show();
 
     auto *ly = new QHBoxLayout(this);
 
@@ -73,4 +135,12 @@ QWidget *DemoWidget::createPage(qint64 id)
     default: break;
     }
     return nullptr;
+}
+
+void DemoWidget::closeEvent(QCloseEvent *event)
+{
+    m_systemTrayIcon->showMessage(tr("提示"), tr("%1已在后台运行")
+        .arg(m_systemTrayIcon->toolTip()), QSystemTrayIcon::Information, 5000);
+    this->hide();
+    event->ignore();
 }

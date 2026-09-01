@@ -92,6 +92,7 @@ SOURCES += \
     core/logger/qhlogger.cpp \
     core/logger/qhloggerfileappender.cpp \
     core/qhsingletonprocess.cpp \
+    core/qhsystemtrayicon.cpp \
     util/qhfileutil.cpp \
     util/qhimageutil.cpp \
     util/qhmathutil.cpp \
@@ -184,6 +185,8 @@ HEADERS += \
     core/qhdtwrapper.h \
     core/qhsingletonprocess.h \
     core/qhsingletonprocess_p.h \
+    core/qhsystemtrayicon.h \
+    core/qhsystemtrayicon_p.h \
     qhdefine.h \
     qhmacro.h \
     util/qhfileutil.h \
