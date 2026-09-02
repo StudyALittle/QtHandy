@@ -1,7 +1,11 @@
 ﻿#ifndef QHSYSTEMTRAYICON_P_H
 #define QHSYSTEMTRAYICON_P_H
 
+#include <QAbstractNativeEventFilter>
 #include <QTimer>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
 #include "qhsystemtrayicon.h"
 
 class QhSystemTrayIconItemPrivate: public QObject
@@ -38,6 +42,13 @@ public:
     QTimer *flickerTimer = nullptr;
 
     QMenu *menu = nullptr;
+
+#ifdef Q_OS_WIN
+    HHOOK mouseHook = NULL;
+#endif
+
+    bool bMouseInTray = false;
+    static QList<QhSystemTrayIcon*> s_systemTrayIcons;
 };
 
 #endif // QHSYSTEMTRAYICON_P_H

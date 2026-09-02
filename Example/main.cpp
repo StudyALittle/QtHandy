@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
         ":/resources/qss/menu.css",
         ":/resources/qss/paging.css",
         ":/resources/qss/messagebox.css",
+        ":/resources/qss/other.css"
     });
 
     DemoWidget w;

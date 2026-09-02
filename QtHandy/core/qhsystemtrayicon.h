@@ -61,11 +61,25 @@ public:
     QhSystemTrayIconItem *item(int id);
     QIcon flickerIcon() const;
 
+    /// @brief 开启图标闪烁
     void startFlickerIcon(int msec = 500);
+
+    /// 停止图标闪烁
     void stopFlickerIcon();
+
+    /// @brief 开启监听鼠标移入托盘消息（目前windows有效）
+    bool startTrayMoveMessage();
+
+    /// @brief 停止监听鼠标移入托盘消息（目前windows有效）
+    void stopTrayMoveMessage();
 
 signals:
     void itemClicked(int id);
+    void entered();
+    void leaved();
+
+public:
+    void setMouseInTray(bool b);
 };
 
 #endif // QHSYSTEMTRAYICON_H

@@ -1,12 +1,41 @@
 ﻿#include "qhsystemtrayicon.h"
 #include "qhsystemtrayicon_p.h"
+#include <QDebug>
+#include <QApplication>
+#ifdef Q_OS_WIN
+#include <windows.h>
+
+#pragma comment(lib, "user32.lib")
+#endif
+
+QList<QhSystemTrayIcon*> QhSystemTrayIconPrivate::s_systemTrayIcons;
+
+#ifdef Q_OS_WIN
+/// @brief 钩子回调函数
+LRESULT CALLBACK LowLevelMouseProc(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    if (nCode == HC_ACTION) {
+        if (wParam == WM_MOUSEMOVE) {
+            MSLLHOOKSTRUCT *pMouseStruct = reinterpret_cast<MSLLHOOKSTRUCT*>(lParam);
+            if (pMouseStruct) {
+                QPoint globalPos(pMouseStruct->pt.x, pMouseStruct->pt.y);
+                for (auto &tray: QhSystemTrayIconPrivate::s_systemTrayIcons) {
+                    tray->setMouseInTray(tray->geometry().contains(globalPos));
+                }
+                // qDebug() << "mouse move to:" << globalPos;
+            }
+        }
+    }
+    // 将消息传递给钩子链的下一个钩子
+    return CallNextHookEx(NULL, nCode, wParam, lParam);
+}
+#endif
 
 //////////// QhSystemTrayIcon ///////////
 QhSystemTrayIcon::QhSystemTrayIcon(QObject *parent):
     QSystemTrayIcon(parent),
     d(new QhSystemTrayIconPrivate(this))
 {
-
 }
 
 QhSystemTrayIcon::QhSystemTrayIcon(const QIcon &icon, QObject *parent):
@@ -32,6 +61,7 @@ void QhSystemTrayIcon::setItems(const QList<QhSystemTrayIconItem *> &items)
     if (!d->menu) {
         d->menu = new QMenu;
         d->menu->setObjectName("SystemTrayIconMenu");
+        // d->menu->setStyleSheet("QMenu { background: red; margin: 12px; }");
         this->setContextMenu(d->menu);
     }
 
@@ -96,15 +126,51 @@ void QhSystemTrayIcon::stopFlickerIcon()
     this->setIcon(d->normalIcon);
 }
 
+bool QhSystemTrayIcon::startTrayMoveMessage()
+{
+#ifdef Q_OS_WIN
+    d->mouseHook = SetWindowsHookEx(WH_MOUSE_LL, LowLevelMouseProc, GetModuleHandle(NULL), 0);
+    return d->mouseHook != NULL;
+#endif
+    return false;
+}
+
+void QhSystemTrayIcon::stopTrayMoveMessage()
+{
+#ifdef Q_OS_WIN
+    if (d->mouseHook) {
+        UnhookWindowsHookEx(d->mouseHook);
+        d->mouseHook = NULL;
+    }
+#endif
+}
+
+void QhSystemTrayIcon::setMouseInTray(bool b)
+{
+    if (d->bMouseInTray == b)
+        return;
+
+    d->bMouseInTray = b;
+    if (b)
+        emit entered();
+    else
+        emit leaved();
+}
+
 QhSystemTrayIconPrivate::QhSystemTrayIconPrivate(QhSystemTrayIcon *sysTrayIcon):
     systemTrayIcon(sysTrayIcon)
 {
-
+    s_systemTrayIcons.append(sysTrayIcon);
 }
 
 QhSystemTrayIconPrivate::~QhSystemTrayIconPrivate()
 {
-
+    for (int n = 0; n < s_systemTrayIcons.size(); ++n) {
+        if (s_systemTrayIcons.at(n) == systemTrayIcon) {
+            s_systemTrayIcons.removeAt(n);
+            break;
+        }
+    }
 }
 
 //////////// QhSystemTrayIconItem ///////////

@@ -41,10 +41,12 @@ QStringList QhQssManager::qssFilePaths()
 void QhQssManager::setQss(const QStringList &qssFiles)
 {
     QString qss;
-    for (auto fileName: qssFiles)
+    for (auto &fileName: qssFiles)
         qss.append(QhFileUtil::readFileText(fileName));
 
-    // qDebug() << qss;
+#ifdef QT_DEBUG
+    qDebug() << "Qss: " << qss;
+#endif
     qApp->setStyleSheet(qss);
 }
 

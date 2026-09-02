@@ -21,7 +21,9 @@ enum SystemTrayID
 {
     SYSTRAY_Test1 = QhSystemTrayIcon::ID::CustomID + 1,
     SYSTRAY_Test2,
-    SYSTRAY_Test3
+    SYSTRAY_Test3,
+    SYSTRAY_Test4,
+    SYSTRAY_Test5
 };
 
 DemoWidget::DemoWidget()
@@ -41,14 +43,16 @@ DemoWidget::DemoWidget()
             new QhSystemTrayIconItem(true),
             new QhSystemTrayIconItem(SYSTRAY_Test1, tr("开启图标闪烁")),
             new QhSystemTrayIconItem(SYSTRAY_Test2, tr("关闭图标闪烁")),
-            new QhSystemTrayIconItem(SYSTRAY_Test3, tr("测试"))
+            new QhSystemTrayIconItem(SYSTRAY_Test3, tr("开启鼠标消息")),
+            new QhSystemTrayIconItem(SYSTRAY_Test4, tr("停止鼠标消息")),
+            new QhSystemTrayIconItem(SYSTRAY_Test5, tr("测试"))
         });
 
     connect(m_systemTrayIcon, &QhSystemTrayIcon::activated,
             this, [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::Trigger)
             this->show();
-        // qDebug() << "QhSystemTrayIcon::activated " << reason;
+         qDebug() << "QhSystemTrayIcon::activated " << reason;
     });
 
     connect(m_systemTrayIcon, &QhSystemTrayIcon::itemClicked, this, [this](int id) {
@@ -70,12 +74,32 @@ DemoWidget::DemoWidget()
             break;
         }
         case SYSTRAY_Test3: {
+            if (m_systemTrayIcon->startTrayMoveMessage()) {
+                qInfo() << "systemTrayIcon startTrayMoveMessage success";
+            } else {
+                qInfo() << "systemTrayIcon startTrayMoveMessage error";
+            }
+            break;
+        }
+        case SYSTRAY_Test4: {
+            m_systemTrayIcon->stopTrayMoveMessage();
+            break;
+        }
+        case SYSTRAY_Test5: {
             QhMessageBox::information(nullptr, tr("info"), tr("QhSystemTrayIcon item 'Test' clicked"));
             break;
         }
         default:
             break;
         }
+    });
+    connect(m_systemTrayIcon, &QhSystemTrayIcon::entered,
+            this, []() {
+        qInfo() << "systemTrayIcon startTrayMoveMessage mouse entered";
+    });
+    connect(m_systemTrayIcon, &QhSystemTrayIcon::leaved,
+            this, []() {
+        qInfo() << "systemTrayIcon startTrayMoveMessage mouse leaved";
     });
     m_systemTrayIcon->show();
 
