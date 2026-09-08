@@ -11,6 +11,9 @@ class QhNavbarProxyPrivate;
 class QTHANDY_EXPORT QhNavbarProxy: public QObject
 {
     Q_OBJECT
+    Q_PRIVATE_VARIABLE(QhNavbarProxy)
+    friend class QhNavbar;
+    friend class QhNavbarItem;
 
 public:
     QhNavbarProxy(QhNavbar *navbar = nullptr);
@@ -39,13 +42,6 @@ protected:
 
 protected:
     void setNavbar(QhNavbar *navbar);
-
-private:
-    QhNavbarProxyPrivate *d;
-    Q_DISABLE_COPY(QhNavbarProxy)
-    friend class QhNavbarProxyPrivate;
-    friend class QhNavbar;
-    friend class QhNavbarItem;
 };
 
 #endif // QHNAVBARPROXY_H

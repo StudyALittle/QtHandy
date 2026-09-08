@@ -12,6 +12,8 @@ class QhNavbarItemPrivate;
 class QTHANDY_EXPORT QhNavbarItem: public QObject
 {
     Q_OBJECT
+    Q_PRIVATE_VARIABLE(QhNavbarItem)
+    friend class QhNavbar;
 
 public:
     constexpr static qint64 INVALIDID = -99999999; // 无效ID
@@ -43,12 +45,6 @@ protected:
     void setChildExpand(bool b);
     void setWidget(QWidget *w);
     void setNavbar(QhNavbar *navbar);
-
-private:
-    QhNavbarItemPrivate *d;
-    Q_DISABLE_COPY(QhNavbarItem)
-    friend class QhNavbarItemPrivate;
-    friend class QhNavbar;
 };
 
 #endif // QHNAVBARITEM_H

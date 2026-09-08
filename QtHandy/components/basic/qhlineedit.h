@@ -47,12 +47,18 @@ public:
 
     /// @brief Input text verification function,
     /// If there is a verification error, return false
-    void setTextValidate(std::function<bool(QhLineEdit*)> func);
+    void setTextValidate(std::function<bool(QhLineEdit*)> func, bool bEmptyNoError = false);
 
     /// @brief Set validator
     /// @param valid: validator
     /// @param bEmptyNoError: When true, An empty string indicates a correct format
     void setTextValidator(const QValidator *validator, bool bEmptyNoError = false);
+
+    /// @brief
+    void setValidatorEmptyNoError(bool b);
+
+    /// @brief
+    bool validatorEmptyNoError() const;
 
     /// Q_PROPERTY
     QString getLayoutMargins() const;

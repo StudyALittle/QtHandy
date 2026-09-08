@@ -31,7 +31,6 @@ QhNavbarItem::QhNavbarItem(qint64 id, const QString &name,
 
 QhNavbarItem::~QhNavbarItem()
 {
-    delete d;
 }
 
 qint64 QhNavbarItem::id() const { return d->id; }

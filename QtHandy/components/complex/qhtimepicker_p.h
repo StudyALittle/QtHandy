@@ -16,6 +16,7 @@ class QhTimePickerPrivate: public QObject
 public:
     QhTimePickerPrivate(QhTimePicker *q):
         q_ptr(q) { }
+    ~QhTimePickerPrivate() {}
 
     void init();
     void createButtons();

@@ -16,7 +16,6 @@ QhNavbar::QhNavbar(int direction, int position,
 
 QhNavbar::~QhNavbar()
 {
-    delete d;
 }
 
 QhNavbarProxy *QhNavbar::navbarProxy() const

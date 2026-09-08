@@ -80,15 +80,15 @@ void QhLineEdit::resetMargin()
 
 bool QhLineEdit::isTextValidateValid()
 {
+    QString text = this->text();
+    if (d->bValidateEmptyNoError && text.isEmpty())
+        return true;
+
     if (d->textValidateFunction)
         return d->textValidateFunction(this);
 
     auto *valid = this->validator();
     if (!valid)
-        return true;
-
-    QString text = this->text();
-    if (d->bValidateEmptyNoError && text.isEmpty())
         return true;
 
     if (valid->inherits("QRegularExpressionValidator")) {
@@ -116,8 +116,9 @@ bool QhLineEdit::isTextValidateValid()
     return true;
 }
 
-void QhLineEdit::setTextValidate(std::function<bool (QhLineEdit *)> func)
+void QhLineEdit::setTextValidate(std::function<bool (QhLineEdit *)> func, bool bEmptyNoError)
 {
+    d->bValidateEmptyNoError = bEmptyNoError;
     d->textValidateFunction = func;
     d->checkTextFormat();
 }
@@ -127,6 +128,17 @@ void QhLineEdit::setTextValidator(const QValidator *validator, bool bEmptyNoErro
     d->bValidateEmptyNoError = bEmptyNoError;
     QLineEdit::setValidator(validator);
     d->checkTextFormat();
+}
+
+void QhLineEdit::setValidatorEmptyNoError(bool b)
+{
+    d->bValidateEmptyNoError = b;
+    d->checkTextFormat();
+}
+
+bool QhLineEdit::validatorEmptyNoError() const
+{
+    return d->bValidateEmptyNoError;
 }
 
 QString QhLineEdit::getLayoutMargins() const

@@ -12,7 +12,6 @@ QhNavbarProxy::QhNavbarProxy(QhNavbar *navbar):
 
 QhNavbarProxy::~QhNavbarProxy()
 {
-    delete d;
 }
 
 QhNavbar *QhNavbarProxy::navbar()

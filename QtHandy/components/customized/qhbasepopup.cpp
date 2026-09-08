@@ -115,6 +115,7 @@ void QhBasePopup::setButtonEnable(Button btn, bool enable)
 
 void QhBasePopup::setTitle(const QString &text)
 {
+    this->setWindowTitle(text);
     d->labelTitle->setText(text);
 }
 

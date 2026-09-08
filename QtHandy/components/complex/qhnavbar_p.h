@@ -15,6 +15,7 @@ class QhNavbarPrivate: public QObject
 public:
     QhNavbarPrivate(QhNavbar *q):
         q_ptr(q) {}
+    ~QhNavbarPrivate() {}
 
     QList<QhNavbarItem*> items;
 
@@ -41,6 +42,7 @@ class QhNavbarProxyPrivate: public QObject
 public:
     QhNavbarProxyPrivate(QhNavbarProxy *q):
         q_ptr(q) {}
+    ~QhNavbarProxyPrivate() {}
 
     QhNavbar *navbar = nullptr;
 
@@ -58,6 +60,7 @@ class QhNavbarItemPrivate: public QObject
 public:
     QhNavbarItemPrivate(QhNavbarItem *q):
         q_ptr(q) {}
+    ~QhNavbarItemPrivate() {}
 
     qint64 id;
     QString name;

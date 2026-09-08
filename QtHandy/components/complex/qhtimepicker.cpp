@@ -13,7 +13,6 @@ QhTimePicker::QhTimePicker(QWidget *parent):
 
 QhTimePicker::~QhTimePicker()
 {
-    delete d;
 }
 
 QTime QhTimePicker::time()

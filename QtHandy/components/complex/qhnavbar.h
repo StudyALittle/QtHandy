@@ -11,6 +11,8 @@ class QhNavbarPrivate;
 class QTHANDY_EXPORT QhNavbar: public QWidget
 {
     Q_OBJECT
+    Q_PRIVATE_VARIABLE(QhNavbar)
+    friend class QhNavbarProxy;
 
 public:
     /// @brief The Direction enum
@@ -69,12 +71,6 @@ protected:
 
 protected slots:
     void onItemClicked(qint64 id);
-
-private:
-    QhNavbarPrivate *d;
-    Q_DISABLE_COPY(QhNavbar)
-    friend class QhNavbarPrivate;
-    friend class QhNavbarProxy;
 };
 
 #endif // QHNAVBAR_H

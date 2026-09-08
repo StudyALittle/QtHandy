@@ -228,15 +228,25 @@ bool QhWidgetMoveResizePrivate::isInTitleBar(QPoint pos, bool *bInTitleWidget)
         pos = widget->mapFromGlobal(globalPos);
     }
 
+    for (auto &w: framelessWidget->titleBarDisableChilds()) {
+        if (!w->isVisible())
+            continue;
+        auto rt = w->rect();
+        auto dpos = w->mapFromGlobal(pos);
+        if (rt.contains(dpos))
+            return false;
+    }
+
     // 高度判断
     if (framelessWidget->titleHeight() > 0) {
         int w = widget->width();
         rtContent = QRect(shadowWidth, shadowWidth,
                         w - shadowWidth * 2, titleHeight);
-        if (rtContent.contains(pos)) {
-            child = widget->childAt(pos);
-            if (child && framelessWidget->titleBarDisableChilds().contains(child))
-                return false;
+        QPoint topPos = widget->mapFromGlobal(pos);
+        if (rtContent.contains(topPos)) {
+            // child = widget->childAt(topPos);
+            // if (child && framelessWidget->titleBarDisableChilds().contains(child))
+            //    return false;
             return true;
         }
     }

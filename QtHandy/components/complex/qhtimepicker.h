@@ -10,6 +10,7 @@ class QhTimePickerPrivate;
 class QTHANDY_EXPORT QhTimePicker: public QhFloating
 {
     Q_OBJECT
+    Q_PRIVATE_VARIABLE(QhTimePicker)
 
 public:
     QhTimePicker(QWidget *parent = nullptr);
@@ -21,11 +22,6 @@ public:
 
 signals:
     void timed(const QTime &time);
-
-private:
-    QhTimePickerPrivate *d;
-    Q_DISABLE_COPY(QhTimePicker)
-    friend class QhTimePickerPrivate;
 };
 
 #endif // QHTIMEPICKER_H
