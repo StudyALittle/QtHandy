@@ -52,6 +52,9 @@ public:
     /// @brief 阴影宽度（windows下使用，配和borderRadius使用变成圆角边框窗口）
     int shadowWidth = 0;
 
+    /// @brief 上一次窗口状态
+    Qt::WindowStates oldWindowStates = Qt::WindowNoState;
+
     /// @brief 初始化是否无边框（圆角边框必须初始化时设置）
     void initFramelessWindow(int borderRadius = 0);
 

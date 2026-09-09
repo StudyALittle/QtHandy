@@ -24,6 +24,7 @@ public:
 
     /// @brief 激活窗口
     static void activateWindow(QWidget *w);
+    static void activateWindow(QWidget *w, Qt::WindowStates oldStates);
 
     /// @brief 刷新qss样式
     static void updateQssStyle(QWidget *w);

@@ -63,14 +63,14 @@ bool QhFramelessWindowPrivate::nativeEventEx(
                     params.rgrc[0].right = qMin(params.rgrc[0].right, long(workRect.right));
                     params.rgrc[0].bottom = qMin(params.rgrc[0].bottom, long(workRect.bottom));
                 }
-            } else {
+                *result = 0;
+            } else if (this->bResizeable) {
                 // sz->rgrc[0] 的值必须跟原来的不同, 否则拉伸左/上边框缩放窗口时,
                 // 会导致右/下侧出现空白区域 (绘制抖动)
                 // 窗口下边框失去1像素对视觉影响最小, 因此底部减少1像素
                 params.rgrc[0].bottom += 1;
+                *result = WVR_REDRAW;
             }
-
-            *result = WVR_REDRAW;
             return true;
         }
         break;

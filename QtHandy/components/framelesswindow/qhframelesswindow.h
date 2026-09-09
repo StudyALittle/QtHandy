@@ -60,6 +60,9 @@ public:
     /// @brief 阴影宽度（windows下使用，配和borderRadius使用变成圆角边框窗口）
     int shadowWidth();
 
+    /// @brief 上一次窗口状态
+    Qt::WindowStates oldWindowState() const;
+
     /// @brief 是否可拉升大小
     void setResizeable(bool b);
     /// @brief 是否可移动窗口

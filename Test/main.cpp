@@ -3,6 +3,7 @@
 #include <qhradarchart.h>
 #include <qhdtwrapper.h>
 #include <qhsingletonprocess.h>
+#include <qhwidgetutil.h>
 #include "widget.h"
 #include "qsstest.h"
 #include "testwidgettable.h"
@@ -66,8 +67,7 @@ int main(int argc, char *argv[])
             [&w](int type, const QString &data) {
         qDebug() << "Message received:" << type << data;
         if (type == QhSingletonProcess::MT_Activated) {
-            w.show();
-            w.activateWindow();
+            QhWidgetUtil::activateWindow(&w);
         }
     });
 #elif 1

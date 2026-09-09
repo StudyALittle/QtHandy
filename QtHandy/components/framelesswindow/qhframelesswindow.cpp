@@ -136,6 +136,11 @@ void QhFramelessWindowPrivate::setShadowWidth(int n)
 
 bool QhFramelessWindowPrivate::eventEx(QEvent *e)
 {
+    if (e->type() == QEvent::WindowStateChange) {
+       auto *stateEvent = static_cast<QWindowStateChangeEvent*>(e);
+       oldWindowStates = stateEvent->oldState();
+    }
+
     if (borderRadius > 0)
         return moveResizeHelpre->proccessEvent(e);
     return false;
@@ -437,6 +442,11 @@ QColor QhFramelessWindow::backgroundColor()
 int QhFramelessWindow::shadowWidth()
 {
     return d->shadowWidth;
+}
+
+Qt::WindowStates QhFramelessWindow::oldWindowState() const
+{
+    return d->oldWindowStates;
 }
 
 void QhFramelessWindow::setResizeable(bool b)

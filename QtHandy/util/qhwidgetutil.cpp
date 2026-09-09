@@ -87,6 +87,21 @@ void QhWidgetUtil::activateWindow(QWidget *w)
     w->activateWindow();
 }
 
+void QhWidgetUtil::activateWindow(QWidget *w, Qt::WindowStates oldStates)
+{
+    if (w->isHidden()) {
+        w->show();
+    } else if (w->isMinimized()) {
+        if (oldStates & Qt::WindowMaximized)
+            w->showMaximized();
+        else
+            w->showNormal();
+    } else {
+        w->raise();
+    }
+    w->activateWindow();
+}
+
 void QhWidgetUtil::updateQssStyle(QWidget *w)
 {
     w->style()->unpolish(w);
