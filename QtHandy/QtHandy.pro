@@ -74,6 +74,7 @@ SOURCES += \
     components/complex/qhtimepicker.cpp \
     components/customized/qhbasepopup.cpp \
     components/customized/qhbasepopupcontent.cpp \
+    components/customized/qhcustommenu.cpp \
     components/customized/qhloading.cpp \
     components/customized/qhmessagebox.cpp \
     components/customized/qhspin.cpp \
@@ -154,6 +155,8 @@ HEADERS += \
     components/customized/qhbasepopup.h \
     components/customized/qhbasepopup_p.h \
     components/customized/qhbasepopupcontent.h \
+    components/customized/qhcustommenu.h \
+    components/customized/qhcustommenu_p.h \
     components/customized/qhloading.h \
     components/customized/qhloading_p.h \
     components/customized/qhmessagebox.h \

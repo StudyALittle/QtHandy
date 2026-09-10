@@ -70,6 +70,11 @@ QScreen *QhWidgetUtil::screenUnderWidget(QWidget *w)
     return screen;
 }
 
+QScreen *QhWidgetUtil::screenUnderPoint(const QPoint &pos)
+{
+    return QGuiApplication::screenAt(pos);
+}
+
 void QhWidgetUtil::activateWindow(QWidget *w)
 {
     if (w->isMinimized()) {

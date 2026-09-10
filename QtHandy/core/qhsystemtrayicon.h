@@ -1,6 +1,15 @@
 ﻿#ifndef QHSYSTEMTRAYICON_H
 #define QHSYSTEMTRAYICON_H
 
+/**
+ * @file       qhsystemtrayicon.h
+ * @brief      托盘功能, 支持图标闪烁
+ *
+ * @author     wmz
+ * @date       2026/09/09
+ * @history
+ */
+
 #include <QSystemTrayIcon>
 #include <QSharedPointer>
 #include <QMenu>

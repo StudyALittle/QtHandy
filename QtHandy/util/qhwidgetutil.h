@@ -22,6 +22,9 @@ public:
     /// @brief 在窗口下面的屏幕
     static QScreen *screenUnderWidget(QWidget *w);
 
+    /// @brief 在坐标下面的屏幕
+    static QScreen *screenUnderPoint(const QPoint &pos);
+
     /// @brief 激活窗口
     static void activateWindow(QWidget *w);
     static void activateWindow(QWidget *w, Qt::WindowStates oldStates);

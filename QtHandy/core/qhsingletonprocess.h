@@ -2,7 +2,12 @@
 #define QHSINGLETONPROCESS_H
 
 /**
- * @brief The QSingletonProcess class：保证一个应用程序只能有一个实例
+ * @file       qhsingletonprocess.h
+ * @brief      保证一个应用程序只能有一个实例
+ *
+ * @author     wmz
+ * @date       2026/09/09
+ * @history
  */
 
 #include <QObject>
