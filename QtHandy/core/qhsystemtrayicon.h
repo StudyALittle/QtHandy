@@ -3,7 +3,7 @@
 
 /**
  * @file       qhsystemtrayicon.h
- * @brief      托盘功能, 支持图标闪烁
+ * @brief      托盘功能，支持图标闪烁，支持鼠标移入托盘图标等功能
  *
  * @author     wmz
  * @date       2026/09/09

@@ -3,6 +3,8 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QDateTime>
+#include <QDebug>
+#include "qhfileutil.h"
 
 QhLoggerFileAppender::QhLoggerFileAppender(QObject *parent):
     QhLoggerAppender(parent),
@@ -13,47 +15,7 @@ QhLoggerFileAppender::QhLoggerFileAppender(QObject *parent):
 
 QhLoggerFileAppender::~QhLoggerFileAppender()
 {
-    this->closeDevice();
-}
 
-QString QhLoggerFileAppender::generateFileName(const QhLoggerConfig &logParams)
-{
-    QString baseDir = logParams.storageDirectory;
-    QDir dir(baseDir);
-    if (!dir.exists())
-        dir.mkpath(baseDir);
-
-    QString baseFilename = logParams.fileNameFormat
-        .arg(QDateTime::currentDateTime().toString(logParams.fileNameDateTimeFormat));
-
-    if (!baseDir.endsWith("/") || !baseDir.endsWith("\\"))
-        baseDir.append("/");
-    return newNotExistsFilename(baseDir + baseFilename);
-}
-
-QString QhLoggerFileAppender::newNotExistsFilename(const QString &filename)
-{
-    if (!QFile::exists(filename))
-        return filename;
-
-    QString newFilename;
-
-    QFileInfo fInfo(filename);
-    QString filePath = fInfo.dir().path();
-    QString baseName = fInfo.baseName();
-    QString ext = fInfo.completeSuffix();
-
-    for (int n = 1; n <= 50; ++n) {
-        if (ext.isEmpty()) { // 文件无后缀
-            newFilename = QString("%1/%2(%3)").arg(filePath).arg(baseName).arg(n);
-        } else {
-            newFilename = QString("%1/%2(%3).%4").arg(filePath).arg(baseName).arg(n).arg(ext);
-        }
-
-        if (!QFile::exists(newFilename))
-            break;
-    }
-    return newFilename;
 }
 
 void QhLoggerFileAppender::initDevice()
@@ -118,9 +80,7 @@ void QhLoggerFileAppender::openDevice()
     }
 
     const auto &params = this->hlogger->loggerConfig();
-    if (d->bFirstFile
-            && params.bAppend
-            && d->filenames.size() > 0) {
+    if (d->bFirstFile && params.bAppend && d->filenames.size() > 0) {
         d->bFirstFile = false;
         // 追加模式，打开上一次的文件写入
         QString filename = d->filenames.last();
@@ -128,8 +88,7 @@ void QhLoggerFileAppender::openDevice()
         auto ft = ff.lastModified();
 
         int timeSpace = QDateTime::currentSecsSinceEpoch() - ft.toSecsSinceEpoch();
-        if (params.nAppendTimeMaxSpace <= 0
-                || !ft.isValid()
+        if (params.nAppendTimeMaxSpace <= 0 || !ft.isValid()
                 || timeSpace < params.nAppendTimeMaxSpace * 60) {
             d->file->setFileName(filename);
             if (d->file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text)) {
@@ -143,7 +102,7 @@ void QhLoggerFileAppender::openDevice()
     d->file->setFileName(filename);
     if (!d->file->open(QIODevice::NewOnly | QIODevice::WriteOnly
                       | QIODevice::Text | QIODevice::Append)) {
-        // qDebug() << "File Create Error: " << filename;
+        qDebug() << "File Create Error: " << filename;
     } else {
         emit logFileCreated(filename);
     }
@@ -239,8 +198,8 @@ void QhLoggerFileAppender::writeData(QhLoggerMessage::Ptr msg)
     afterWriteMsgItem(msg);
 }
 
-QhLoggerFileAppenderPrivate::QhLoggerFileAppenderPrivate(QhLoggerFileAppender *q):
-    ptr(q)
+QhLoggerFileAppenderPrivate::QhLoggerFileAppenderPrivate(QhLoggerFileAppender *ptr):
+    loggerFileAppender(ptr)
 {
 
 }

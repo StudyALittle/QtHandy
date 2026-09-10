@@ -10,10 +10,10 @@ class QhLoggerFileAppenderPrivate: public QObject
     Q_DISABLE_COPY(QhLoggerFileAppenderPrivate)
 
 public:
-    explicit QhLoggerFileAppenderPrivate(QhLoggerFileAppender *q);
+    explicit QhLoggerFileAppenderPrivate(QhLoggerFileAppender *ptr);
     ~QhLoggerFileAppenderPrivate();
 
-    QhLoggerFileAppender const *ptr;
+    QhLoggerFileAppender const *loggerFileAppender;
 
     QList<QString> filenames; // 已经写入的日志文件
     bool bFirstFile = true;

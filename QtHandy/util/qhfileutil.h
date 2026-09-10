@@ -7,6 +7,8 @@
 class QTHANDY_EXPORT QhFileUtil
 {
 public:
+    static QString generateFileName(const QString &baseName, const QString &suffix);
+
     static QString readFileText(const QString &fileName);
 };
 

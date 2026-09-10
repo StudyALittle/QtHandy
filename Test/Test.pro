@@ -11,12 +11,14 @@ SOURCES += \
     main.cpp \
     qhmcomboboxtest.cpp \
     qsstest.cpp \
+    testlogger.cpp \
     testwidgettable.cpp \
     widget.cpp
 
 HEADERS += \
     qhmcomboboxtest.h \
     qsstest.h \
+    testlogger.h \
     testwidgettable.h \
     widget.h
 

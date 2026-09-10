@@ -8,12 +8,21 @@
 #include "qsstest.h"
 #include "testwidgettable.h"
 #include "qhmcomboboxtest.h"
+#include "testlogger.h"
+
+#define TEST_LOGGER
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
 //    QssTest::testQssParser();
+
+#ifdef TEST_LOGGER
+    TestLogger tlogger;
+    tlogger.test();
+    return a.exec();
+#endif
 
 #if 0
     // qhpackdata

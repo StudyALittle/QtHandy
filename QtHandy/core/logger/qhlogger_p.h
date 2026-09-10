@@ -12,10 +12,10 @@ class QhLoggerPrivate: public QThread
     Q_DISABLE_COPY(QhLoggerPrivate)
 
 public:
-    explicit QhLoggerPrivate(QhLogger *q, int moduleId);
+    explicit QhLoggerPrivate(QhLogger *log, int moduleId);
     ~QhLoggerPrivate();
 
-    QhLogger const *ptr;
+    QhLogger const *logger;
 
     int moduleId;
     QhLoggerAppender *appender = nullptr;
@@ -24,11 +24,14 @@ public:
     bool bRun = false;
     bool bWaitAllWriteAtStop = false;
 
+    static int s_acceptQtDebugModuleId;
+
 public:
     void startLogger();
     void stopLogger(bool bWaitAllWrite);
 
     void appendMessage(QhLoggerMessage::Ptr msg);
+    void writeConsole(QhLoggerMessage::Ptr msg);
 
     void writeData(QhLoggerMessage::Ptr msg);
     void run() override;

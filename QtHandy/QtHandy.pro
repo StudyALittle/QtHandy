@@ -91,7 +91,10 @@ SOURCES += \
     core/database/qhdatabase.cpp \
     core/database/qhsqltemplate.cpp \
     core/logger/qhlogger.cpp \
+    core/logger/qhloggerappender.cpp \
+    core/logger/qhloggerconfig.cpp \
     core/logger/qhloggerfileappender.cpp \
+    core/logger/qhloggermessage.cpp \
     core/qhsingletonprocess.cpp \
     core/qhsystemtrayicon.cpp \
     util/qhfileutil.cpp \
@@ -183,8 +186,12 @@ HEADERS += \
     core/database/qhsqltemplate_p.h \
     core/logger/qhlogger.h \
     core/logger/qhlogger_p.h \
+    core/logger/qhloggerappender.h \
+    core/logger/qhloggerconfig.h \
+    core/logger/qhloggerdefine.h \
     core/logger/qhloggerfileappender.h \
     core/logger/qhloggerfileappender_p.h \
+    core/logger/qhloggermessage.h \
     core/qhdtwrapper.h \
     core/qhsingletonprocess.h \
     core/qhsingletonprocess_p.h \

@@ -25,5 +25,6 @@
 ### style
 
 ## core
+1. [QhDTWrapper API 文档](./md/QhDTWrapper_api.md)
 
 ## util

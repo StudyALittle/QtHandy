@@ -18,10 +18,6 @@ public:
     QhLoggerFileAppender(QObject *parent = nullptr);
     virtual ~QhLoggerFileAppender();
 
-    /// @brief 创建文件名称
-    virtual QString generateFileName(const QhLoggerConfig &logParams);
-    static QString newNotExistsFilename(const QString &filename);
-
     void initDevice() override;
     void openDevice() override;
     void closeDevice() override;
