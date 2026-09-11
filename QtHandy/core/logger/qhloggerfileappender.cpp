@@ -86,10 +86,14 @@ void QhLoggerFileAppender::openDevice()
         QString filename = d->filenames.last();
         QFileInfo ff(filename);
         auto ft = ff.lastModified();
+        auto ct = QDateTime::currentDateTime();
 
-        int timeSpace = QDateTime::currentSecsSinceEpoch() - ft.toSecsSinceEpoch();
-        if (params.nAppendTimeMaxSpace <= 0 || !ft.isValid()
-                || timeSpace < params.nAppendTimeMaxSpace * 60) {
+        int timeSpace = ct.toSecsSinceEpoch() - ft.toSecsSinceEpoch();
+
+        if (ft.isValid()
+            && (params.nSingleFileDataMaxSize <= 0 || ff.size() < params.nSingleFileDataMaxSize)
+            && (params.nAppendTimeMaxSpace <= 0 || timeSpace < params.nAppendTimeMaxSpace * 60)
+            && (params.bAppendAtNewDay || ft.date() == ct.date())) {
             d->file->setFileName(filename);
             if (d->file->open(QIODevice::Append | QIODevice::WriteOnly | QIODevice::Text)) {
                 return;

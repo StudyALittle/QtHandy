@@ -43,17 +43,17 @@ public:
     QString fileNameFormat = "logger_%1.log";
     /// @brief Log file name date time format
     /// example: "yyyy_MM_dd_hhmmss" (fileNameFormat %1)
-    QString fileNameDateTimeFormat = "yyyy_MM_dd_hhmmss";
+    QString fileNameDateTimeFormat = "yyyy_MM_dd_hhmmss_zzz";
 
     /// @brief Maximum number of stored log files (0 or less indicates no limit)
-    int nStorageFileMaxNumber = 6;
+    int nStorageFileMaxNumber = 30;
     /// @brief Maximum storage days for logs (0 or less indicates no limit)
     int nStorageFileMaxDay = 0;
 
     /// @brief 单个日志文件最大存储数据条数（小于等于0，表示不限制）
     int nSingleFileDataMaxCount = 0;
     /// @brief 单个日志文件最大存储数据大小（字节）（小于等于0，表示不限制）
-    int nSingleFileDataMaxSize = 5 * 1024 * 1024;
+    int nSingleFileDataMaxSize = 10 * 1024 * 1024;
     /// @brief 超过时间新建日志文件（小于等于0表示不做时间判断 s）
     int nNewFileCreateTimeSpace = 0;
 
@@ -63,12 +63,14 @@ public:
     bool bImmediatelyFlush = true;
     /// @brief 追加到文件时，上一次文件修改时间大于值，重新创建，小于等于0不判断(分钟)
     int nAppendTimeMaxSpace = 1440;
+    /// @brief 新的一天是否追加到文件
+    bool bAppendAtNewDay = false;
 
     /// @brief 是否输出日志到控制台
-    bool bOutConsole = true;
+    bool bOutConsole = false;
 
-    /// @brief 在内存中缓存的日志最大条数
-    int maxCacheCount = 200;
+    /// @brief 在内存中缓存的日志最大条数，小于0时不做限制
+    int maxCacheCount = 2000;
 
     /// @brief 输出日志类型
     QVector<QhLoggerLevel> outputlogLevels = {

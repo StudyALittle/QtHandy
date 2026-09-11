@@ -30,7 +30,9 @@ void QhLoggerConfig::writeToFile(const QString &fileName, const QhLoggerConfig &
     setting.setValue("bAppend", params.bAppend);
     setting.setValue("bImmediatelyFlush", params.bImmediatelyFlush);
     setting.setValue("nAppendTimeMaxSpace", params.nAppendTimeMaxSpace);
+    setting.setValue("bAppendAtNewDay", params.bAppendAtNewDay);
     setting.setValue("bOutConsole", params.bOutConsole);
+    setting.setValue("maxCacheCount", params.maxCacheCount);
     setting.setValue("contentFormat", params.contentFormat);
 
     QStringList levels;
@@ -126,7 +128,9 @@ QhLoggerConfig QhLoggerConfig::readFromIniFile(const QString &fileName, bool bWr
     INI_GETSET(bAppend, toBool)
     INI_GETSET(bImmediatelyFlush, toBool)
     INI_GETSET(nAppendTimeMaxSpace, toInt)
+    INI_GETSET(bAppendAtNewDay, toBool)
     INI_GETSET(bOutConsole, toBool)
+    INI_GETSET(maxCacheCount, toInt)
     INI_GETSET(contentFormat, toString)
 
     if (setting.contains("outputlogLevels")) {

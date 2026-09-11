@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 #ifdef TEST_LOGGER
     TestLogger tlogger;
     tlogger.test();
-    return a.exec();
+    return 0;
 #endif
 
 #if 0

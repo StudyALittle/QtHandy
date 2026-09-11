@@ -98,8 +98,8 @@ void QhLoggerPrivate::startLogger()
         QLoggingCategory::setFilterRules(QStringLiteral("*.debug=true\nqt.*.debug=false"));
         g_defaultHandler = qInstallMessageHandler(QhLoggerPrivate::qMessageHandler);
     } else {
-        g_defaultHandler = nullptr;
-        qInstallMessageHandler(nullptr);
+        // g_defaultHandler = nullptr;
+        // qInstallMessageHandler(nullptr);
     }
 
     appender->initDevice();
@@ -126,23 +126,15 @@ void QhLoggerPrivate::stopLogger(bool bWaitAllWrite)
 
 void QhLoggerPrivate::appendMessage(QhLoggerMessage::Ptr msg)
 {
-#ifdef QT_DEBUG
-    // DEBUG模式同时打印日志到控制台
-    writeConsole(msg);
-#else
     if (loggerConfig.bOutConsole) {
         writeConsole(msg);
     }
-#endif
 
-    if (!bRun)
-        return;
-
-    if (!appender->msgFilter(msg))
+    if (!bRun || !appender->msgFilter(msg))
         return;
 
     mutex.lock();
-    if (cacheLoggers.size() > loggerConfig.maxCacheCount) {
+    if (loggerConfig.maxCacheCount > 0 && cacheLoggers.size() > loggerConfig.maxCacheCount) {
         mutex.unlock();
         return;
     }
@@ -165,10 +157,10 @@ void QhLoggerPrivate::writeConsole(QhLoggerMessage::Ptr msg)
                 .arg(msg->level)
                 .arg(msg->dateTime.toString("yyyy-MM-dd HH:mm:ss.zzz "), msg->content,  msg->file, msg->funcname)
                 .arg(msg->line);
-    if (!bAcceptQtDebug) {
-        qDebug() << msg;
-    } else if (g_defaultHandler) {
+    if (g_defaultHandler) {
         g_defaultHandler(QtWarningMsg, QMessageLogContext(), text);
+    } else {
+        qDebug() << text;
     }
 }
 
