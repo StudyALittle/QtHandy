@@ -27,8 +27,9 @@ public:
     ///   "$$CacheLocation"开始：替换为用户缓存目录；
     ///   "$$AppLocalDataLocation"开始：替换为用户数据目录；
     ///   "."开始：替换为当前可执行程序目录；
+    ///   ".."开始：替换为当前可执行程序目录的上一级；
     ///   其它表示为绝对路径；
-    QString toAbsoluteDirectory(const QString &path = "$$CacheLocation/hlogger") const;
+    static QString toAbsoluteDirectory(const QString &path = "$$CacheLocation/hlogger");
 
     /// @brief Whether to enable logging
     bool bStart = true;
@@ -36,7 +37,7 @@ public:
     bool bSubThreadWrite = true;
 
     /// @brief storage path
-    QString storageDirectory;
+    QString storageDirectory = "$$AppLocalDataLocation/logger";
 
     /// @brief Log file name format
     /// example: "logger_%1.log" (%1 is a placeholder for date and time)

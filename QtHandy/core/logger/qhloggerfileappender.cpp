@@ -23,7 +23,7 @@ void QhLoggerFileAppender::initDevice()
     const static QString s_tmp = "%1";
 
     const auto &params = this->hlogger->loggerConfig();
-    QString baseDir = params.storageDirectory;
+    QString baseDir = QhLoggerConfig::toAbsoluteDirectory(params.storageDirectory);
 
     QDir dir(baseDir);
     if (!dir.exists(baseDir))

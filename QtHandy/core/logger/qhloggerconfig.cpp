@@ -3,6 +3,7 @@
 #include <QStandardPaths>
 #include <QSettings>
 #include <QLoggingCategory>
+#include <QDir>
 
 QhLoggerConfig::QhLoggerConfig()
 {
@@ -70,18 +71,30 @@ void QhLoggerConfig::writeToFile(const QString &fileName, const QhLoggerConfig &
     setting.endGroup();
 }
 
-QString QhLoggerConfig::toAbsoluteDirectory(const QString &strPath) const
+QString QhLoggerConfig::toAbsoluteDirectory(const QString &strPath)
 {
-    QString strCacheLocation = "$$CacheLocation";
-    QString strAppLocalDataLocation = "$$AppLocalDataLocation";
+    static QString strCacheLocation = "$$CacheLocation";
+    static QString strAppLocalDataLocation = "$$AppLocalDataLocation";
+
     QString path = strPath;
-    if (path.startsWith(".")) {
+    if (path.isEmpty()) {
+        path = "$$AppLocalDataLocation/logger";
+    } else if (path.startsWith("..")) {
+        QString apath = QCoreApplication::applicationDirPath();
+        QDir dir(apath);
+        if (dir.cdUp()) {
+            apath = dir.path();
+        }
+        path.replace(0, 2, apath);
+    } else if (path.startsWith(".")) {
         path.replace(0, 1, QCoreApplication::applicationDirPath());
     } else if (path.startsWith(strCacheLocation)) {
-        path.replace(0, strCacheLocation.size(), QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+        path.replace(0, strCacheLocation.size(),
+            QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
     } else if (path.startsWith(strAppLocalDataLocation)) {
         path.replace(
-            0, strAppLocalDataLocation.size(), QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+            0, strAppLocalDataLocation.size(),
+            QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     }
 
     path = path.replace("\\", "/");

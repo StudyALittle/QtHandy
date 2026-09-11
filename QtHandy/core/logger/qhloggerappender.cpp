@@ -14,7 +14,7 @@ QhLoggerAppender::~QhLoggerAppender()
 
 QString QhLoggerAppender::generateFileName(const QhLoggerConfig &logParams)
 {
-    QString baseDir = logParams.storageDirectory;
+    QString baseDir = QhLoggerConfig::toAbsoluteDirectory(logParams.storageDirectory);
     QDir dir(baseDir);
     if (!dir.exists())
         dir.mkpath(baseDir);

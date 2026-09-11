@@ -6,7 +6,7 @@
 #include <QLoggingCategory>
 #include "qhloggerfileappender.h"
 
-QtMessageHandler g_defaultHandler = nullptr;
+QtMessageHandler g_defaultHandlerQt = nullptr;
 int QhLoggerPrivate::s_acceptQtDebugModuleId = -1;
 
 QhLogger::QhLogger(int moduleId) : d(new QhLoggerPrivate(this, moduleId))
@@ -96,9 +96,9 @@ void QhLoggerPrivate::startLogger()
         // 注册QT debug日志句柄
         s_acceptQtDebugModuleId = moduleId;
         QLoggingCategory::setFilterRules(QStringLiteral("*.debug=true\nqt.*.debug=false"));
-        g_defaultHandler = qInstallMessageHandler(QhLoggerPrivate::qMessageHandler);
+        g_defaultHandlerQt = qInstallMessageHandler(QhLoggerPrivate::qMessageHandler);
     } else {
-        // g_defaultHandler = nullptr;
+        // g_defaultHandlerQt = nullptr;
         // qInstallMessageHandler(nullptr);
     }
 
@@ -157,8 +157,8 @@ void QhLoggerPrivate::writeConsole(QhLoggerMessage::Ptr msg)
                 .arg(msg->level)
                 .arg(msg->dateTime.toString("yyyy-MM-dd HH:mm:ss.zzz "), msg->content,  msg->file, msg->funcname)
                 .arg(msg->line);
-    if (g_defaultHandler) {
-        g_defaultHandler(QtWarningMsg, QMessageLogContext(), text);
+    if (g_defaultHandlerQt) {
+        g_defaultHandlerQt(QtWarningMsg, QMessageLogContext(), text);
     } else {
         qDebug() << text;
     }
