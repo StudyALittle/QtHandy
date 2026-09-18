@@ -59,17 +59,16 @@ void QhLoading::updateSize()
     this->resize(this->parentWidget()->size());
 }
 
-bool QhLoading::eventFilter(QObject *obj, QEvent *event)
+void QhLoading::setParent(QWidget *parent)
 {
-    auto ret = QWidget::eventFilter(obj, event);
-    if (obj == this->parentWidget() && event->type() == QEvent::Resize) {
-        updateSize();
+    if (parent && (d->installEventWidget == nullptr || d->installEventWidget != parent)) {
+        parent->installEventFilter(this);
     }
-    return ret;
+    QWidget::setParent(parent);
 }
 
-QhLoadingPrivate::QhLoadingPrivate(QhLoading *q):
-    ptr(q)
+QhLoadingPrivate::QhLoadingPrivate(QhLoading *loading):
+    loading(loading)
 {
 
 }
@@ -81,19 +80,29 @@ QhLoadingPrivate::~QhLoadingPrivate()
 
 void QhLoadingPrivate::init()
 {
-    ptr->parentWidget()->installEventFilter(this);
+    installEventWidget = loading->parentWidget();
+    if (installEventWidget)
+        installEventWidget->installEventFilter(this);
 
     timer.setSingleShot(true);
     connect(&timer, &QTimer::timeout, this, [=]() {
         if (state == StateWait) {
             state = StateShow;
             etimer.start();
-            ptr->startLoadding();
-            ptr->updateSize();
-            ptr->show();
+            loading->startLoadding();
+            loading->updateSize();
+            loading->show();
         } else if (state == StateClose) {
-            ptr->stopLoadding();
-            ptr->close();
+            loading->stopLoadding();
+            loading->close();
         }
     });
+}
+
+bool QhLoadingPrivate::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == loading->parentWidget() && event->type() == QEvent::Resize) {
+        loading->updateSize();
+    }
+    return QObject::eventFilter(obj, event);
 }

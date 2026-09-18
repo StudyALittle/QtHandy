@@ -10,7 +10,7 @@
 #include "qhmcomboboxtest.h"
 #include "testlogger.h"
 
-#define TEST_LOGGER
+//#define TEST_LOGGER
 
 int main(int argc, char *argv[])
 {
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     }
 #endif
 
-#if 0
+#if 1
     Widget w;
     w.show();
 #elif 0

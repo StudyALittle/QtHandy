@@ -11,14 +11,19 @@ class QhLoadingPrivate: public QObject
     Q_DISABLE_COPY(QhLoadingPrivate)
 
 public:
-    explicit QhLoadingPrivate(QhLoading *q);
+    explicit QhLoadingPrivate(QhLoading *loading);
     ~QhLoadingPrivate();
 
     enum LState { StateWait, StateShow, StateClose };
 
     void init();
 
-    QhLoading *ptr;
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
+public:
+    QhLoading *loading;
+    QWidget *installEventWidget = nullptr;
 
     QTimer timer;
     QElapsedTimer etimer;

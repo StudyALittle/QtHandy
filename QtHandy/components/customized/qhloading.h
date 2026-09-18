@@ -39,11 +39,11 @@ public:
     /// @brief
     void updateSize();
 
+    /// @brief
+    void setParent(QWidget *parent);
+
     virtual void startLoadding() = 0;
     virtual void stopLoadding() = 0;
-
-protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
 };
 
 #endif // QHLOADING_H
