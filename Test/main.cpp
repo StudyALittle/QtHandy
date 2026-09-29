@@ -4,6 +4,9 @@
 #include <qhdtwrapper.h>
 #include <qhsingletonprocess.h>
 #include <qhwidgetutil.h>
+#include <qhhueslider.h>
+#include <qhsvpanel.h>
+#include <qhcolorpicker.h>
 #include "widget.h"
 #include "qsstest.h"
 #include "testwidgettable.h"
@@ -63,6 +66,16 @@ int main(int argc, char *argv[])
 #endif
 
 #if 1
+    QhColorPicker w;
+    w.show();
+#elif 0
+    QhSVPanel w;
+    w.setColor(Qt::red);
+    w.show();
+#elif 0
+    QhHueSlider w(Qt::Vertical);
+    w.show();
+#elif 0
     Widget w;
     w.show();
 #elif 0

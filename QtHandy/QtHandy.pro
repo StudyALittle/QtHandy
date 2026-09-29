@@ -74,10 +74,13 @@ SOURCES += \
     components/complex/qhtimepicker.cpp \
     components/customized/qhbasepopup.cpp \
     components/customized/qhbasepopupcontent.cpp \
+    components/customized/qhcolorpicker.cpp \
     components/customized/qhcustommenu.cpp \
+    components/customized/qhhueslider.cpp \
     components/customized/qhloading.cpp \
     components/customized/qhmessagebox.cpp \
     components/customized/qhspin.cpp \
+    components/customized/qhsvpanel.cpp \
     components/framelesswindow/qhframelesswindow.cpp \
     components/framelesswindow/qhframelesswindow_unix.cpp \
     components/framelesswindow/qhframelesswindow_windows.cpp \
@@ -158,14 +161,20 @@ HEADERS += \
     components/customized/qhbasepopup.h \
     components/customized/qhbasepopup_p.h \
     components/customized/qhbasepopupcontent.h \
+    components/customized/qhcolorpicker.h \
+    components/customized/qhcolorpicker_p.h \
     components/customized/qhcustommenu.h \
     components/customized/qhcustommenu_p.h \
+    components/customized/qhhueslider.h \
+    components/customized/qhhueslider_p.h \
     components/customized/qhloading.h \
     components/customized/qhloading_p.h \
     components/customized/qhmessagebox.h \
     components/customized/qhmessagebox_p.h \
     components/customized/qhspin.h \
     components/customized/qhspin_p.h \
+    components/customized/qhsvpanel.h \
+    components/customized/qhsvpanel_p.h \
     components/framelesswindow/qhframelesswindow.h \
     components/framelesswindow/qhframelesswindow_p.h \
     components/framelesswindow/qhwidgetmoveresize.h \
