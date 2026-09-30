@@ -26,6 +26,7 @@ public:
 
     qreal hue() const;
     QColor color() const;
+    QColor color(qreal hue) const;
 
     void setHue(qreal hue);
     void setColor(const QColor &color);

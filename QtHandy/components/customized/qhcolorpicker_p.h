@@ -7,6 +7,8 @@
 #include "qhcolorpicker.h"
 #include "qhsvpanel.h"
 #include "qhhueslider.h"
+#include "qhalphaslider.h"
+#include "qhgradientslider.h"
 
 class QhColorPickerPrivate: public QObject
 {
@@ -20,14 +22,22 @@ public:
 
     QhColorPicker *colorPicker;
 
+    QColor selectedColor;
+
+    QhGradientSlider *gradientSlider;   // 渐变色选择器
     QLabel *labelColor;
     QLineEdit *lineEditColor;
-    QhSVPanel *svPanel;     // SV选择区
-    QhHueSlider *hueSlider; // 色相条
+    QhAlphaSlider *alphaSlider; // 透明度条
+    QhSVPanel *svPanel;         // SV选择区
+    QhHueSlider *hueSlider;     // 色相条
+
+    void setColor(const QColor &color);
 
 public slots:
-    void onSVColorChanged(const QColor &color);
+    void onEditColorTextChanged(const QString &text);
+    void onSVSelectedColorChanged(const QColor &color);
     void onHueChanged(qreal hue);
+    void onGradientSelectedColorChanged(const QColor &color);
 };
 
 #endif // QHCOLORPICKER_P_H

@@ -13,6 +13,8 @@ public:
 
     void updateFromPos(const QPoint &pos);
 
+    QMarginsF margin = QMarginsF(4, 0, 4, 0);
+
     QhHueSlider *hueSlider;
     Qt::Orientation orientation;
     qreal hue = 0.0;

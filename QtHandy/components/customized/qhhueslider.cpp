@@ -2,6 +2,7 @@
 #include "qhhueslider_p.h"
 #include <QPainter>
 #include <QMouseEvent>
+#include "qhstyle.h"
 
 QhHueSlider::QhHueSlider(Qt::Orientation orientation, QWidget *parent):
     QWidget(parent), d(new QhHueSliderPrivate(this))
@@ -24,16 +25,15 @@ QColor QhHueSlider::color() const
     return QColor::fromHsvF(d->hue, 1.0, 1.0);
 }
 
-void QhHueSlider::setHue(qreal hue)
+QColor QhHueSlider::color(qreal hue) const
 {
-//    {
-//        h = qBound(0.0, h, 1.0);
-//        if (!qFuzzyCompare(h, m_hue)) {
-//            m_hue = h;
-//            update();
-//        }
-//    }
-    if (d->hue == hue)
+    return QColor::fromHsvF(hue, 1.0, 1.0);
+}
+
+void QhHueSlider::setHue(qreal hue)
+{    
+    hue = qBound(0.0, hue, 1.0);
+    if (qFuzzyCompare(d->hue, hue))
         return;
 
     d->hue = hue;
@@ -88,9 +88,13 @@ void QhHueSlider::paintEvent(QPaintEvent *e)
         break;
     }
     case Qt::Vertical: {
-        qreal radius = width() / 2.0;
+        // qreal radius = width() / 2.0;
+        qreal circleRadius = (qreal)width() / 2.0f;
+        qreal barRadius = (width() - d->margin.left() - d->margin.right()) / 2.0f;
+
         // 垂直方向：上下各留 radius，中间是渐变条
-        QRectF barRect(0, radius, width(), height() - 2 * radius);
+        QRectF barRect(d->margin.left(), barRadius,
+            width() - d->margin.left() - d->margin.right(), height() - 2 * circleRadius);
 
         // 1. 构造垂直渐变
         // Qt 的 y 轴向下，所以顶部是 0，底部是 1
@@ -101,22 +105,16 @@ void QhHueSlider::paintEvent(QPaintEvent *e)
 
         // 2. 画渐变条（圆角矩形）
         QPainterPath barPath;
-        barPath.addRoundedRect(barRect, radius, radius);
+        barPath.addRoundedRect(barRect, barRadius, barRadius);
         p.fillPath(barPath, grad);
 
         // 3. 画圆形指示器
         // y 坐标：hue=0 在顶部，hue=1 在底部
-        qreal y = radius + d->hue * barRect.height();
+        qreal y = circleRadius + d->hue * barRect.height();
         QPointF center(width() / 2.0, y);
-        qreal circleR = radius * 0.9;
 
-        p.setPen(QPen(QColor(220, 220, 220), 2));
-        p.setBrush(Qt::white);
-        p.drawEllipse(center, circleR + 2, circleR + 2);
-
-        p.setPen(Qt::NoPen);
-        p.setBrush(QColor::fromHsvF(d->hue, 1.0, 1.0));
-        p.drawEllipse(center, circleR, circleR);
+        QhStyle::drawIndicatorRing(&p, center,
+            QColor::fromHsvF(d->hue, 1.0, 1.0), circleRadius);
         break;
     }
     default:
@@ -133,7 +131,8 @@ void QhHueSlider::mousePressEvent(QMouseEvent *e)
 void QhHueSlider::mouseMoveEvent(QMouseEvent *e)
 {
     QWidget::mouseMoveEvent(e);
-    d->updateFromPos(e->pos());
+    if (e->buttons() & Qt::LeftButton)
+        d->updateFromPos(e->pos());
 }
 
 QhHueSliderPrivate::QhHueSliderPrivate(QhHueSlider *hueSlider):
@@ -153,27 +152,21 @@ void QhHueSliderPrivate::updateFromPos(const QPoint &pos)
     case Qt::Horizontal: {
         qreal radius = hueSlider->height() / 2.0;
         qreal w = hueSlider->width() - 2 * radius;
-        if (w <= 0) return;
+        if (w <= 0)
+            return;
 
         qreal t = (pos.x() - radius) / w;
-        t = qBound(0.0, t, 1.0);
-
-        if (!qFuzzyCompare(t, hue)) {
-            hueSlider->setHue(t);
-        }
+        hueSlider->setHue(t);
         break;
     }
     case Qt::Vertical: {
         qreal radius = hueSlider->width() / 2.0;
         qreal h = hueSlider->height() - 2 * radius;
-        if (h <= 0) return;
+        if (h <= 0)
+            return;
 
         qreal t = (pos.y() - radius) / h;
-        t = qBound(0.0, t, 1.0);
-
-        if (!qFuzzyCompare(t, hue)) {
-            hueSlider->setHue(t);
-        }
+        hueSlider->setHue(t);
         break;
     }
     default:

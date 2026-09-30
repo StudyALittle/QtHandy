@@ -24,17 +24,35 @@ public:
     QhSVPanel(QWidget *parent = nullptr);
     ~QhSVPanel();
 
+    /// @brief hue
     qreal hue() const;
+
+    /// @brief saturation
     qreal saturation() const;
+
+    /// @brief value
     qreal value() const;
 
-    QColor currentColor() const;
+    /// @brief 选中颜色
+    QColor selectedColor() const;
+
+    /// @brief 选中位置
+    QPointF selectedPos() const;
+
+    /// @brief 设置选中位置
+    void setSelectPos(const QPointF &pos);
+
+    QPointF posFromColor(const QColor &color) const;
 
 signals:
-    void colorChanged(const QColor &color);
+    /// @brief 选中颜色变化
+    void selectedColorChanged(const QColor &color);
 
 public slots:
+    /// 设置hue
     void setHue(qreal h);
+
+    /// @brief 设置颜色
     void setColor(const QColor &color);
 
 protected:

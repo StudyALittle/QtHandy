@@ -16,11 +16,14 @@ public:
     QhSVPanel *svPanel;
 
     // 指示器（白色圆环）半径
-    qreal ringRadius = 10;
+    qreal ringRadius = 14;
 
     qreal hue = 0.0;   // 0.0 ~ 1.0
     qreal sat = 1.0;   // 0.0 ~ 1.0
     qreal val = 1.0;   // 0.0 ~ 1.0
+
+    QRectF panelRect;
+    QPointF selectedPos;
 };
 
 #endif // QHSVPANEL_P_H

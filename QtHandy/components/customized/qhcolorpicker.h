@@ -23,6 +23,8 @@ class QTHANDY_EXPORT QhColorPicker: public QWidget
 public:
     QhColorPicker(QWidget *parent = nullptr);
     ~QhColorPicker();
+
+    void setColor(const QColor &color);
 };
 
 #endif // QHCOLORPICKER_H

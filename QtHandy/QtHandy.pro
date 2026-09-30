@@ -72,10 +72,12 @@ SOURCES += \
     components/complex/qhtablewidget.cpp \
     components/complex/qhtablewidgetitem.cpp \
     components/complex/qhtimepicker.cpp \
+    components/customized/qhalphaslider.cpp \
     components/customized/qhbasepopup.cpp \
     components/customized/qhbasepopupcontent.cpp \
     components/customized/qhcolorpicker.cpp \
     components/customized/qhcustommenu.cpp \
+    components/customized/qhgradientslider.cpp \
     components/customized/qhhueslider.cpp \
     components/customized/qhloading.cpp \
     components/customized/qhmessagebox.cpp \
@@ -91,6 +93,7 @@ SOURCES += \
     components/style/qhqss.cpp \
     components/style/qhqssmanager.cpp \
     components/style/qhqssparser.cpp \
+    components/style/qhstyle.cpp \
     core/database/qhdatabase.cpp \
     core/database/qhsqltemplate.cpp \
     core/logger/qhlogger.cpp \
@@ -158,6 +161,8 @@ HEADERS += \
     components/complex/qhtablewidgetitem.h \
     components/complex/qhtimepicker.h \
     components/complex/qhtimepicker_p.h \
+    components/customized/qhalphaslider.h \
+    components/customized/qhalphaslider_p.h \
     components/customized/qhbasepopup.h \
     components/customized/qhbasepopup_p.h \
     components/customized/qhbasepopupcontent.h \
@@ -165,6 +170,8 @@ HEADERS += \
     components/customized/qhcolorpicker_p.h \
     components/customized/qhcustommenu.h \
     components/customized/qhcustommenu_p.h \
+    components/customized/qhgradientslider.h \
+    components/customized/qhgradientslider_p.h \
     components/customized/qhhueslider.h \
     components/customized/qhhueslider_p.h \
     components/customized/qhloading.h \
@@ -189,6 +196,7 @@ HEADERS += \
     components/style/qhqss_p.h \
     components/style/qhqssmanager.h \
     components/style/qhqssparser.h \
+    components/style/qhstyle.h \
     core/database/qhdatabase.h \
     core/database/qhdatabase_p.h \
     core/database/qhsqltemplate.h \
