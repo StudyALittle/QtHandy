@@ -24,7 +24,14 @@ public:
     QhColorPicker(QWidget *parent = nullptr);
     ~QhColorPicker();
 
+    /// @brief 设置界面缩放倍数（高分辨率）
+    void setZoom(qreal zoom);
+
+    /// @brief 设置颜色
     void setColor(const QColor &color);
+
+    /// @brief 界面缩放倍数
+    qreal zoom() const;
 };
 
 #endif // QHCOLORPICKER_H

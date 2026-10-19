@@ -79,25 +79,6 @@ void QhPushButton::setText(const QString &text)
     }
 }
 
-// bool QhPushButton::setProperty(const char *name, const QVariant &value)
-//{
-//    auto ret = QPushButton::setProperty(name, value);
-//    if (d->labelText) {
-//        d->labelText->setProperty(name, value);
-//        QhWidgetUtil::updateQssStyle(d->labelText);
-//    }
-//    if (d->labelIconLeft) {
-//        d->labelIconLeft->setProperty(name, value);
-//        QhWidgetUtil::updateQssStyle(d->labelIconLeft);
-//    }
-//    if (d->labelIconRight) {
-//        d->labelIconRight->setProperty(name, value);
-//        QhWidgetUtil::updateQssStyle(d->labelIconRight);
-//    }
-//    QhWidgetUtil::updateQssStyle(this);
-//    return ret;
-//}
-
 void QhPushButton::attachPropertyState(const QString &value)
 {
     d->attachState = value;
@@ -117,7 +98,7 @@ void QhPushButton::paintEvent(QPaintEvent *e)
     initStyleOption(&option);
 
     auto state = d->currentState(option);
-    QString strState = QhQss::stateToString(state);
+    QString strState = QhStyle::stateToString(state);
     if (!d->attachState.isEmpty()) {
         if (!strState.isEmpty())
             strState.append("-");
@@ -126,7 +107,6 @@ void QhPushButton::paintEvent(QPaintEvent *e)
 
     if (d->labelIconLeft) {
         d->labelIconLeft->setProperty("qstate", strState);
-        setLabelIconProperty(0, strState);
         QhWidgetUtil::updateQssStyle(d->labelIconLeft);
     }
 
@@ -137,15 +117,8 @@ void QhPushButton::paintEvent(QPaintEvent *e)
 
     if (d->labelIconRight) {
         d->labelIconRight->setProperty("qstate", strState);
-        setLabelIconProperty(1, strState);
         QhWidgetUtil::updateQssStyle(d->labelIconRight);
     }
-}
-
-void QhPushButton::setLabelIconProperty(int index, const QString &strState)
-{
-    Q_UNUSED(index)
-    Q_UNUSED(strState)
 }
 
 QhPushButtonPrivate::QhPushButtonPrivate(QhPushButton *p) : p(p)
@@ -172,17 +145,17 @@ void QhPushButtonPrivate::init(QWidget *labelIconLeft, QWidget *labelIconRight)
     p->setImageMode(false);
 }
 
-QhQss::PseudoState QhPushButtonPrivate::currentState(QStyleOptionButton &option)
+QhStyle::PseudoState QhPushButtonPrivate::currentState(QStyleOptionButton &option)
 {
-    QhQss::PseudoState state;
+    QhStyle::PseudoState state;
     if (!p->isEnabled()) { // disable
-        state = QhQss::SPS_Disabled;
+        state = QhStyle::SPS_Disabled;
     } else if ((option.state & QStyle::State_Sunken) == QStyle::State_Sunken) { // pressed
-        state = QhQss::SPS_Pressed;
+        state = QhStyle::SPS_Pressed;
     } else if ((option.state & QStyle::State_MouseOver) == QStyle::State_MouseOver) { // hover
-        state = QhQss::SPS_Hover;
+        state = QhStyle::SPS_Hover;
     } else { // normal
-        state = QhQss::SPS_Normal;
+        state = QhStyle::SPS_Normal;
     }
     return state;
 }

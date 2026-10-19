@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <qhqssmanager.h>
 #include <qhlogger.h>
+#include <qhstyle.h>
 #include "demowidget.h"
 
 #pragma execution_character_set("utf-8")
@@ -42,16 +43,9 @@ int main(int argc, char *argv[])
 
     a.setFont(QFont("微软雅黑", 10));
 
-    QhQssManager::setQss({
-        ":/resources/qss/imagebutton.css",
-        ":/resources/qss/lineedit.css",
-        ":/resources/qss/textedit.css",
-        ":/resources/qss/datetime.css",
-        ":/resources/qss/menu.css",
-        ":/resources/qss/paging.css",
-        ":/resources/qss/messagebox.css",
-        ":/resources/qss/other.css"
-    });
+    QhStyle::setQss({":/resources/qss/imagebutton.css", ":/resources/qss/lineedit.css", ":/resources/qss/textedit.css",
+        ":/resources/qss/datetime.css", ":/resources/qss/menu.css", ":/resources/qss/paging.css",
+        ":/resources/qss/messagebox.css", ":/resources/qss/other.css"});
 
     DemoWidget w;
     w.resize(1000, 600);

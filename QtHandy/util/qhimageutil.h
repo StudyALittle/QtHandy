@@ -18,6 +18,8 @@ public:
 
     static QIcon svgToIcon(const QString &svgPath,
         const QColor &color = QColor(), const QSize &size = QSize());
+
+    static QColor getScreenColorAt(const QPoint &pos);
 };
 
 #endif // QHIMAGEUTIL_H

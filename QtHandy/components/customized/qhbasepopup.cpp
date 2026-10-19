@@ -1,6 +1,6 @@
 ﻿#include "qhbasepopup.h"
 #include "qhbasepopup_p.h"
-#include "qhqss.h"
+#include "qhstyle.h"
 
 QhBasePopup::QhBasePopup(QWidget *parent) : QhFramelessDialog(parent), d(new QhBasePopupPrivate(this))
 {
@@ -152,22 +152,22 @@ void QhBasePopup::setWidgetButtonsSpace(int space)
 
 QString QhBasePopup::getWidgetTitleMargins() const
 {
-    return QhQss::marginsToString(d->widgetTitleMargins);
+    return QhStyle::marginsToString(d->widgetTitleMargins);
 }
 
 void QhBasePopup::setWidgetTitleMargins(const QString &mgs)
 {
-    d->setWidgetTitleMargins(QhQss::stringToMargins(mgs));
+    d->setWidgetTitleMargins(QhStyle::stringToMargins(mgs));
 }
 
 QString QhBasePopup::getWidgetButtonsMargins() const
 {
-    return QhQss::marginsToString(d->widgetButtonsMargins);
+    return QhStyle::marginsToString(d->widgetButtonsMargins);
 }
 
 void QhBasePopup::setWidgetButtonsMargins(const QString &mgs)
 {
-    d->setWidgetButtonsMargins(QhQss::stringToMargins(mgs));
+    d->setWidgetButtonsMargins(QhStyle::stringToMargins(mgs));
 }
 
 void QhBasePopup::setTitleIconSize(const QSize &size)

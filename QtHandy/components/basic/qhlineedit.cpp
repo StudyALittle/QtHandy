@@ -4,33 +4,28 @@
 #include <QHBoxLayout>
 #include <QValidator>
 #include <QPainter>
-#include "qhqss.h"
+#include "qhstyle.h"
 #include "qhwidgetutil.h"
 
-QhLineEdit::QhLineEdit(QWidget *parent):
-    QLineEdit(parent),
-    d(new QhLineEditPrivate(this))
+QhLineEdit::QhLineEdit(QWidget *parent) : QLineEdit(parent), d(new QhLineEditPrivate(this))
 {
     d->init(nullptr, nullptr);
 }
 
-QhLineEdit::QhLineEdit(const QString &contents, QWidget *parent):
-    QLineEdit(contents, parent),
-    d(new QhLineEditPrivate(this))
+QhLineEdit::QhLineEdit(const QString &contents, QWidget *parent) :
+    QLineEdit(contents, parent), d(new QhLineEditPrivate(this))
 {
     d->init(nullptr, nullptr);
 }
 
-QhLineEdit::QhLineEdit(QhLineEditSub *leftWidget, QhLineEditSub *rightWidget, QWidget *parent):
-    QLineEdit(parent),
-    d(new QhLineEditPrivate(this))
+QhLineEdit::QhLineEdit(QhLineEditSub *leftWidget, QhLineEditSub *rightWidget, QWidget *parent) :
+    QLineEdit(parent), d(new QhLineEditPrivate(this))
 {
     d->init(leftWidget, rightWidget);
 }
 
 QhLineEdit::~QhLineEdit()
 {
-
 }
 
 QhLineEditSub *QhLineEdit::leftWidget() const
@@ -49,11 +44,8 @@ QMargins QhLineEdit::textMargins() const
         return d->margins;
     } else {
         auto margins = QLineEdit::textMargins();
-        return QMargins(
-            margins.left() - d->widgetLeft->validWidth(),
-            margins.top(),
-            margins.right() - d->widgetRight->validWidth(),
-            margins.bottom());
+        return QMargins(margins.left() - d->widgetLeft->validWidth(), margins.top(),
+            margins.right() - d->widgetRight->validWidth(), margins.bottom());
     }
 }
 
@@ -92,14 +84,13 @@ bool QhLineEdit::isTextValidateValid()
         return true;
 
     if (valid->inherits("QRegularExpressionValidator")) {
-        const auto *regValid = static_cast<const QRegularExpressionValidator*>(valid);
-        return regValid->regularExpression()
-            .match(text, 0, QRegularExpression::PartialPreferCompleteMatch).hasMatch();
+        const auto *regValid = static_cast<const QRegularExpressionValidator *>(valid);
+        return regValid->regularExpression().match(text, 0, QRegularExpression::PartialPreferCompleteMatch).hasMatch();
     } else if (valid->inherits("QDoubleValidator")) {
         if (text.isEmpty())
             return false;
 
-        const auto *doubleValid = static_cast<const QDoubleValidator*>(valid);
+        const auto *doubleValid = static_cast<const QDoubleValidator *>(valid);
         auto val = text.toDouble();
         if (val > doubleValid->top() || val < doubleValid->bottom())
             return false;
@@ -107,7 +98,7 @@ bool QhLineEdit::isTextValidateValid()
         if (text.isEmpty())
             return false;
 
-        const auto *intValid = static_cast<const QIntValidator*>(valid);
+        const auto *intValid = static_cast<const QIntValidator *>(valid);
         auto val = text.toInt();
         if (val > intValid->top() || val < intValid->bottom())
             return false;
@@ -116,7 +107,7 @@ bool QhLineEdit::isTextValidateValid()
     return true;
 }
 
-void QhLineEdit::setTextValidate(std::function<bool (QhLineEdit *)> func, bool bEmptyNoError)
+void QhLineEdit::setTextValidate(std::function<bool(QhLineEdit *)> func, bool bEmptyNoError)
 {
     d->bValidateEmptyNoError = bEmptyNoError;
     d->textValidateFunction = func;
@@ -144,14 +135,14 @@ bool QhLineEdit::validatorEmptyNoError() const
 QString QhLineEdit::getLayoutMargins() const
 {
     if (this->layout())
-        return QhQss::marginsToString(this->layout()->contentsMargins());
+        return QhStyle::marginsToString(this->layout()->contentsMargins());
     return QString();
 }
 
 void QhLineEdit::setLayoutMargins(const QString &str)
 {
     if (this->layout())
-        this->layout()->setContentsMargins(QhQss::stringToMargins(str));
+        this->layout()->setContentsMargins(QhStyle::stringToMargins(str));
 }
 
 void QhLineEdit::resizeEvent(QResizeEvent *e)
@@ -184,15 +175,13 @@ void QhLineEdit::mousePressEvent(QMouseEvent *event)
     emit clicked();
 }
 
-QhLineEditPrivate::QhLineEditPrivate(QhLineEdit *p):
-    ptr(p)
+QhLineEditPrivate::QhLineEditPrivate(QhLineEdit *p) : ptr(p)
 {
-
 }
 
 void QhLineEditPrivate::init(QhLineEditSub *lWidget, QhLineEditSub *rWidget)
 {
-    margins = static_cast<QLineEdit*>(ptr)->textMargins();
+    margins = static_cast<QLineEdit *>(ptr)->textMargins();
     if (!lWidget) {
         widgetLeft = new QhLineEditLeft;
     } else {
@@ -216,9 +205,7 @@ void QhLineEditPrivate::init(QhLineEditSub *lWidget, QhLineEditSub *rWidget)
 
     resetMargin();
 
-    connect(ptr, &QhLineEdit::textChanged, this, [this](const QString &) {
-        checkTextFormat();
-    });
+    connect(ptr, &QhLineEdit::textChanged, this, [this](const QString &) { checkTextFormat(); });
     checkTextFormat();
 
     widgetLeft->setVisible(false);
@@ -237,16 +224,12 @@ void QhLineEditPrivate::checkTextFormat()
 
 void QhLineEditPrivate::resetMargin()
 {
-    auto mgs = QMargins(
-        margins.left() + widgetLeft->validWidth(),
-        margins.top(),
-        margins.right() + widgetRight->validWidth(),
-        margins.bottom());
-    static_cast<QLineEdit*>(ptr)->setTextMargins(mgs);
+    auto mgs = QMargins(margins.left() + widgetLeft->validWidth(), margins.top(),
+        margins.right() + widgetRight->validWidth(), margins.bottom());
+    static_cast<QLineEdit *>(ptr)->setTextMargins(mgs);
 }
 
-QhLineEditLeft::QhLineEditLeft(QWidget *parent):
-    d(new QhLineEditLeftPrivate(this))
+QhLineEditLeft::QhLineEditLeft(QWidget *parent) : d(new QhLineEditLeftPrivate(this))
 {
     this->setAttribute(Qt::WA_StyledBackground);
     d->init();
@@ -254,7 +237,6 @@ QhLineEditLeft::QhLineEditLeft(QWidget *parent):
 
 QhLineEditLeft::~QhLineEditLeft()
 {
-
 }
 
 QLabel *QhLineEditLeft::label()
@@ -267,8 +249,7 @@ int QhLineEditLeft::validWidth()
     return d->width();
 }
 
-QhLineEditRight::QhLineEditRight(QWidget *parent):
-    d(new QhLineEditRightPrivate(this))
+QhLineEditRight::QhLineEditRight(QWidget *parent) : d(new QhLineEditRightPrivate(this))
 {
     this->setAttribute(Qt::WA_StyledBackground);
     d->init();
@@ -276,7 +257,6 @@ QhLineEditRight::QhLineEditRight(QWidget *parent):
 
 QhLineEditRight::~QhLineEditRight()
 {
-
 }
 
 QAbstractButton *QhLineEditRight::button()
@@ -305,7 +285,7 @@ void QhLineEditRight::setPasswdMode(bool bPasswd)
     if (!lineEdit)
         return;
 
-    auto *button = lineEdit->rightWidgetC<QhLineEditRight*>()->button();
+    auto *button = lineEdit->rightWidgetC<QhLineEditRight *>()->button();
     button->setProperty("qstate", bPasswd ? "passwd" : "");
     lineEdit->setEchoMode(bPasswd ? QLineEdit::Password : QLineEdit::Normal);
     QhWidgetUtil::updateQssStyle(button);
@@ -319,15 +299,12 @@ void QhLineEditRight::switchPasswdMode()
     setPasswdMode(!(lineEdit->echoMode() == QLineEdit::Password));
 }
 
-QhLineEditLeftPrivate::QhLineEditLeftPrivate(QhLineEditLeft *p):
-    ptr(p)
+QhLineEditLeftPrivate::QhLineEditLeftPrivate(QhLineEditLeft *p) : ptr(p)
 {
-
 }
 
 QhLineEditLeftPrivate::~QhLineEditLeftPrivate()
 {
-
 }
 
 void QhLineEditLeftPrivate::init()
@@ -353,15 +330,12 @@ int QhLineEditLeftPrivate::width()
     return w;
 }
 
-QhLineEditRightPrivate::QhLineEditRightPrivate(QhLineEditRight *p):
-    ptr(p)
+QhLineEditRightPrivate::QhLineEditRightPrivate(QhLineEditRight *p) : ptr(p)
 {
-
 }
 
 QhLineEditRightPrivate::~QhLineEditRightPrivate()
 {
-
 }
 
 void QhLineEditRightPrivate::init()
@@ -393,13 +367,10 @@ void QhLineEditRightPrivate::onClicked(bool checked)
     ptr->switchPasswdMode();
 }
 
-QhLineEditSub::QhLineEditSub(QWidget *parent):
-    QWidget(parent)
+QhLineEditSub::QhLineEditSub(QWidget *parent) : QWidget(parent)
 {
-
 }
 
 QhLineEditSub::~QhLineEditSub()
 {
-
 }

@@ -105,3 +105,8 @@
 {
     image: url(:/resources/imgs/menu/right_down.svg);
 }
+
+#NavButtonL1[qstate="expand-checked"]
+{
+    background: gray;
+}

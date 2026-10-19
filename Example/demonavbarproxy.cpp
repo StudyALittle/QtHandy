@@ -7,7 +7,6 @@
 
 DemoNavbarProxy::DemoNavbarProxy()
 {
-
 }
 
 QWidget *DemoNavbarProxy::createItemWidget(int level, QhNavbarItem *item)
@@ -19,11 +18,26 @@ QWidget *DemoNavbarProxy::createItemWidget(int level, QhNavbarItem *item)
         btn->setObjectName("NavButtonL1");
 
         switch (item->id()) {
-        case Page_Popup:    { btn->iconLeft()->setObjectName("IconPopup"); break; }
-        case Page_Navbar:   { btn->iconLeft()->setObjectName("IconNavbar"); break; }
-        case Page_Button:   { btn->iconLeft()->setObjectName("IconButton"); break; }
-        case Page_Label:    { btn->iconLeft()->setObjectName("IconLabel"); break; }
-        default:            { btn->iconLeft()->setObjectName("Icon"); break; }
+        case Page_Popup: {
+            btn->iconLeft()->setObjectName("IconPopup");
+            break;
+        }
+        case Page_Navbar: {
+            btn->iconLeft()->setObjectName("IconNavbar");
+            break;
+        }
+        case Page_Button: {
+            btn->iconLeft()->setObjectName("IconButton");
+            break;
+        }
+        case Page_Label: {
+            btn->iconLeft()->setObjectName("IconLabel");
+            break;
+        }
+        default: {
+            btn->iconLeft()->setObjectName("Icon");
+            break;
+        }
         }
         QhWidgetUtil::updateQssStyle(btn->iconLeft());
     } else if (level == 2) {
@@ -42,8 +56,7 @@ QWidget *DemoNavbarProxy::createItemWidget(int level, QhNavbarItem *item)
 
 void DemoNavbarProxy::setItemChecked(QhNavbarItem *item, bool bChekced)
 {
-    static_cast<QhPushButton*>(item->widget())
-        ->attachPropertyState(bChekced ? "checked" : "");
+    static_cast<QhPushButton *>(item->widget())->attachPropertyState(bChekced ? "checked" : "");
 
     auto *parentItem = navbar()->parentItem(item->id());
     if (parentItem) {
@@ -56,8 +69,8 @@ bool DemoNavbarProxy::checkedBefore(QhNavbarItem *currentItem, QhNavbarItem *wil
     Q_UNUSED(currentItem)
 
     if (willItem->id() == Page_NavbarV) {
-        QhMessageBox::message(QhMessageBox::NoIcon,
-            nullptr, tr("Navbar tips"), willItem->customParam().toString(), QhMessageBox::ButtonOk);
+        QhMessageBox::message(QhMessageBox::NoIcon, nullptr, tr("Navbar tips"), willItem->customParam().toString(),
+            QhMessageBox::ButtonOk);
         return false;
     }
 
@@ -67,10 +80,11 @@ bool DemoNavbarProxy::checkedBefore(QhNavbarItem *currentItem, QhNavbarItem *wil
 void DemoNavbarProxy::childExpand(QhNavbarItem *item, bool bExpand)
 {
     if (item->childItems().isEmpty()) {
-        static_cast<QhPushButton*>(item->widget())
-            ->attachPropertyState("");
+        static_cast<QhPushButton *>(item->widget())->attachPropertyState("");
     } else {
-        static_cast<QhPushButton*>(item->widget())
-            ->attachPropertyState(bExpand ? "expand" : "");
+        if (this->navbar()->isChildChecked(item))
+            static_cast<QhPushButton *>(item->widget())->attachPropertyState(bExpand ? "expand-checked" : "");
+        else
+            static_cast<QhPushButton *>(item->widget())->attachPropertyState(bExpand ? "expand" : "");
     }
 }

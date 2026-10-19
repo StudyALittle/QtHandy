@@ -1,25 +1,20 @@
 ﻿#include "qhtextedit.h"
 #include "qhtextedit_p.h"
 #include <QResizeEvent>
-#include "qhqss.h"
+#include "qhstyle.h"
 
-QhTextEdit::QhTextEdit(QWidget *parent):
-    QTextEdit(parent),
-    d(new QhTextEditPrivate(this))
+QhTextEdit::QhTextEdit(QWidget *parent) : QTextEdit(parent), d(new QhTextEditPrivate(this))
 {
     d->init();
 }
 
-QhTextEdit::QhTextEdit(const QString &text, QWidget *parent):
-    QTextEdit(text, parent),
-    d(new QhTextEditPrivate(this))
+QhTextEdit::QhTextEdit(const QString &text, QWidget *parent) : QTextEdit(text, parent), d(new QhTextEditPrivate(this))
 {
     d->init();
 }
 
 QhTextEdit::~QhTextEdit()
 {
-
 }
 
 int QhTextEdit::textMaxLenght()
@@ -35,12 +30,12 @@ void QhTextEdit::setTextMaxLenght(int len)
 
 QString QhTextEdit::getLabelMargins() const
 {
-    return QhQss::marginsToString(d->labelMargins);
+    return QhStyle::marginsToString(d->labelMargins);
 }
 
 void QhTextEdit::setLabelMargins(const QString &str)
 {
-    d->labelMargins = QhQss::stringToMargins(str);
+    d->labelMargins = QhStyle::stringToMargins(str);
     d->resetLabelPos(QSize());
 }
 
@@ -52,15 +47,12 @@ void QhTextEdit::resizeEvent(QResizeEvent *e)
     d->resetLabelPos(size);
 }
 
-QhTextEditPrivate::QhTextEditPrivate(QhTextEdit *p):
-    ptr(p)
+QhTextEditPrivate::QhTextEditPrivate(QhTextEdit *p) : ptr(p)
 {
-
 }
 
 QhTextEditPrivate::~QhTextEditPrivate()
 {
-
 }
 
 void QhTextEditPrivate::init()
@@ -68,15 +60,14 @@ void QhTextEditPrivate::init()
     label = new QLabel(ptr);
     label->clear();
 
-    connect(ptr, &QhTextEdit::textChanged,
-            this, &QhTextEditPrivate::onTextChanged);
+    connect(ptr, &QhTextEdit::textChanged, this, &QhTextEditPrivate::onTextChanged);
 }
 
 void QhTextEditPrivate::resetLabelPos(const QSize &size)
 {
     auto newSize = size.isValid() ? size : ptr->size();
     label->move(newSize.width() - label->width() - labelMargins.right(),
-                newSize.height() - label->height() - labelMargins.bottom());
+        newSize.height() - label->height() - labelMargins.bottom());
 }
 
 void QhTextEditPrivate::resetLabelText()

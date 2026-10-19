@@ -7,6 +7,7 @@
 #include <qhhueslider.h>
 #include <qhsvpanel.h>
 #include <qhcolorpicker.h>
+#include <qhscreencolorpicker.h>
 #include "widget.h"
 #include "qsstest.h"
 #include "testwidgettable.h"
@@ -66,7 +67,11 @@ int main(int argc, char *argv[])
 #endif
 
 #if 1
+    QhScreenColorPicker w;
+    w.show();
+#elif 1
     QhColorPicker w;
+    w.setZoom(1.25);
     w.show();
 #elif 0
     QhSVPanel w;

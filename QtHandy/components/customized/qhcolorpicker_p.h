@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QPushButton>
+#include <QButtonGroup>
 #include "qhlineedit.h"
 #include "qhcolorpicker.h"
 #include "qhsvpanel.h"
@@ -22,19 +23,28 @@ public:
 
     QhColorPicker *colorPicker;
 
+    qreal zoom = 1.0f;
     QColor selectedColor;
 
+    QButtonGroup *buttonGroup;
+    QPushButton *buttonMonochrome;      // 单色
+    QPushButton *buttonLinearColor;     // 线性
     QhGradientSlider *gradientSlider;   // 渐变色选择器
     QLabel *labelColor;
     QLineEdit *lineEditColor;
-    QhAlphaSlider *alphaSlider; // 透明度条
-    QhSVPanel *svPanel;         // SV选择区
-    QhHueSlider *hueSlider;     // 色相条
+    QPushButton *buttonColorAbsorber;   // 吸色器
+    QhAlphaSlider *alphaSlider;         // 透明度条
+    QLineEdit *lineEditAlpha;
+    QhSVPanel *svPanel;                 // SV选择区
+    QhHueSlider *hueSlider;             // 色相条
 
+    void setZoom(qreal zoom);
     void setColor(const QColor &color);
 
 public slots:
+    void onButtonToggled(QAbstractButton *button, bool checked);
     void onEditColorTextChanged(const QString &text);
+    void onAlphaChanged(qreal alpha);
     void onSVSelectedColorChanged(const QColor &color);
     void onHueChanged(qreal hue);
     void onGradientSelectedColorChanged(const QColor &color);

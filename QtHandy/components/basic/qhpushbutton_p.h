@@ -4,7 +4,7 @@
 #include <QMap>
 #include <QLabel>
 #include "qhpushbutton.h"
-#include "qhqss.h"
+#include "qhstyle.h"
 
 class QhPushButtonPrivate : public QObject
 {
@@ -23,7 +23,7 @@ public:
     QWidget *labelIconRight = nullptr;
 
     void init(QWidget *labelIconLeft, QWidget *labelIconRight);
-    QhQss::PseudoState currentState(QStyleOptionButton &option);
+    QhStyle::PseudoState currentState(QStyleOptionButton &option);
 
 private:
     QhPushButton *p = nullptr;

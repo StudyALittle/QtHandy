@@ -1,7 +1,7 @@
 ﻿#include <QApplication>
 #include <QStandardPaths>
 #include <QIcon>
-#include <qhqssmanager.h>
+#include <qhstyle.h>
 #include "ui/homeui.h"
 #include "db/dbmanager.h"
 
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     DBManager::instance().initDB(appDataPath + "/dirfiletool.db");
 
-    QhQssManager::setQss({
+    QhStyle::setQss({
         ":/resource/css/style.css",
     });
 

@@ -4,11 +4,11 @@
 
 QssTest::QssTest()
 {
-
 }
 
 void QssTest::testQssParser()
 {
+#if 0
     QString qss =
         "QPushButton {"
         "   color: red;"
@@ -95,4 +95,5 @@ void QssTest::testQssParser()
     qDebug() << "up-arrow color: " << QhQssParser::attributeValue(w, items, "up-arrow", "", "color");
     qDebug() << "up-arrow:hover color: " << QhQssParser::attributeValue(w, items, "up-arrow", "hover", "color");
     w->deleteLater();
+#endif
 }

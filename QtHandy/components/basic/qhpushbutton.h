@@ -41,13 +41,10 @@ public:
     void setText(const QString &text);
 
     /// @brief
-    // bool setProperty(const char *name, const QVariant &value);
     void attachPropertyState(const QString &value);
 
 protected:
     void paintEvent(QPaintEvent *e) override;
-
-    virtual void setLabelIconProperty(int index, const QString &strState);
 };
 
 #endif // QHPUSHBUTTON_H

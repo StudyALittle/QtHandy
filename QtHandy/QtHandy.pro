@@ -81,6 +81,7 @@ SOURCES += \
     components/customized/qhhueslider.cpp \
     components/customized/qhloading.cpp \
     components/customized/qhmessagebox.cpp \
+    components/customized/qhscreencolorpicker.cpp \
     components/customized/qhspin.cpp \
     components/customized/qhsvpanel.cpp \
     components/framelesswindow/qhframelesswindow.cpp \
@@ -178,6 +179,8 @@ HEADERS += \
     components/customized/qhloading_p.h \
     components/customized/qhmessagebox.h \
     components/customized/qhmessagebox_p.h \
+    components/customized/qhscreencolorpicker.h \
+    components/customized/qhscreencolorpicker_p.h \
     components/customized/qhspin.h \
     components/customized/qhspin_p.h \
     components/customized/qhsvpanel.h \

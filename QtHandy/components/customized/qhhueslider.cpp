@@ -8,6 +8,16 @@ QhHueSlider::QhHueSlider(Qt::Orientation orientation, QWidget *parent):
     QWidget(parent), d(new QhHueSliderPrivate(this))
 {
     d->orientation = orientation;
+    switch (d->orientation) {
+    case Qt::Vertical:
+        d->margin = QMarginsF(4, 0, 4, 0);
+        break;
+    case Qt::Horizontal:
+        d->margin = QMarginsF(0, 4, 0, 4);
+        break;
+    default:
+        break;
+    }
 }
 
 QhHueSlider::~QhHueSlider()
@@ -56,8 +66,11 @@ void QhHueSlider::paintEvent(QPaintEvent *e)
     switch (d->orientation) {
     case Qt::Horizontal: {
         // 1. 渐变条区域（留出圆头的空间）
-        qreal radius = height() / 2.0;
-        QRectF barRect(radius, 0, width() - 2 * radius, height());
+        // qreal radius = height() / 2.0;
+        qreal circleRadius = (qreal)height() / 2.0f;
+        qreal barRadius = (height() - d->margin.top() - d->margin.bottom()) / 2.0f;
+        QRectF barRect(circleRadius, d->margin.top(),
+            width() - 2 * circleRadius, height() - d->margin.top() - d->margin.bottom());
 
         // 2. 构造色相渐变
         QLinearGradient grad(barRect.topLeft(), barRect.topRight());
@@ -68,23 +81,15 @@ void QhHueSlider::paintEvent(QPaintEvent *e)
 
         // 3. 画渐变条（圆角矩形）
         QPainterPath barPath;
-        barPath.addRoundedRect(barRect, radius, radius);
+        barPath.addRoundedRect(barRect, barRadius, barRadius);
         p.fillPath(barPath, grad);
 
         // 4. 画圆形指示器
-        qreal x = radius + d->hue * barRect.width();
+        qreal x = circleRadius + d->hue * barRect.width();
         QPointF center(x, height() / 2.0);
-        qreal circleR = radius * 0.9;
 
-        // 外圈白色 + 阴影感
-        p.setPen(QPen(QColor(220, 220, 220), 2));
-        p.setBrush(Qt::white);
-        p.drawEllipse(center, circleR + 2, circleR + 2);
-
-        // 内圈当前色相颜色
-        p.setPen(Qt::NoPen);
-        p.setBrush(QColor::fromHsvF(d->hue, 1.0, 1.0));
-        p.drawEllipse(center, circleR, circleR);
+        QhStyle::drawIndicatorRing(&p, center,
+            QColor::fromHsvF(d->hue, 1.0, 1.0), circleRadius);
         break;
     }
     case Qt::Vertical: {
@@ -93,7 +98,7 @@ void QhHueSlider::paintEvent(QPaintEvent *e)
         qreal barRadius = (width() - d->margin.left() - d->margin.right()) / 2.0f;
 
         // 垂直方向：上下各留 radius，中间是渐变条
-        QRectF barRect(d->margin.left(), barRadius,
+        QRectF barRect(d->margin.left(), circleRadius,
             width() - d->margin.left() - d->margin.right(), height() - 2 * circleRadius);
 
         // 1. 构造垂直渐变
