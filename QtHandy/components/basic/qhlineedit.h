@@ -11,7 +11,7 @@ class QhLineEditPrivate;
 class QhLineEditLeftPrivate;
 class QhLineEditRightPrivate;
 
-class QTHANDY_EXPORT QhLineEdit: public QLineEdit
+class QTHANDY_EXPORT QhLineEdit : public QLineEdit
 {
     Q_OBJECT
     Q_PRIVATE_VARIABLE(QhLineEdit)
@@ -25,12 +25,18 @@ public:
     ~QhLineEdit();
 
     QhLineEditSub *leftWidget() const;
-    template<class T>
-    T leftWidgetC() const { return static_cast<T>(leftWidget()); }
+    template <class T>
+    T leftWidgetC() const
+    {
+        return static_cast<T>(leftWidget());
+    }
 
     QhLineEditSub *rightWidget() const;
-    template<class T>
-    T rightWidgetC() const { return static_cast<T>(rightWidget()); }
+    template <class T>
+    T rightWidgetC() const
+    {
+        return static_cast<T>(rightWidget());
+    }
 
     QMargins textMargins() const;
 
@@ -47,7 +53,7 @@ public:
 
     /// @brief Input text verification function,
     /// If there is a verification error, return false
-    void setTextValidate(std::function<bool(QhLineEdit*)> func, bool bEmptyNoError = false);
+    void setTextValidate(std::function<bool(QhLineEdit *)> func, bool bEmptyNoError = false);
 
     /// @brief Set validator
     /// @param valid: validator
@@ -77,7 +83,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
 };
 
-class QTHANDY_EXPORT QhLineEditSub: public QWidget
+class QTHANDY_EXPORT QhLineEditSub : public QWidget
 {
     Q_OBJECT
     friend class QhLineEdit;
@@ -90,10 +96,13 @@ public:
     virtual int validWidth() = 0;
 
 protected:
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
+
     QhLineEdit *lineEdit = nullptr;
 };
 
-class QTHANDY_EXPORT QhLineEditLeft: public QhLineEditSub
+class QTHANDY_EXPORT QhLineEditLeft : public QhLineEditSub
 {
     Q_OBJECT
     Q_PRIVATE_VARIABLE(QhLineEditLeft)
@@ -106,7 +115,7 @@ public:
     int validWidth() override;
 };
 
-class QTHANDY_EXPORT QhLineEditRight: public QhLineEditSub
+class QTHANDY_EXPORT QhLineEditRight : public QhLineEditSub
 {
     Q_OBJECT
     Q_PRIVATE_VARIABLE(QhLineEditRight)

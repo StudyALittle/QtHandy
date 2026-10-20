@@ -5,20 +5,21 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QComboBox>
-#include "qhlabel.h"
+#include <QHBoxLayout>
 #include "qhlineedit.h"
-#include "qhcombobox.h"
 #include "QH_global.h"
 
 class QhPagingPrivate;
 
-class QTHANDY_EXPORT QhPaging: public QWidget
+class QTHANDY_EXPORT QhPaging : public QWidget
 {
     Q_OBJECT
     Q_PRIVATE_VARIABLE(QhPaging)
 
     /// Minimum width of page switching button
     Q_PROPERTY_EX(int, ButtonPageMinWidth)
+    Q_PROPERTY_EX(int, ButtonPageFixedHeight)
+    Q_PROPERTY_EX(int, ButtonFixedSize)
 
 public:
     QhPaging(QWidget *parent = nullptr);
@@ -41,6 +42,10 @@ public:
 
     int getButtonPageMinWidth();
 
+    int getButtonFixedSize() const;
+
+    int getButtonPageFixedHeight() const;
+
     /// @brief
     void setPageSizeList(const QList<QPair<int, QString> > &lists);
 
@@ -57,6 +62,14 @@ public:
     void setPageIndex(int n);
 
     void setButtonPageMinWidth(int width);
+    void setButtonPageFixedHeight(int h);
+    void setButtonFixedSize(int size);
+
+    QHBoxLayout *layoutPageJump() const;
+    QhLineEdit *lineEditPageJump() const;
+
+    void setPageJumpVisible(bool b);
+    void setPageSizeBoxVisible(bool b);
 
 signals:
     /// @brief 页面索引变化

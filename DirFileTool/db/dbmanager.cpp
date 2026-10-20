@@ -9,8 +9,8 @@ DBManager::DBManager()
 
 DBManager::~DBManager()
 {
-    DELETE_OBJECT(m_dirGroupDB)
-    DELETE_OBJECT(m_dirGroupDirDB)
+    QH_DELETE_OBJECT(m_dirGroupDB)
+    QH_DELETE_OBJECT(m_dirGroupDirDB)
 }
 
 bool DBManager::initDB(const QString& dbPath)

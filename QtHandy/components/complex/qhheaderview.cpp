@@ -66,7 +66,7 @@ void QhHeaderView::paintSection(QPainter *painter, const QRect &rect, int logica
             item->setParent(this->viewport());
         item->setGeometry(rect);
         item->show();
-        return;
+        // return;
     }
 
     QHeaderView::paintSection(painter, rect, logicalIndex);

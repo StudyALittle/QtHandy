@@ -3,9 +3,9 @@
 #include <QPushButton>
 #include <qhpaging.h>
 #include <qhlineedit.h>
+#include <qhlabel.h>
 
-DemoPaging::DemoPaging(QWidget *parent):
-    QWidget(parent)
+DemoPaging::DemoPaging(QWidget *parent) : QWidget(parent)
 {
     auto *ly = new QVBoxLayout(this);
 
@@ -24,9 +24,7 @@ DemoPaging::DemoPaging(QWidget *parent):
         auto *paging = new QhPaging;
         ly->addWidget(paging);
 
-        connect(button, &QPushButton::clicked, this, [=]() {
-            paging->setTotalNumber(lineEdit->text().toInt());
-        });
+        connect(button, &QPushButton::clicked, this, [=]() { paging->setTotalNumber(lineEdit->text().toInt()); });
     }
 
     ly->addStretch(1);

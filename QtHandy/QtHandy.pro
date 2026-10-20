@@ -50,6 +50,7 @@ SOURCES += \
     components/basic/qhlabel.cpp \
     components/basic/qhlineedit.cpp \
     components/basic/qhlineeditdatetime.cpp \
+    components/basic/qhlineeditsearch.cpp \
     components/basic/qhloadingbutton.cpp \
     components/basic/qhprogressbar.cpp \
     components/basic/qhpushbutton.cpp \
@@ -125,6 +126,8 @@ HEADERS += \
     components/basic/qhlineedit_p.h \
     components/basic/qhlineeditdatetime.h \
     components/basic/qhlineeditdatetime_p.h \
+    components/basic/qhlineeditsearch.h \
+    components/basic/qhlineeditsearch_p.h \
     components/basic/qhloadingbutton.h \
     components/basic/qhloadingbutton_p.h \
     components/basic/qhprogressbar.h \

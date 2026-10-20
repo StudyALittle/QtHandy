@@ -2,6 +2,8 @@
 #define QHMACRO_H
 
 #include <QObject>
+#include <QSharedPointer>
+#include <QList>
 
 #define Q_PRIVATE_VARIABLE(Class)     \
 private:                              \
@@ -19,10 +21,10 @@ public:                                                                 \
 #endif
 
 // delete object
-#define DELETE_OBJECT(Obj) \
-    if (Obj) {             \
-        delete Obj;        \
-        Obj = nullptr;     \
+#define QH_DELETE_OBJECT(Obj) \
+    if (Obj) {                \
+        delete Obj;           \
+        Obj = nullptr;        \
     }
 
 // Window and LINUX, the same code
@@ -45,5 +47,13 @@ public:                                                                 \
 #else
 #define UNIX_MAC_SAMECODE(UnixAndMacSrc, QtherSrc) QtherSrc
 #endif
+
+#define QH_STRUCT_DEFINE(Struct, Fields)    \
+    struct Struct {                         \
+        using Ptr = QSharedPointer<Struct>; \
+        Fields                              \
+    };                                      \
+    Q_DECLARE_METATYPE(Struct)              \
+    using Struct##List = QList<Struct::Ptr>;
 
 #endif // QHMACRO_H

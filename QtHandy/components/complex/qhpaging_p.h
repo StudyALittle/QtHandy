@@ -3,9 +3,12 @@
 
 #include <QMap>
 #include <QButtonGroup>
+#include "qhlabel.h"
+#include "qhcombobox.h"
+#include "qboxlayout.h"
 #include "qhpaging.h"
 
-class QhPagingPrivate: public QObject
+class QhPagingPrivate : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QhPagingPrivate)
@@ -17,29 +20,37 @@ public:
     QhPaging *p = nullptr;
 
     int nButtonPageMinWidth = 32;
+    int nButtonPageFixedHeight = 32;
+    int nButtonFixedSize = 32;
 
-    QhLabel *labelTotalNumber = nullptr;         // Total number of data entries
-    QhLineEdit *lineEditPageJump = nullptr;     // Page redirection lineEdit
-    QhComboBox *comboxPageSize = nullptr;       // Page number switch combo box
-    QVector<QPushButton*> buttonPages;          // page button, "1,2,3,4,5,6"
-    QPushButton *buttonMoreBegin = nullptr;     // begin more button, "..."
-    QPushButton *buttonMoreEnd = nullptr;       // end more button, "..."
-    QPushButton *pushButtonPrePage = nullptr;   // previous Page, "<"
-    QPushButton *pushButtonNextPage = nullptr;  // next page, ">"
-    QPushButton *pushButtonToPage = nullptr;    // Page jump button
+    bool bLineEditPageJump = true;
 
-    QList<QPair<int, QString> > pageSizeList;   // Number per page selection list
-    int nTotalNumber = 0;  // Total number of data entries
-    int nTotalPage = 1;    // Total Pages (minimum of 1)
-    int nPageSize = 0;     // Quantity per page
-    int nPageIndex = 1;    // Selected page index (starting from 1)
+    QhLabel *labelTotalNumber = nullptr;       // Total number of data entries
+    QHBoxLayout *layoutPageJump = nullptr;     //
+    QhLabel *labelPageJumpBegin = nullptr;     //
+    QhLineEdit *lineEditPageJump = nullptr;    // Page redirection lineEdit
+    QhLabel *labelPageJumpEnd = nullptr;       //
+    QhComboBox *comboxPageSize = nullptr;      // Page number switch combo box
+    QVector<QPushButton *> buttonPages;        // page button, "1,2,3,4,5,6"
+    QPushButton *buttonMoreBegin = nullptr;    // begin more button, "..."
+    QPushButton *buttonMoreEnd = nullptr;      // end more button, "..."
+    QPushButton *pushButtonPrePage = nullptr;  // previous Page, "<"
+    QPushButton *pushButtonNextPage = nullptr; // next page, ">"
+    QPushButton *pushButtonToPage = nullptr;   // Page jump button
+
+    QList<QPair<int, QString> > pageSizeList; // Number per page selection list
+    int nTotalNumber = 0;                     // Total number of data entries
+    int nTotalPage = 1;                       // Total Pages (minimum of 1)
+    int nPageSize = 0;                        // Quantity per page
+    int nPageIndex = 1;                       // Selected page index (starting from 1)
 
     // 最多显示几个页面切换按钮（最大值为19，最小值为5，必须为奇数）
-    // How many page switching buttons should be displayed at most (the maximum value is 19, the minimum value is 5, and it must be an odd number)
+    // How many page switching buttons should be displayed at most (the maximum value is 19, the minimum value is 5, and
+    // it must be an odd number)
     int nMaxPageChooseSize = 7;
 
-    QPushButton *lastChooseButton = nullptr;  // Previous selected page button
-    QMap<QPushButton*, int> buttonPageIndexs; // The page corresponding to the button 记录按钮对应的页面
+    QPushButton *lastChooseButton = nullptr;   // Previous selected page button
+    QMap<QPushButton *, int> buttonPageIndexs; // The page corresponding to the button 记录按钮对应的页面
     QButtonGroup buttonGroup;
 
 public:

@@ -374,3 +374,14 @@ QhLineEditSub::QhLineEditSub(QWidget *parent) : QWidget(parent)
 QhLineEditSub::~QhLineEditSub()
 {
 }
+
+void QhLineEditSub::enterEvent(QEvent *event)
+{
+    QWidget::enterEvent(event);
+    this->setCursor(Qt::ArrowCursor);
+}
+
+void QhLineEditSub::leaveEvent(QEvent *event)
+{
+    QWidget::leaveEvent(event);
+}

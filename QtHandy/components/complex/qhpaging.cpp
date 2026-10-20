@@ -3,16 +3,15 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-QhPaging::QhPaging(QWidget *parent):
-    QWidget(parent),
-    d(new QhPagingPrivate(this))
+#pragma execution_character_set("utf-8")
+
+QhPaging::QhPaging(QWidget *parent) : QWidget(parent), d(new QhPagingPrivate(this))
 {
     d->init();
 }
 
 QhPaging::~QhPaging()
 {
-
 }
 
 QList<QPair<int, QString> > QhPaging::pageSizeList()
@@ -45,12 +44,20 @@ int QhPaging::getButtonPageMinWidth()
     return d->nButtonPageMinWidth;
 }
 
+int QhPaging::getButtonFixedSize() const
+{
+    return d->nButtonFixedSize;
+}
+
+int QhPaging::getButtonPageFixedHeight() const
+{
+    return d->nButtonPageFixedHeight;
+}
+
 void QhPaging::setPageSizeList(const QList<QPair<int, QString> > &lists)
 {
     int oldIndex = d->comboxPageSize->currentIndex();
-    int oldPageSize =
-            (oldIndex >= 0 && oldIndex < d->pageSizeList.size()) ?
-                d->pageSizeList.at(oldIndex).first : -1;
+    int oldPageSize = (oldIndex >= 0 && oldIndex < d->pageSizeList.size()) ? d->pageSizeList.at(oldIndex).first : -1;
 
     d->pageSizeList = lists;
     d->comboxPageSize->clearItems();
@@ -70,7 +77,7 @@ void QhPaging::setPageSizeList(const QList<QPair<int, QString> > &lists)
 void QhPaging::setTotalNumber(int n)
 {
     d->nTotalNumber = n;
-    d->labelTotalNumber->setText(tr("Total %1 records").arg(d->nTotalNumber));
+    d->labelTotalNumber->setText(tr("共 %1 条数据").arg(d->nTotalNumber));
 
     int totalPage = d->nTotalNumber / pageSize();
     if (d->nTotalNumber % pageSize())
@@ -119,15 +126,52 @@ void QhPaging::setButtonPageMinWidth(int width)
     }
 }
 
-QhPagingPrivate::QhPagingPrivate(QhPaging *p):
-    p(p)
+void QhPaging::setButtonPageFixedHeight(int h)
 {
+    d->nButtonPageFixedHeight = h;
+    for (int n = 0; n < d->nMaxPageChooseSize; ++n) {
+        auto *btn = d->buttonPages[n];
+        btn->setFixedHeight(h);
+    }
+}
 
+void QhPaging::setButtonFixedSize(int size)
+{
+    d->buttonMoreBegin->setFixedSize(QSize(size, size));
+    d->buttonMoreEnd->setFixedSize(QSize(size, size));
+    d->pushButtonPrePage->setFixedSize(QSize(size, size));
+    d->pushButtonNextPage->setFixedSize(QSize(size, size));
+}
+
+QHBoxLayout *QhPaging::layoutPageJump() const
+{
+    return d->layoutPageJump;
+}
+
+QhLineEdit *QhPaging::lineEditPageJump() const
+{
+    return d->lineEditPageJump;
+}
+
+void QhPaging::setPageJumpVisible(bool b)
+{
+    d->bLineEditPageJump = b;
+    d->lineEditPageJump->setVisible(b);
+    d->labelPageJumpBegin->setVisible(b);
+    d->labelPageJumpEnd->setVisible(b);
+}
+
+void QhPaging::setPageSizeBoxVisible(bool b)
+{
+    d->comboxPageSize->setVisible(b);
+}
+
+QhPagingPrivate::QhPagingPrivate(QhPaging *p) : p(p)
+{
 }
 
 QhPagingPrivate::~QhPagingPrivate()
 {
-
 }
 
 void QhPagingPrivate::init()
@@ -140,14 +184,13 @@ void QhPagingPrivate::init()
     connect(buttonMoreEnd, &QPushButton::clicked, this, &QhPagingPrivate::onPageIndexMoreClicked);
     connect(pushButtonPrePage, &QPushButton::clicked, this, &QhPagingPrivate::onToPrePage);
     connect(pushButtonNextPage, &QPushButton::clicked, this, &QhPagingPrivate::onToNextPage);
-    connect(pushButtonToPage, &QPushButton::clicked, this, &QhPagingPrivate::onToJumpPage);
+    // connect(pushButtonToPage, &QPushButton::clicked, this, &QhPagingPrivate::onToJumpPage);
     connect(lineEditPageJump, &QLineEdit::returnPressed, this, &QhPagingPrivate::onToJumpPage);
-    connect(comboxPageSize, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &QhPagingPrivate::onPageSizeChanged);
+    connect(
+        comboxPageSize, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &QhPagingPrivate::onPageSizeChanged);
 
-    p->setPageSizeList({
-        {5, tr("5 items per page")}, {10, tr("10 items per page")},
-        {15, tr("15 items per page")}, {20, tr("20 items per page")},
-        {30, tr("30 items per page")}, {50, tr("50 items per page")} });
+    p->setPageSizeList({{5, tr("5 条/页")}, {10, tr("10 条/页")}, {15, tr("15 条/页")}, {20, tr("20 条/页")},
+        {30, tr("30 条/页")}, {50, tr("50 条/页")}});
     p->setPageSize(20);
 
     p->setTotalNumber(0);
@@ -160,32 +203,35 @@ void QhPagingPrivate::initWidgets()
 {
     /// [Total of 10 data entries] [<][1][...][4][5][6][7][8][...][100] jump[ 10 ]page[jump] [ 5count/page V ]
 
-    labelTotalNumber = new QhLabel;             // Total number of data entries
-    lineEditPageJump = new QhLineEdit;          // Page redirection lineEdit
-    comboxPageSize = new QhComboBox;            // Page number switch combo box
-    buttonMoreBegin = new QPushButton;   // begin more button, "..."
-    buttonMoreEnd = new QPushButton;     // end more button, "..."
-    pushButtonPrePage = new QPushButton;        // previous Page, "<"
-    pushButtonNextPage = new QPushButton;       // next page, ">"
-    pushButtonToPage = new QPushButton;         // Page jump button
+    labelTotalNumber = new QhLabel;       // Total number of data entries
+    lineEditPageJump = new QhLineEdit;    // Page redirection lineEdit
+    comboxPageSize = new QhComboBox;      // Page number switch combo box
+    buttonMoreBegin = new QPushButton;    // begin more button, "..."
+    buttonMoreEnd = new QPushButton;      // end more button, "..."
+    pushButtonPrePage = new QPushButton;  // previous Page, "<"
+    pushButtonNextPage = new QPushButton; // next page, ">"
+    // pushButtonToPage = new QPushButton;         // Page jump button
 
     labelTotalNumber->setObjectName("LabelTotalNumber");
     pushButtonPrePage->setObjectName("ButtonPrePage");
     pushButtonNextPage->setObjectName("ButtonNextPage");
     buttonMoreBegin->setObjectName("ButtonMoreBegin");
     buttonMoreEnd->setObjectName("ButtonMoreEnd");
-    pushButtonToPage->setObjectName("ButtonToPage");
+    // pushButtonToPage->setObjectName("ButtonToPage");
 
     buttonMoreBegin->setMaximumWidth(42);
     buttonMoreEnd->setMaximumWidth(42);
 
-    buttonPages.resize(nMaxPageChooseSize);     // page button, "1,2,3,4,5,6"
+    lineEditPageJump->setMaximumWidth(60);
+
+    buttonPages.resize(nMaxPageChooseSize); // page button, "1,2,3,4,5,6"
     for (int n = 0; n < nMaxPageChooseSize; ++n) {
         auto *btn = new QPushButton;
         if (n == 0)
             btn->setText("1");
         btn->setObjectName("ButtonIndex");
         btn->setCheckable(true);
+        // btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
         connect(btn, &QPushButton::clicked, this, [this, btn]() {
             if (!buttonPageIndexs.contains(btn))
@@ -216,17 +262,19 @@ void QhPagingPrivate::initWidgets()
     lyPages->setSpacing(6);
 
     // jump
-    auto *lyJump = new QHBoxLayout;
-    lyJump->addWidget(new QhLabel(tr("jump to")));
-    lyJump->addWidget(lineEditPageJump);
-    lyJump->addWidget(new QhLabel(tr("page")));
-    lyJump->setContentsMargins(0, 0, 0, 0);
-    lyJump->setSpacing(2);
+    layoutPageJump = new QHBoxLayout;
+    labelPageJumpBegin = new QhLabel(tr("跳转到"));
+    labelPageJumpEnd = new QhLabel(tr("页"));
+    layoutPageJump->addWidget(labelPageJumpBegin);
+    layoutPageJump->addWidget(lineEditPageJump);
+    layoutPageJump->addWidget(labelPageJumpEnd);
+    layoutPageJump->setContentsMargins(0, 0, 0, 0);
+    layoutPageJump->setSpacing(2);
 
     ly->addStretch(1);
     ly->addWidget(labelTotalNumber);
     ly->addLayout(lyPages);
-    ly->addLayout(lyJump);
+    ly->addLayout(layoutPageJump);
     ly->addWidget(comboxPageSize);
     ly->setContentsMargins(0, 0, 0, 0);
     ly->setSpacing(10);
@@ -381,6 +429,9 @@ void QhPagingPrivate::resetPage()
             }
         }
     }
+
+    pushButtonPrePage->setEnabled(nPageIndex != 1);
+    pushButtonNextPage->setEnabled(nPageIndex != nTotalPage);
 }
 
 void QhPagingPrivate::onPageIndexMoreClicked()
@@ -414,4 +465,3 @@ void QhPagingPrivate::toPageIndex(int index)
     }
     resetPage();
 }
-

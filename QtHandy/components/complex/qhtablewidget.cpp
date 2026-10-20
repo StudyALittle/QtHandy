@@ -38,6 +38,26 @@ QhTableWidget::~QhTableWidget()
     d->hItems.clear();
 }
 
+QTableWidget *QhTableWidget::frozenTableFront() const
+{
+    return d->frozenTableFront;
+}
+
+QhHeaderView *QhTableWidget::hHeaderViewFront() const
+{
+    return d->hHeaderViewFront;
+}
+
+QTableWidget *QhTableWidget::frozenTableBehind() const
+{
+    return d->frozenTableBehind;
+}
+
+QhHeaderView *QhTableWidget::hHeaderViewBehind() const
+{
+    return d->hHeaderViewBehind;
+}
+
 void QhTableWidget::openFrozenTableFront(int columnCount)
 {
     d->initFrozenTable(&(d->frozenTableFront), &(d->hHeaderViewFront), columnCount);
@@ -72,8 +92,9 @@ void QhTableWidget::setHorizontalHeaderItems(const QList<QhTableWidgetItem *> &i
 
     if (d->frozenTableFront) {
         QStringList frontLabels;
-        for (int n = 0; n < labels.size(); ++n) {
+        for (int n = 0; n < labels.size() && n < d->frozenTableFront->columnCount(); ++n) {
             frontLabels.append(labels.at(n));
+            labels[n].clear();
         }
         d->frozenTableFront->setHorizontalHeaderLabels(frontLabels);
     }
@@ -81,6 +102,7 @@ void QhTableWidget::setHorizontalHeaderItems(const QList<QhTableWidgetItem *> &i
         QStringList behindLabels;
         for (int n = labels.size() - 1, cnt = 0; n >= 0 && cnt < d->frozenTableBehind->columnCount(); --n, ++cnt) {
             behindLabels.insert(0, labels.at(n));
+            labels[n].clear();
         }
         d->frozenTableBehind->setHorizontalHeaderLabels(behindLabels);
     }
@@ -157,11 +179,38 @@ void QhTableWidget::setCellWidget(int row, int column, QWidget *widget)
 
 void QhTableWidget::setColumnWidth(int column, int width)
 {
-    FROZEN_FRONT_BEHIND(                                                 //
+    FROZEN_FRONT_BEHIND(                                          //
         d->frozenTableFront->setColumnWidth(column, width),       //
         d->frozenTableBehind->setColumnWidth(behindColumn, width) //
     )
     QTableWidget::setColumnWidth(column, width);
+}
+
+void QhTableWidget::setGridStyle(Qt::PenStyle style)
+{
+    QTableWidget::setGridStyle(style);
+    if (d->frozenTableFront)
+        d->frozenTableFront->setGridStyle(style);
+    if (d->frozenTableBehind)
+        d->frozenTableBehind->setGridStyle(style);
+}
+
+void QhTableWidget::setEditTriggers(EditTriggers triggers)
+{
+    QTableWidget::setEditTriggers(triggers);
+    if (d->frozenTableFront)
+        d->frozenTableFront->setEditTriggers(triggers);
+    if (d->frozenTableBehind)
+        d->frozenTableBehind->setEditTriggers(triggers);
+}
+
+void QhTableWidget::setSelectionMode(SelectionMode mode)
+{
+    QTableWidget::setSelectionMode(mode);
+    if (d->frozenTableFront)
+        d->frozenTableFront->setSelectionMode(mode);
+    if (d->frozenTableBehind)
+        d->frozenTableBehind->setSelectionMode(mode);
 }
 
 QTableWidgetItem *QhTableWidget::item(int row, int column) const
@@ -212,7 +261,7 @@ void QhTableWidget::horizontalHeaderAssociatedCheckBoxStatus(int column)
         hHeaderItem->checkBox()->setTristate(false);
         int rowCount = this->rowCount();
         for (int row = 0; row < rowCount; ++row) {
-            auto *w = static_cast<QhHeaderViewItem*>(this->cellWidget(row, column));
+            auto *w = static_cast<QhHeaderViewItem *>(this->cellWidget(row, column));
             if (!w || !w->inherits("QhHeaderViewItem"))
                 continue;
 
@@ -223,8 +272,7 @@ void QhTableWidget::horizontalHeaderAssociatedCheckBoxStatus(int column)
     });
 }
 
-void QhTableWidget::associatedHorizontalHeaderCheckBoxStatus(
-    QhHeaderViewItem *item, int column)
+void QhTableWidget::associatedHorizontalHeaderCheckBoxStatus(QhHeaderViewItem *item, int column)
 {
     connect(item, &QhHeaderViewItem::checkStateChanged, this, [this, column](int /*index*/, int state) {
         auto *hHeaderItem = horizontalHeaderItemAt(column);

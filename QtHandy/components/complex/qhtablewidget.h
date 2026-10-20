@@ -20,6 +20,11 @@ public:
     QhTableWidget(int rows, int columns, QWidget *parent = nullptr);
     ~QhTableWidget();
 
+    QTableWidget *frozenTableFront() const;
+    QhHeaderView *hHeaderViewFront() const;
+    QTableWidget *frozenTableBehind() const;
+    QhHeaderView *hHeaderViewBehind() const;
+
     /// @brief 打开冻结前面的表格，需要在setHorizontalHeaderItems前调用（一般用于复选框选择）
     void openFrozenTableFront(int columnCount = 1);
 
@@ -66,6 +71,10 @@ public:
         }
         return indexs;
     }
+
+    void setGridStyle(Qt::PenStyle style);
+    void setEditTriggers(EditTriggers triggers);
+    void setSelectionMode(QAbstractItemView::SelectionMode mode);
 
     /// @brief 水平表头关联数据复选框
     void horizontalHeaderAssociatedCheckBoxStatus(int column = 0);
